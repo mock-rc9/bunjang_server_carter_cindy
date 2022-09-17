@@ -42,3 +42,14 @@ build.gradle // gradle 빌드시에 필요한 dependency 설정하는 곳
 .gitignore // git 에 포함되지 않아야 하는 폴더, 파일들을 작성 해놓는 곳
 
 ```
+
+
+
+
+## 2022-09-17 진행상황
+### Carter
+- ERD 설계
+- EC2 인스턴스 구축
+### Cindy
+- ERD 설계
+- EC2 인스턴스 구축
