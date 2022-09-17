@@ -1,5 +1,21 @@
-# 번개장터 A - Server 개발 일지
+# 번개장터 Server 개발 일지
+- 클라이언트 개발자와 서버 개발자의 협업 프로젝트
 
+## SKILLS
+- **Backend**
+    - JDK 11 (JAVA)
+    - Spring-boot
+- **IDE** : IntelliJ
+    - **build tool** : gradle
+- **Database** : mysql 5.7.21
+    - Database tool : DataGrip
+- **Deployment** : AWS(EC2)
+  - OS : Ubuntu 20.04
+  - Web Server : nginx1.10.3
+- **Version Control** : Github
+- **Open Source** : Kakao Login API
+
+## 패키지 구조
 ```text
 bunjang_server_carter_sindy
   > * build
@@ -43,15 +59,13 @@ build.gradle // gradle 빌드시에 필요한 dependency 설정하는 곳
 
 ```
 
-
-
-
 ## 2022-09-17 진행상황
+- - - 
 ### Carter
 - ERD 설계
 - EC2 인스턴스 구축
-- 
+- REST API 리스트업
 ### Cindy
 - ERD 설계
 - EC2 인스턴스 구축
-- 
+- REST API 리스트업
