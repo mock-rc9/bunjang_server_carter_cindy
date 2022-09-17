@@ -50,6 +50,8 @@ build.gradle // gradle 빌드시에 필요한 dependency 설정하는 곳
 ### Carter
 - ERD 설계
 - EC2 인스턴스 구축
+- 
 ### Cindy
 - ERD 설계
 - EC2 인스턴스 구축
+- 
