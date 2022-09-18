@@ -60,7 +60,6 @@ build.gradle // gradle 빌드시에 필요한 dependency 설정하는 곳
 ```
 
 ## 2022-09-17 진행상황
-- - - 
 ### Carter
 - ERD 설계
 - EC2 인스턴스 구축
@@ -69,8 +68,16 @@ build.gradle // gradle 빌드시에 필요한 dependency 설정하는 곳
 - ERD 설계
 - EC2 인스턴스 구축
 - REST API 리스트업
-## 2022-09-18 진행상황
+
 - - - 
+
+## 2022-09-18 진행상황
 ### Carter
-- 더비데이터 역할 분담 및 생성
+- 더미데이터 역할 분담 및 생성
 - EC2 서버 빌드
+
+### Cindy
+- 더미데이터 추가
+- RDS 데이터베이스 구축
+- prod 서버 구축
+- SSL 구축
