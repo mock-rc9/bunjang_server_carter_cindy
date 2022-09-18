@@ -26,9 +26,15 @@ public enum BaseResponseStatus {
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
 
     // [POST] /users
-    POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
-    POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
-    POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
+    POST_USERS_EMPTY_EMAIL(false, 2011, "이메일을 입력해주세요."),
+    POST_USERS_INVALID_EMAIL(false, 2012, "이메일 형식을 확인해주세요."),
+    POST_USERS_EMPTY_PASSWORD(false, 2013, "비밀번호를 입력하세요."),
+    POST_USERS_EMPTY_NAME(false, 2014, "이름을 정확히 입력하세요."),
+
+    // [POST] /users/logIn
+    POST_LOGIN_EMPTY_EMAIL(false, 2015, "아이디를 입력해주세요."),
+    POST_LOGIN_INVALID_EMAIL(false, 2016, "아이디는 이메일주소 형식으로 입력해주세요."),
+    POST_LOGIN_EMPTY_PASSWORD(false, 2017, "비밀번호를 입력해주세요."),
 
 
 
@@ -41,6 +47,9 @@ public enum BaseResponseStatus {
     // [POST] /users
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
+    INACTIVE_USER(false, 3015, "비활성화된 유저입니다."),
+    DELETED_USER(false, 3016, "탈퇴한 유저입니다."),
+
 
 
 
