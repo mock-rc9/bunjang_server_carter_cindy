@@ -82,7 +82,7 @@ build.gradle // gradle 빌드시에 필요한 dependency 설정하는 곳
 - prod 서버 구축
 - SSL 구축
 
-## 2022-09-18 진행상황
+## 2022-09-19 진행상황
 ### Carter
 - 더미데이터 보충
 - Home APi 생성중
