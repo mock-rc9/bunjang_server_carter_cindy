@@ -89,3 +89,4 @@ build.gradle // gradle 빌드시에 필요한 dependency 설정하는 곳
 
 ### Cindy
 - 로그인/회원가입 API
+- 카카오 로그인 API
