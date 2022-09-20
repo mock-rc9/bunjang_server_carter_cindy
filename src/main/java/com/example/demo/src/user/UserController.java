@@ -3,16 +3,18 @@ package com.example.demo.src.user;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.user.model.*;
+import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
 @RestController
-@RequestMapping("/app/users")
+@RequestMapping("/app")
 public class UserController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -20,10 +22,13 @@ public class UserController {
     private final UserProvider userProvider;
     @Autowired
     private final UserService userService;
+    @Autowired
+    private final JwtService jwtService;
 
-    public UserController(UserProvider userProvider, UserService userService){
+    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService){
         this.userProvider = userProvider;
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     /**
@@ -32,7 +37,7 @@ public class UserController {
      * @return BaseResponse<PostUserRes>
      */
     @ResponseBody
-    @PostMapping("")
+    @PostMapping("/users")
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
         // 이메일 유효성 검사
         if(postUserReq.getUserEmail() == null) {
@@ -66,7 +71,7 @@ public class UserController {
      * @return BaseResponse<PostLoginRes>
      */
     @ResponseBody
-    @PostMapping("/logIn")
+    @PostMapping("/users/logIn")
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
         try{
             // 이메일 유효성 검사
@@ -84,6 +89,27 @@ public class UserController {
 
             PostLoginRes postLoginRes = userProvider.logIn(postLoginReq);
             return new BaseResponse<>(postLoginRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 마이페이지 API (+검색)
+     * [GET] /app/mypages
+     * @return BaseResponse<GetMyPageRes>
+     */
+    @ResponseBody
+    @GetMapping("/mypages")
+    public BaseResponse<GetMyPageRes> getMyPage(@RequestParam(required = false) String searchName){
+        try {
+            int userIdx = jwtService.getUserIdx();
+            if (searchName == null){
+                GetMyPageRes getMyPageRes = userProvider.getMyPage(userIdx);
+                return new BaseResponse<>(getMyPageRes);
+            }
+            GetMyPageRes getMyPageRes = userProvider.getMyPageByName(userIdx, searchName);
+            return new BaseResponse<>(getMyPageRes);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }
