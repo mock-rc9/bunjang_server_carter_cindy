@@ -15,8 +15,9 @@ public class GetHomeDataRes {
     private int goodsIdx;
     private String goodsName;
     private int goodsPrice;
-    private String goodsCreatedAt;
+    private String goodsUpdatedAt;
     private String IsSecurePayment;
+    private String goodsUpdatedAtTime;
     private String address;
     private List<GetHomeImgRes> Gimgs;
 }
