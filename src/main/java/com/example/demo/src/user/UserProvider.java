@@ -2,9 +2,7 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.config.BaseException;
-import com.example.demo.src.user.model.PostLoginReq;
-import com.example.demo.src.user.model.PostLoginRes;
-import com.example.demo.src.user.model.User;
+import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
 import org.slf4j.Logger;
@@ -70,6 +68,24 @@ public class UserProvider {
             throw new BaseException(FAILED_TO_LOGIN);
         }
 
+    }
+
+    public GetMyPageRes getMyPage(int userIdx) throws BaseException{
+        try {
+            GetMyPageRes getMyPageRes = userDao.getMyPage(userIdx);
+            return getMyPageRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetMyPageRes getMyPageByName(int userIdx, String searchName) throws BaseException{
+        try {
+            GetMyPageRes getMyPageRes = userDao.getMyPageByName(userIdx, searchName);
+            return getMyPageRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
 }
