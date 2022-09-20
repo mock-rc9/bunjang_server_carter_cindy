@@ -11,7 +11,6 @@ public class HomeService {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final HomeProvider homeProvider;
-
     private final HomeDao homeDao;
 
     @Autowired
