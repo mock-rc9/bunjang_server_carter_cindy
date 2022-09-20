@@ -6,18 +6,11 @@ import lombok.Setter;
 
 import java.util.List;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
 public class GetHomeRes {
-    private int goodsIdx;
-    private String goodsName;
-    private int goodsPrice;
-    private String goodsCreatedAt;
-    private String IsSecurePayment;
-    private String address;
-    private List<GetHomeImgRes> Gimgs;
-    private List<GetMainPageImgRes> Mimgs;
-
-
+    private List <GetHomeDataRes> getHomeDataRes;
+    private List<GetMainPageImgRes> getMainPageImgRes;
 }

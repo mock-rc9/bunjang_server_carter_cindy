@@ -1,8 +1,9 @@
 package com.example.demo.src.home;
 
 import com.example.demo.config.BaseException;
-import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.home.model.GetHomeDataRes;
 import com.example.demo.src.home.model.GetHomeRes;
+import com.example.demo.src.home.model.GetMainPageImgRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +33,13 @@ public class HomeProvider {
     }
 
 
-    public List<GetHomeRes> getHome() throws BaseException {
+    public GetHomeRes getHome() throws BaseException {
         try {
-            List<GetHomeRes> getHomeRes = homeDao.getHome();
+            List<GetHomeDataRes> getHomeDataRes = homeDao.getHome();
+            List<GetMainPageImgRes> getMainPageImgRes = homeDao.getPageImg();
+
+            GetHomeRes getHomeRes = new GetHomeRes(getHomeDataRes,getMainPageImgRes);
+
             return getHomeRes;
         }
         catch (Exception exception){
@@ -42,4 +47,6 @@ public class HomeProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+
 }
