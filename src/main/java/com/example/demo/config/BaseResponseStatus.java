@@ -36,6 +36,12 @@ public enum BaseResponseStatus {
     POST_LOGIN_INVALID_EMAIL(false, 2016, "아이디는 이메일주소 형식으로 입력해주세요."),
     POST_LOGIN_EMPTY_PASSWORD(false, 2017, "비밀번호를 입력해주세요."),
 
+    // [POST] /addresses
+    POST_ADDRESS_EMPTY_NAME(false, 2018, "이름을 입력해주세요."),
+    POST_ADDRESS_EMPTY_PHONENUM(false, 2018, "전화번호를 입력해주세요."),
+    POST_ADDRESS_INVALID_PHONENUM(false, 2018, "유효하지 않은 전화번호입니다"),
+    POST_ADDRESS_EMPTY_ADDRESS(false, 2018, "주소를 입력해주세요."),
+    POST_ADDRESS_EMPTY_ADDRESSDETAIL(false, 2018, "상세주소를 입력해주세요."),
 
 
     /**
