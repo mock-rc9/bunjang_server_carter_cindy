@@ -36,12 +36,23 @@ public enum BaseResponseStatus {
     POST_LOGIN_INVALID_EMAIL(false, 2016, "아이디는 이메일주소 형식으로 입력해주세요."),
     POST_LOGIN_EMPTY_PASSWORD(false, 2017, "비밀번호를 입력해주세요."),
 
+
+    // [POST] /app/goods
+
+    POST_GOODS_LACK_CONTENT(false, 2020, "설명을 입력해주세요.(10자 이상)"),
+    POST_GOODS_EMPTY_IMG(false, 2021, "이미지를 넣어주세요."),
+    POST_GOODS_LACK_NAME(false, 2022, "제목을 입력해 주세요(2글자 이상)"),
+    POST_GOODS_EMPTY_CATEGORY(false, 2023, "카테고리를 입력해 주세요."),
+    POST_GOODS_EMPTY_PRICE(false, 2024, "가격을 입력해 주세요."),
+    GOODS_EMPTY_GOODS_ID(false, 2025, "없는 상품입니다."),
+    GOODS_EMPTY_USER_GOODS(false, 2026, "상품,유저를 확인해 주세요"),
+
     // [POST] /addresses
-    POST_ADDRESS_EMPTY_NAME(false, 2018, "이름을 입력해주세요."),
-    POST_ADDRESS_EMPTY_PHONENUM(false, 2018, "전화번호를 입력해주세요."),
-    POST_ADDRESS_INVALID_PHONENUM(false, 2018, "유효하지 않은 전화번호입니다"),
-    POST_ADDRESS_EMPTY_ADDRESS(false, 2018, "주소를 입력해주세요."),
-    POST_ADDRESS_EMPTY_ADDRESSDETAIL(false, 2018, "상세주소를 입력해주세요."),
+    POST_ADDRESS_EMPTY_NAME(false, 2027, "이름을 입력해주세요."),
+    POST_ADDRESS_EMPTY_PHONENUM(false, 2028, "전화번호를 입력해주세요."),
+    POST_ADDRESS_INVALID_PHONENUM(false, 2029, "유효하지 않은 전화번호입니다"),
+    POST_ADDRESS_EMPTY_ADDRESS(false, 2030, "주소를 입력해주세요."),
+    POST_ADDRESS_EMPTY_ADDRESSDETAIL(false, 2031, "상세주소를 입력해주세요."),
 
 
     /**
@@ -68,6 +79,7 @@ public enum BaseResponseStatus {
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
 
+    MODIFY_FAIL_GOODS(false,4020,"상품 수정 실패"),
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
 
