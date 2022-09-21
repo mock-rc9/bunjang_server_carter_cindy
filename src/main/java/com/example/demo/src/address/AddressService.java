@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.MODIFY_FAIL_ADDRESS;
 
 @Service
 @Transactional
@@ -19,12 +20,10 @@ public class AddressService {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final AddressDao addressDao;
-    private final AddressProvider addressProvider;
 
     @Autowired
-    public AddressService(AddressDao addressDao, AddressProvider addressProvider){
+    public AddressService(AddressDao addressDao){
         this.addressDao = addressDao;
-        this.addressProvider = addressProvider;
     }
 
     public PostAddressRes createAddress(int userIdx, PostAddressReq postAddressReq) throws BaseException {
@@ -35,5 +34,17 @@ public class AddressService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void modifyAddress(int addressIdx, PatchAddressReq patchAddressReq) throws BaseException {
+        try{
+            int result = addressDao.modifyAddress(addressIdx, patchAddressReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_ADDRESS);
+            }
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 
 }

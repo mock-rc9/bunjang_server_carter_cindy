@@ -92,4 +92,50 @@ public class AddressController {
         }
     }
 
+    /**
+     * 유저 주소 정보 변경 API
+     * [PATCH] /addresses/:addressIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/{addressIdx}")
+    public BaseResponse<String> modifyUserAddress(@PathVariable("addressIdx") int addressIdx, @RequestBody Address address){
+        try{
+            jwtService.getUserIdx();
+
+            // 이름 유효성 검사
+            if(address.getUserName() == null) {
+                return new BaseResponse<>(POST_USERS_EMPTY_NAME);
+            }
+            // 휴대폰번호 유효성 검사
+            if(address.getUserPhoneNum() == null){
+                return new BaseResponse<>(POST_ADDRESS_EMPTY_PHONENUM);
+            }
+            if(!(address.getUserPhoneNum().length() == 10 || address.getUserPhoneNum().length() == 11)){
+                return new BaseResponse<>(POST_ADDRESS_INVALID_PHONENUM);
+            }
+            // 주소 유효성 검사
+            if(address.getAddress() == null){
+                return new BaseResponse<>(POST_ADDRESS_EMPTY_ADDRESS);
+            }
+            // 상세 주소 유효성 검사
+            if(address.getAddressDetail() == null){
+                return new BaseResponse<>(POST_ADDRESS_EMPTY_ADDRESSDETAIL);
+            }
+
+            if(address.getIsBaseAddress() == null){
+                address.setIsBaseAddress("N");
+            }
+
+            PatchAddressReq patchAddressReq = new PatchAddressReq(addressIdx, address.getUserName(), address.getUserPhoneNum()
+                    , address.getAddress(), address.getAddressDetail(), address.getIsBaseAddress());
+            addressService.modifyAddress(addressIdx, patchAddressReq);
+
+            String result = "주소가 수정되었습니다";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 }

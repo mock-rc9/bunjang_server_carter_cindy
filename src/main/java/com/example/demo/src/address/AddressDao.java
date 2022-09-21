@@ -46,5 +46,12 @@ public class AddressDao {
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
     }
 
+    public int modifyAddress(int addressIdx, PatchAddressReq patchAddressReq){
+        String modifyAddressQuery = "update Address set userName = ?, userPhoneNum = ?, address = ?, addressDetail = ?, IsBaseAddress = ? where addressIdx = ?";
+        Object[] modifyAddressParams = new Object[]{patchAddressReq.getUserName(), patchAddressReq.getUserPhoneNum(), patchAddressReq.getAddress(), patchAddressReq.getAddressDetail()
+                , patchAddressReq.getIsBaseAddress(), addressIdx};
+        return this.jdbcTemplate.update(modifyAddressQuery, modifyAddressParams);
+    }
+
 
 }
