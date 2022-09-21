@@ -1,14 +1,14 @@
-# 번개장터 클론 프로젝트 
+# 번개장터 클론 프로젝트
 - Client(ios) & Server(spring-boot) 협업 프로젝트
 
 ## SKILLS
 - **Backend**
-    - JDK 11 (JAVA)
-    - Spring-boot
+  - JDK 11 (JAVA)
+  - Spring-boot
 - **IDE** : IntelliJ
-    - **build tool** : gradle
+  - **build tool** : gradle
 - **Database** : mysql 5.7.21
-    - Database tool : DataGrip
+  - Database tool : DataGrip
 - **Deployment** : AWS(EC2)
   - OS : Ubuntu 20.04
   - Web Server : nginx1.10.3

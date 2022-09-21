@@ -44,6 +44,8 @@ public enum BaseResponseStatus {
     POST_GOODS_LACK_NAME(false, 2022, "제목을 입력해 주세요(2글자 이상)"),
     POST_GOODS_EMPTY_CATEGORY(false, 2023, "카테고리를 입력해 주세요."),
     POST_GOODS_EMPTY_PRICE(false, 2024, "가격을 입력해 주세요."),
+    GOODS_EMPTY_GOODS_ID(false, 2025, "없는 상품입니다."),
+    GOODS_EMPTY_USER_GOODS(false, 2026, "상품,유저를 확인해 주세요"),
 
 
 
@@ -71,6 +73,7 @@ public enum BaseResponseStatus {
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
 
+    MODIFY_FAIL_GOODS(false,4020,"상품 수정 실패"),
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
 

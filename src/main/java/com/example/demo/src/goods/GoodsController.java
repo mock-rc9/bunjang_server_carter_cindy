@@ -4,6 +4,7 @@ package com.example.demo.src.goods;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.goods.model.GetGoodsRes;
+import com.example.demo.src.goods.model.PatchGoodsReq;
 import com.example.demo.src.goods.model.PostGoodsReq;
 import com.example.demo.src.goods.model.PostGoodsRes;
 import com.example.demo.utils.JwtService;
@@ -53,7 +54,6 @@ public class GoodsController {
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostGoodsRes> createGoods(@RequestBody PostGoodsReq postGoodsReq){
-        try {
             /*제품 설명 유효성 검사*/
             if(postGoodsReq.getGoodsContent().length()<10){
                 return new BaseResponse<>(POST_GOODS_LACK_CONTENT);
@@ -75,10 +75,26 @@ public class GoodsController {
             if(postGoodsReq.getGoodsPrice()<0){
                 return new BaseResponse<>(POST_GOODS_EMPTY_PRICE);
             }
+        try {
 
             int userIdxJwt = jwtService.getUserIdx();
             PostGoodsRes postGoodsRes = goodsService.createGoods(userIdxJwt,postGoodsReq);
             return new BaseResponse<>(postGoodsRes);
+        }catch (BaseException exception){
+            System.out.println(exception);
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("/{goodsIdx}")
+    public BaseResponse<String> modifyGoods(@PathVariable("goodsIdx")int goodsIdx, @RequestBody PatchGoodsReq patchGoodsReq){
+
+        try{
+            int userIdxJwt = jwtService.getUserIdx();
+            goodsService.modifyGoods(userIdxJwt,goodsIdx,patchGoodsReq);
+            String result = "수정을 완료하였습니다.";
+            return new BaseResponse<>(result);
         }catch (BaseException exception){
             System.out.println(exception);
             return new BaseResponse<>(exception.getStatus());
