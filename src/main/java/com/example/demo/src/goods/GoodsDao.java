@@ -1,10 +1,7 @@
 package com.example.demo.src.goods;
 
 
-import com.example.demo.src.goods.model.GetGoodsDataRes;
-import com.example.demo.src.goods.model.GetGoodsImgRes;
-import com.example.demo.src.goods.model.GetStoreGoodsRes;
-import com.example.demo.src.goods.model.GetStoreReviewRes;
+import com.example.demo.src.goods.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -117,5 +114,29 @@ public class GoodsDao {
                         rm.getString("reviewCreatedAt"),
                         rm.getString("reviewUpdatedAtTime"))
                 ,getStoreparams);
+    }
+
+    public int createGoods(int userIdx,PostGoodsReq postGoodsReq) {
+        String createGoodsQuery = "insert into Goods (userIdx,goodsName" +
+                ",goodsContent" +
+                ",goodsPrice" +
+                ",IsSecurePayment" +
+                ",IsDeilveryFee" +
+                ",goodsCount" +
+                ",goodsCondition" +
+                ",IsExchange" +
+                ",categoryOptionIdx) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        Object[] createGoodsParams = new Object[]{userIdx,postGoodsReq.getGoodsName(),postGoodsReq.getGoodsContent(),postGoodsReq.getGoodsPrice(),postGoodsReq.getIsSecurePayment(),postGoodsReq.getIsDeilveryFee(),postGoodsReq.getGoodsCount(),postGoodsReq.getGoodsCondition(),postGoodsReq.getIsExchange(),postGoodsReq.getCategoryOptionIdx()};
+        this.jdbcTemplate.update(createGoodsQuery, createGoodsParams);
+        String lastInserIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+    }
+
+    public int createGoodsImg(int goodsIdx, PostGoodsImgReq postGoodsImgReq) {
+        String createGoodsImgQuery = "insert into GoodsImg (goodsIdx,goodsImgUrl) VALUES (?,?)";
+        Object[] createGoodsImgwParams = new Object[]{goodsIdx,postGoodsImgReq.getGoodsImgUrl()};
+        this.jdbcTemplate.update(createGoodsImgQuery, createGoodsImgwParams);
+        String lastInserIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
     }
 }
