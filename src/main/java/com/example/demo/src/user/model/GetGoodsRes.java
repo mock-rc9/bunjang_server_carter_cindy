@@ -9,7 +9,9 @@ import lombok.Setter;
 public class GetGoodsRes {
     private int goodsIdx;
     private String goodsStatus;
+    private String goodsImgUrl;
     private int goodsPrice;
     private String goodsName;
+    private String goodsAddress;
     private String lastUploadTime;
 }

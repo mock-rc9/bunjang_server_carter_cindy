@@ -71,21 +71,21 @@ public class UserProvider {
     }
 
     public GetMyPageRes getMyPage(int userIdx) throws BaseException{
-        try {
+//        try {
             GetMyPageRes getMyPageRes = userDao.getMyPage(userIdx);
             return getMyPageRes;
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
+//        } catch (Exception exception){
+//            throw new BaseException(DATABASE_ERROR);
+//        }
     }
 
     public GetMyPageRes getMyPageByName(int userIdx, String searchName) throws BaseException{
-        try {
+//        try {
             GetMyPageRes getMyPageRes = userDao.getMyPageByName(userIdx, searchName);
             return getMyPageRes;
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
+//        } catch (Exception exception){
+//            throw new BaseException(DATABASE_ERROR);
+//        }
     }
 
 }

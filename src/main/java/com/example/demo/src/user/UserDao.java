@@ -56,7 +56,13 @@ public class UserDao {
     }
 
     public List<GetGoodsRes> getGoods(int userIdx){
-        String getGoodsQuery = "select goodsIdx, goodsStatus, goodsPrice, goodsName\n" +
+        String getGoodsQuery = "select G.goodsIdx, goodsStatus\n" +
+                "     , (select goodsImgUrl from GoodsImg\n" +
+                "       where G.goodsIdx = GoodsImg.goodsIdx limit 1) as goodsImgUrl\n" +
+                "     , goodsPrice, goodsName\n" +
+                "     , case\n" +
+                "         when goodsAddress is null then '지역정보 없음'\n" +
+                "        else goodsAddress end as goodsAddress\n" +
                 "    , case\n" +
                 "        when TIMESTAMPDIFF(MINUTE , goodsCreatedAt, NOW()) <= 0\n" +
                 "            then CONCAT('방금 전')\n" +
@@ -77,14 +83,22 @@ public class UserDao {
                 (rs, rsNum) -> new GetGoodsRes(
                         rs.getInt("goodsIdx"),
                         rs.getString("goodsStatus"),
+                        rs.getString("goodsImgUrl"),
                         rs.getInt("goodsPrice"),
                         rs.getString("goodsName"),
+                        rs.getString("goodsAddress"),
                         rs.getString("lastUploadTime")),
                 getGoodsParams);
     }
 
     public List<GetGoodsRes> getGoodsByName(int userIdx, String searchName){
-        String getGoodsByNameQuery = "select goodsIdx, goodsStatus, goodsPrice, goodsName\n" +
+        String getGoodsByNameQuery = "select G.goodsIdx, goodsStatus\n" +
+                "     , (select goodsImgUrl from GoodsImg\n" +
+                "       where G.goodsIdx = GoodsImg.goodsIdx limit 1) as goodsImgUrl\n" +
+                "     , goodsPrice, goodsName\n" +
+                "     , case\n" +
+                "         when goodsAddress is null then '지역정보 없음'\n" +
+                "        else goodsAddress end as goodsAddress\n" +
                 "    , case\n" +
                 "        when TIMESTAMPDIFF(MINUTE , goodsCreatedAt, NOW()) <= 0\n" +
                 "            then CONCAT('방금 전')\n" +
@@ -106,8 +120,10 @@ public class UserDao {
                 (rs, rsNum) -> new GetGoodsRes(
                         rs.getInt("goodsIdx"),
                         rs.getString("goodsStatus"),
+                        rs.getString("goodsImgUrl"),
                         rs.getInt("goodsPrice"),
                         rs.getString("goodsName"),
+                        rs.getString("goodsAddress"),
                         rs.getString("lastUploadTime")),
                 getGoodsByNameParams1, getGoodsByNameParams2);
     }
