@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b11ec21c-f53c-43cd-83fb-34ae8cd38e34" name="Spring_Rt" url="https://prod.carterses.shop">
+        <fileTransfer rootFolder="/var/www/prod/bunjang_server_carter_cindy" accessType="SFTP" host="3.39.132.110" port="22" sshConfigId="42d3a91f-465c-4ac0-bda4-3e05c67b28e1" sshConfig="ubuntu@3.39.132.110:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

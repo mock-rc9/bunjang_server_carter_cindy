@@ -37,6 +37,15 @@ public enum BaseResponseStatus {
     POST_LOGIN_EMPTY_PASSWORD(false, 2017, "비밀번호를 입력해주세요."),
 
 
+    // [POST] /app/goods
+
+    POST_GOODS_LACK_CONTENT(false, 2020, "설명을 입력해주세요.(10자 이상)"),
+    POST_GOODS_EMPTY_IMG(false, 2021, "이미지를 넣어주세요."),
+    POST_GOODS_LACK_NAME(false, 2022, "제목을 입력해 주세요(2글자 이상)"),
+    POST_GOODS_EMPTY_CATEGORY(false, 2023, "카테고리를 입력해 주세요."),
+    POST_GOODS_EMPTY_PRICE(false, 2024, "가격을 입력해 주세요."),
+
+
 
     /**
      * 3000 : Response 오류

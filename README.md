@@ -85,8 +85,9 @@ build.gradle // gradle 빌드시에 필요한 dependency 설정하는 곳
 ## 2022-09-19 진행상황
 ### Carter
 - 더미데이터 보충
-- Home APi 생성중
+- Home API 생성중
 
 ### Cindy
 - 로그인/회원가입 API
 - 카카오 로그인 API
+
