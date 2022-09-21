@@ -57,7 +57,7 @@ public class KakaoService {
 
     public String getAccessToken(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        return request.getHeader("ACCESS-TOKEN");
+        return request.getHeader("ACCESS_TOKEN");
     }
 
     private SocialUserInfo getKakaoUserInfo(String accessToken) throws JsonProcessingException {
