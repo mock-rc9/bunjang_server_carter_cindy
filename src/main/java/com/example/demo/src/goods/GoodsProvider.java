@@ -27,7 +27,34 @@ public class GoodsProvider {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public GoodsProvider(GoodsDao goodsDao){ this.goodsDao = goodsDao;}
+    public GoodsProvider(GoodsDao goodsDao,JwtService jwtService){ this.goodsDao = goodsDao;
+    this.jwtService=jwtService;}
+
+    /*유저 확인*/
+    public int checkUserExits(int userIdx) throws BaseException{
+        try {
+            return goodsDao.checkUserExist(userIdx);
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    /*상품 확인*/
+    public int checkGoodsExits(int goodsIdx) throws BaseException{
+        try{
+            return goodsDao.checkGoodsExist(goodsIdx);
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    /*상품,유저 확인*/
+    public int checkUserGoodsExist(int userIdx,int goodsIdx) throws BaseException{
+        try {
+            return goodsDao.checkUserGoodsExist(userIdx,goodsIdx);
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     public GetGoodsRes getGoods(int goodsIdx) throws BaseException{
         try {

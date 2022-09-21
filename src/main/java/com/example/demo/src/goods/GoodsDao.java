@@ -139,4 +139,37 @@ public class GoodsDao {
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
     }
+
+    public int checkUserExist(int userIdx) {
+        String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ?)";
+        int checkUserExistParams = userIdx;
+        return this.jdbcTemplate.queryForObject(checkUserExistQuery,
+                int.class,
+                checkUserExistParams);
+    }
+
+    public int checkGoodsExist(int goodsIdx) {
+        String checkGoodsExistQuery = "select exists(select goodsIdx from Goods where goodsIdx = ?)";
+        int checkGoodsExistParams = goodsIdx;
+        return this.jdbcTemplate.queryForObject(checkGoodsExistQuery,
+                int.class,
+                checkGoodsExistParams);
+    }
+
+    public int updateGoods(int goodsIdx, PatchGoodsReq patchGoodsReq) {
+        String updatePostQuery = "UPDATE Goods\n" +
+                "        SET goodsContent = ?\n" +
+                "        WHERE goodsIdx = ?" ;
+        Object[] updateGoodsParams = new Object[]{patchGoodsReq.getGoodsContent(), goodsIdx};
+
+        return this.jdbcTemplate.update(updatePostQuery,updateGoodsParams);
+    }
+
+    public int checkUserGoodsExist(int userIdx, int goodsIdx) {
+        String checkGoodsExistQuery = "select exists(select goodsIdx from Goods where goodsIdx = ? and userIdx=?) ";
+        Object[]  checkGoodsExistParams = new Object[]{goodsIdx,userIdx};
+        return this.jdbcTemplate.queryForObject(checkGoodsExistQuery,
+                int.class,
+                checkGoodsExistParams);
+    }
 }
