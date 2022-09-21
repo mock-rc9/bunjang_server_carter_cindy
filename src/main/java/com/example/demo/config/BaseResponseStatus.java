@@ -47,6 +47,14 @@ public enum BaseResponseStatus {
     GOODS_EMPTY_GOODS_ID(false, 2025, "없는 상품입니다."),
     GOODS_EMPTY_USER_GOODS(false, 2026, "상품,유저를 확인해 주세요"),
 
+    // [POST] /addresses
+    POST_ADDRESS_EMPTY_NAME(false, 2027, "이름을 입력해주세요."),
+    POST_ADDRESS_EMPTY_PHONENUM(false, 2028, "전화번호를 입력해주세요."),
+    POST_ADDRESS_INVALID_PHONENUM(false, 2029, "유효하지 않은 전화번호입니다"),
+    POST_ADDRESS_EMPTY_ADDRESS(false, 2030, "주소를 입력해주세요."),
+    POST_ADDRESS_EMPTY_ADDRESSDETAIL(false, 2031, "상세주소를 입력해주세요."),
+
+
 
 
     /**
@@ -75,7 +83,10 @@ public enum BaseResponseStatus {
 
     MODIFY_FAIL_GOODS(false,4020,"상품 수정 실패"),
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
-    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
+
+    //[PATCH] /addresses/{addressId}
+    MODIFY_FAIL_ADDRESS(false, 4013, "주소 변경에 실패하였습니다.");
 
 
     // 5000
