@@ -54,7 +54,8 @@ public enum BaseResponseStatus {
     POST_ADDRESS_EMPTY_ADDRESS(false, 2030, "주소를 입력해주세요."),
     POST_ADDRESS_EMPTY_ADDRESSDETAIL(false, 2031, "상세주소를 입력해주세요."),
 
-
+    // [POST] /orders
+    POST_ORDER_EMPTY_ORDERPAYMENTMETHOD(false, 2032, "결제 수단을 입력해주세요."),
 
 
     /**
