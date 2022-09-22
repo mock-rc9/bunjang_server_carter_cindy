@@ -28,4 +28,39 @@ public class OrderDao {
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
     }
 
+    public GetOrderRes getOrder(int orderIdx){
+        String getOrderQuery = "select G.goodsIdx as goodsIdx, orderStatus, G.goodsPrice as goodsPrice, goodsName\n" +
+                "     , REPLACE(SUBSTRING(orderCreatedAt, 1, 19), '-', '/') as orderTime\n" +
+                "     , userNickName as sellerName, orderPaymentMethod, orderPaymentBank, orderTotalPrice\n" +
+                "     , Orders.goodsPrice as orderGoodsPrice, orderFee, deliveryFee\n" +
+                "    , A.addressIdx as addressIdx, userName, userPhoneNum\n" +
+                "     , CONCAT(address, ' ', addressDetail) as address, orderDeliveryReq\n" +
+                "from Orders\n" +
+                "inner join User U on Orders.buyerIdx = U.userIdx\n" +
+                "inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
+                "inner join Address A on Orders.addressIdx = A.addressIdx\n" +
+                "where orderIdx = ?";
+        int getOrderParams = orderIdx;
+        return this.jdbcTemplate.queryForObject(getOrderQuery,
+                (rs, rsNum) -> new GetOrderRes(
+                        rs.getInt("goodsIdx"),
+                        rs.getString("orderStatus"),
+                        rs.getInt("goodsPrice"),
+                        rs.getString("goodsName"),
+                        rs.getString("orderTime"),
+                        rs.getString("sellerName"),
+                        rs.getString("orderPaymentMethod"),
+                        rs.getString("orderPaymentBank"),
+                        rs.getInt("orderTotalPrice"),
+                        rs.getInt("orderGoodsPrice"),
+                        rs.getInt("orderFee"),
+                        rs.getInt("deliveryFee"),
+                        rs.getInt("addressIdx"),
+                        rs.getString("userName"),
+                        rs.getString("userPhoneNum"),
+                        rs.getString("address"),
+                        rs.getString("orderDeliveryReq")),
+                getOrderParams);
+    }
+
 }
