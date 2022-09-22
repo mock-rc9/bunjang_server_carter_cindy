@@ -72,5 +72,25 @@ public class OrderController {
         }
     }
 
+    /**
+     * 주문 취소 API
+     * [DELETE] /orders/:orderIdx
+     * @return
+     */
+    @ResponseBody
+    @DeleteMapping("/{orderIdx}")
+    public BaseResponse<String> deleteOrder(@PathVariable("orderIdx") int orderIdx){
+        try {
+            jwtService.getUserIdx();
+
+            orderService.deleteOrder(orderIdx);
+
+            String result = "주문이 취소되었습니다";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 
 }

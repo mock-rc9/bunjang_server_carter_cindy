@@ -63,4 +63,10 @@ public class OrderDao {
                 getOrderParams);
     }
 
+    public int deleteOrder(int orderIdx){
+        String deleteOrderQuery = "update Orders set orderStatus = 'deleted' where orderIdx = ?";
+        int deleteOrderParams = orderIdx;
+        return this.jdbcTemplate.update(deleteOrderQuery, deleteOrderParams);
+    }
+
 }
