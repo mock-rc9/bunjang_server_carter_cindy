@@ -46,14 +46,14 @@ public class AddressService {
     }
 
     public void deleteAddress(int addressIdx) throws BaseException {
-//        try {
+        try {
             int result = addressDao.deleteAddress(addressIdx);
             if(result == 0){
                 throw new BaseException(DELETE_FAIL_ADDRESS);
             }
-//        } catch (Exception exception) {
-//            throw new BaseException(DATABASE_ERROR);
-//        }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
 

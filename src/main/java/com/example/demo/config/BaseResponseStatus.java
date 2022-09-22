@@ -90,7 +90,10 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_ADDRESS(false, 4013, "주소 변경에 실패하였습니다."),
 
     //[DELETE] /addresses/{addressId}
-    DELETE_FAIL_ADDRESS(false, 4014, "주소 정보 삭제에 실패하였습니다.");
+    DELETE_FAIL_ADDRESS(false, 4014, "주소 정보 삭제에 실패하였습니다."),
+
+    //[DELETE] /orders/{orderIdx}
+    DELETE_FAIL_ORDER(false, 4015, "주문 취소에 실패하였습니다.");
 
 
     // 5000

@@ -9,13 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
-import static com.example.demo.utils.ValidationRegex.isDigit;
 
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/app/orders")
 public class OrderController {
 
     final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -40,7 +38,7 @@ public class OrderController {
      * @return BaseResponse<PostOrderRes>
      */
     @ResponseBody
-    @PostMapping("/orders")
+    @PostMapping("")
     public BaseResponse<PostOrderRes> createOrder(@RequestBody PostOrderReq postOrderReq){
         try {
             int buyerIdx = jwtService.getUserIdx();
@@ -53,6 +51,43 @@ public class OrderController {
             PostOrderRes postOrderRes = orderService.createOrder(buyerIdx, postOrderReq);
             return new BaseResponse<>(postOrderRes);
         } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 주문 상세 내역 조회 API
+     * [GET] /orders/:orderIdx
+     * @return BaseResponse<GetOrderRes>
+     */
+    @ResponseBody
+    @GetMapping("/{orderIdx}")
+    public BaseResponse<GetOrderRes> getOrder(@PathVariable("orderIdx") int orderIdx){
+        try {
+            jwtService.getUserIdx();
+            GetOrderRes getOrderRes = orderProvider.getOrder(orderIdx);
+            return new BaseResponse<>(getOrderRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 주문 취소 API
+     * [DELETE] /orders/:orderIdx
+     * @return
+     */
+    @ResponseBody
+    @DeleteMapping("/{orderIdx}")
+    public BaseResponse<String> deleteOrder(@PathVariable("orderIdx") int orderIdx){
+        try {
+            jwtService.getUserIdx();
+
+            orderService.deleteOrder(orderIdx);
+
+            String result = "주문이 취소되었습니다";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }
     }
