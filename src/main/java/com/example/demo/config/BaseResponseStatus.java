@@ -54,7 +54,8 @@ public enum BaseResponseStatus {
     POST_ADDRESS_EMPTY_ADDRESS(false, 2030, "주소를 입력해주세요."),
     POST_ADDRESS_EMPTY_ADDRESSDETAIL(false, 2031, "상세주소를 입력해주세요."),
 
-
+    // [POST] /orders
+    POST_ORDER_EMPTY_ORDERPAYMENTMETHOD(false, 2032, "결제 수단을 입력해주세요."),
 
 
     /**
@@ -91,7 +92,13 @@ public enum BaseResponseStatus {
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
     //[PATCH] /addresses/{addressId}
-    MODIFY_FAIL_ADDRESS(false, 4013, "주소 변경에 실패하였습니다.");
+    MODIFY_FAIL_ADDRESS(false, 4013, "주소 변경에 실패하였습니다."),
+
+    //[DELETE] /addresses/{addressId}
+    DELETE_FAIL_ADDRESS(false, 4014, "주소 정보 삭제에 실패하였습니다."),
+
+    //[DELETE] /orders/{orderIdx}
+    DELETE_FAIL_ORDER(false, 4015, "주문 취소에 실패하였습니다.");
 
 
     // 5000
