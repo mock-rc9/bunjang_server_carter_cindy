@@ -66,11 +66,7 @@ public class GoodsDao {
     public List<GetStoreGoodsRes> getStoreGoods(int userIdx){
         String getStoreQuery ="select * from Goods where userIdx=?";
         int getStoreparams = userIdx;
-        String getGoodsImgQuery ="select * from GoodsImg inner join Goods where userIdx=?";
-        String getStoreReviewQuery="select *\n" +
-                "from Review inner join User U on Review.buyerIdx = U.userIdx\n" +
-                "\n" +
-                "where sellerIdx=?";
+        String getGoodsImgQuery ="select * from GoodsImg left join Goods G on G.goodsIdx = GoodsImg.goodsIdx where G.goodsIdx=?";
 
         return this.jdbcTemplate.query(getStoreQuery,
                 (rs,rowNum)->new GetStoreGoodsRes(
@@ -82,7 +78,7 @@ public class GoodsDao {
                                 (rk,rownum)->new GetGoodsImgRes(
                                         rk.getInt("goodsIdx"),
                                         rk.getString("goodsImgUrl")),
-                                rs.getInt("userIdx"))),getStoreparams
+                                rs.getInt("goodsIdx"))),getStoreparams
                         );
 
     }
@@ -104,7 +100,7 @@ public class GoodsDao {
                 "        end AS reviewUpdatedAtTime\n" +
                 "from Review R inner join User U on R.buyerIdx = U.userIdx\n" +
                 "inner join Goods G on U.userIdx = G.userIdx\n" +
-                "where sellerIdx=? group by reviewIdx;;";
+                "where sellerIdx=? group by reviewIdx";
 
         return this.jdbcTemplate.query(getStoreReviewQuery,
                 (rm,rownum)->new GetStoreReviewRes(
@@ -128,16 +124,23 @@ public class GoodsDao {
                 ",categoryOptionIdx) VALUES (?,?,?,?,?,?,?,?,?,?)";
         Object[] createGoodsParams = new Object[]{userIdx,postGoodsReq.getGoodsName(),postGoodsReq.getGoodsContent(),postGoodsReq.getGoodsPrice(),postGoodsReq.getIsSecurePayment(),postGoodsReq.getIsDeilveryFee(),postGoodsReq.getGoodsCount(),postGoodsReq.getGoodsCondition(),postGoodsReq.getIsExchange(),postGoodsReq.getCategoryOptionIdx()};
         this.jdbcTemplate.update(createGoodsQuery, createGoodsParams);
-        String lastInserIdQuery = "select last_insert_id()";
-        return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 
     public int createGoodsImg(int goodsIdx, PostGoodsImgReq postGoodsImgReq) {
         String createGoodsImgQuery = "insert into GoodsImg (goodsIdx,goodsImgUrl) VALUES (?,?)";
         Object[] createGoodsImgwParams = new Object[]{goodsIdx,postGoodsImgReq.getGoodsImgUrl()};
         this.jdbcTemplate.update(createGoodsImgQuery, createGoodsImgwParams);
-        String lastInserIdQuery = "select last_insert_id()";
-        return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+    }
+    public int updateGoods(int goodsIdx, PatchGoodsReq patchGoodsReq) {
+        String updateGoodsQuery = "UPDATE Goods\n" +
+                "        SET goodsContent = ?\n" +
+                "        WHERE goodsIdx = ?" ;
+        Object[] updateGoodsParams = new Object[]{patchGoodsReq.getGoodsContent(), goodsIdx};
+        return this.jdbcTemplate.update(updateGoodsQuery,updateGoodsParams);
     }
 
     public int checkUserExist(int userIdx) {
@@ -156,14 +159,6 @@ public class GoodsDao {
                 checkGoodsExistParams);
     }
 
-    public int updateGoods(int goodsIdx, PatchGoodsReq patchGoodsReq) {
-        String updatePostQuery = "UPDATE Goods\n" +
-                "        SET goodsContent = ?\n" +
-                "        WHERE goodsIdx = ?" ;
-        Object[] updateGoodsParams = new Object[]{patchGoodsReq.getGoodsContent(), goodsIdx};
-
-        return this.jdbcTemplate.update(updatePostQuery,updateGoodsParams);
-    }
 
     public int checkUserGoodsExist(int userIdx, int goodsIdx) {
         String checkGoodsExistQuery = "select exists(select goodsIdx from Goods where goodsIdx = ? and userIdx=?) ";
@@ -171,5 +166,15 @@ public class GoodsDao {
         return this.jdbcTemplate.queryForObject(checkGoodsExistQuery,
                 int.class,
                 checkGoodsExistParams);
+    }
+
+    public int deleteGoods(int goodsIdx) {
+        String deleteGoodsQuery = "UPDATE Goods\n" +
+                "        SET goodsStatus = 'deleted'\n" +
+                "        WHERE goodsIdx = ? ";
+        Object[] deleteGoodsParams = new Object[]{goodsIdx};
+
+        return this.jdbcTemplate.update(deleteGoodsQuery,deleteGoodsParams);
+
     }
 }
