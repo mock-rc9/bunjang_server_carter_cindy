@@ -8,5 +8,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class PostAddressRes {
-    private int addressId;
+
+    private int addressIdx;
+
 }

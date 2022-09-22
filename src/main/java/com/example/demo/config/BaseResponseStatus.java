@@ -86,7 +86,10 @@ public enum BaseResponseStatus {
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
     //[PATCH] /addresses/{addressId}
-    MODIFY_FAIL_ADDRESS(false, 4013, "주소 변경에 실패하였습니다.");
+    MODIFY_FAIL_ADDRESS(false, 4013, "주소 변경에 실패하였습니다."),
+
+    //[DELETE] /addresses/{addressId}
+    DELETE_FAIL_ADDRESS(false, 4014, "주소 정보 삭제에 실패하였습니다.");
 
 
     // 5000
