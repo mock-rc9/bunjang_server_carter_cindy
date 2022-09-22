@@ -36,10 +36,10 @@ public class HomeController {
 
     @ResponseBody
     @GetMapping("")
-    public BaseResponse<List<GetHomeRes>> getHome(){
+    public BaseResponse <GetHomeRes> getHome(){
 
         try {
-            List<GetHomeRes> getHomeRes = homeProvider.getHome();
+            GetHomeRes getHomeRes = homeProvider.getHome();
             return new BaseResponse<>(getHomeRes);
         }
         catch (BaseException exception){
