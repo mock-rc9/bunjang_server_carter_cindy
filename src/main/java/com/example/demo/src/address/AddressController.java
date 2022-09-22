@@ -58,7 +58,7 @@ public class AddressController {
      */
     @ResponseBody
     @PostMapping("")
-    public BaseResponse<PostAddressRes> createUserAddress(@RequestBody PostAddressReq postAddressReq){
+    public BaseResponse<PostAddressRes> createUsㅉerAddress(@RequestBody PostAddressReq postAddressReq){
         // 이름 유효성 검사
         if(postAddressReq.getUserName() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_NAME);
