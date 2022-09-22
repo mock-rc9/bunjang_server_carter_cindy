@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.example.demo.config.BaseResponseStatus.MODIFY_FAIL_ADDRESS;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 @Transactional
@@ -42,6 +41,17 @@ public class AddressService {
                 throw new BaseException(MODIFY_FAIL_ADDRESS);
             }
         } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void deleteAddress(int addressIdx) throws BaseException {
+        try {
+            int result = addressDao.deleteAddress(addressIdx);
+            if(result == 0){
+                throw new BaseException(DELETE_FAIL_ADDRESS);
+            }
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }

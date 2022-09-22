@@ -53,5 +53,10 @@ public class AddressDao {
         return this.jdbcTemplate.update(modifyAddressQuery, modifyAddressParams);
     }
 
+    public int deleteAddress(int addressIdx){
+        String deleteAddressQuery = "update Address set addressStatus = 'deleted' where addressIdx = ?";
+        int deleteAddressParams = addressIdx;
+        return this.jdbcTemplate.update(deleteAddressQuery, deleteAddressParams);
+    }
 
 }
