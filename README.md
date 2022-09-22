@@ -1,5 +1,5 @@
 # 번개장터 클론 프로젝트
-- Client(ios) & Server(spring-boot) 협업 프로젝트
+- Client(ios) & Server(spring-boot) 협업
 
 ## SKILLS
 - **Backend**
@@ -54,7 +54,7 @@
 #### Cindy
 - 마이페이지 API
 
-### 2022-09-20 진행상황
+### 2022-09-21 진행상황
 #### Carter
 - Home API 수정중
 - 상품 등록 API 완료
@@ -64,4 +64,14 @@
 - 마이페이지 API 수정
 - 주소 전체 조회 API
 - 주소 등록 API
+- 주소 수정 API
+
+### 2022-09-22 진행상황
+#### Carter
+
+#### Cindy
+- 주소 삭제 API
+- 주문 생성 API
+- 주문 상세 내역 조회 API
+- 주문 취소 API
 
