@@ -58,7 +58,7 @@ public class AddressController {
      */
     @ResponseBody
     @PostMapping("")
-    public BaseResponse<PostAddressRes> createUserAddress(@RequestBody PostAddressReq postAddressReq){
+    public BaseResponse<PostAddressRes> createAddress(@RequestBody PostAddressReq postAddressReq){
         // 이름 유효성 검사
         if(postAddressReq.getUserName() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_NAME);
@@ -99,7 +99,7 @@ public class AddressController {
      */
     @ResponseBody
     @PatchMapping("/{addressIdx}")
-    public BaseResponse<String> modifyUserAddress(@PathVariable("addressIdx") int addressIdx, @RequestBody Address address){
+    public BaseResponse<String> modifyAddress(@PathVariable("addressIdx") int addressIdx, @RequestBody Address address){
         try{
             jwtService.getUserIdx();
 
@@ -132,6 +132,26 @@ public class AddressController {
             addressService.modifyAddress(addressIdx, patchAddressReq);
 
             String result = "주소가 수정되었습니다";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 유저 주소 정보 삭제 API
+     * [DELETE] /addresses/:addressIdx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @DeleteMapping("/{addressIdx}")
+    public BaseResponse<String> deleteAddress(@PathVariable("addressIdx") int addressIdx){
+        try {
+            jwtService.getUserIdx();
+
+            addressService.deleteAddress(addressIdx);
+
+            String result = "주소가 삭제되었습니다";
             return new BaseResponse<>(result);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
