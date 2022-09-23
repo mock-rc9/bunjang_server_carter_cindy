@@ -7,11 +7,11 @@ import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
+import static com.example.demo.utils.ValidationRegex.isRegexUserNickName;
 
 @RestController
 @RequestMapping("/app")
@@ -110,6 +110,37 @@ public class UserController {
             }
             GetMyPageRes getMyPageRes = userProvider.getMyPageByName(userIdx, searchName);
             return new BaseResponse<>(getMyPageRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 상점 소개 편집 API
+     * [PATCH] /app/mypages
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/mypages")
+    public BaseResponse<String> modifyUserInfo(@RequestBody PatchUserReq patchUserReq){
+        try {
+            int userIdx = jwtService.getUserIdx();
+
+            // 상점명 유효성 검사
+            if(patchUserReq.getUserNickName() == null){
+                return new BaseResponse<>(PATCH_USERINFO_EMPTY_USERNICKNAME);
+            }
+            if(patchUserReq.getUserNickName().length() < 2 || patchUserReq.getUserNickName().length() > 10){
+                return new BaseResponse<>(PATCH_USERINFO_EMPTY_USERNICKNAME);
+            }
+            if(!isRegexUserNickName(patchUserReq.getUserNickName())){
+                return new BaseResponse<>(PATCH_USERINFO_INVALID_USERNICKNAME);
+            }
+
+            userService.modifyUserInfo(userIdx, patchUserReq);
+
+            String result = "상점 소개가 수정되었습니다.";
+            return new BaseResponse<>(result);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }

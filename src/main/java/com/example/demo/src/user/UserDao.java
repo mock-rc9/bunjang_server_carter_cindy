@@ -1,6 +1,7 @@
 package com.example.demo.src.user;
 
 
+import com.example.demo.src.address.model.PatchAddressReq;
 import com.example.demo.src.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -220,6 +221,12 @@ public class UserDao {
                         rs.getString("userStatusCheck"),
                         getGoodsByName(userIdx, searchName)),
                 getMyPageByNameParams);
+    }
+
+    public int modifyUserInfo(int userIdx, PatchUserReq patchUserReq){
+        String modifyUserInfoQuery = "update User set userImgUrl = ?, userNickName = ?, userContent = ? where userIdx = ?";
+        Object[] modifyUserInfoParams = new Object[]{patchUserReq.getUserImgUrl(), patchUserReq.getUserNickName(), patchUserReq.getUserContent(), userIdx};
+        return this.jdbcTemplate.update(modifyUserInfoQuery, modifyUserInfoParams);
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.src.user.model.PostUserReq;
 import com.example.demo.src.user.model.PostUserRes;
 import com.example.demo.utils.JwtService;
@@ -57,4 +58,16 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void modifyUserInfo(int userIdx, PatchUserReq patchUserReq) throws BaseException {
+        try{
+            int result = userDao.modifyUserInfo(userIdx, patchUserReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_USERINFO);
+            }
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }
