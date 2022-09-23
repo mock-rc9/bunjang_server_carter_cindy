@@ -79,3 +79,11 @@
 - 주문 상세 내역 조회 API
 - 주문 취소 API
 
+### 2022-09-23 진행상황
+#### Carter
+- Home API SQL 부분 수정 완료
+- 상품 API SQL 수정 완료
+- Review API 생성중
+
+#### Cindy
+
