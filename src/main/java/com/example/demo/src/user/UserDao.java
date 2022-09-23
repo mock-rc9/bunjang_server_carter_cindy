@@ -59,7 +59,7 @@ public class UserDao {
         String getGoodsQuery = "select G.goodsIdx, goodsStatus\n" +
                 "     , (select goodsImgUrl from GoodsImg\n" +
                 "       where G.goodsIdx = GoodsImg.goodsIdx limit 1) as goodsImgUrl\n" +
-                "     , goodsPrice, goodsName\n" +
+                "     , IsSecurePayment, goodsPrice, goodsName\n" +
                 "     , case\n" +
                 "         when goodsAddress is null then '지역정보 없음'\n" +
                 "        else goodsAddress end as goodsAddress\n" +
@@ -75,6 +75,9 @@ public class UserDao {
                 "        when TIMESTAMPDIFF(MONTH, goodsCreatedAt, NOW()) < 12\n" +
                 "            then CONCAT(TIMESTAMPDIFF(MONTH, goodsCreatedAt, NOW()), '달 전')\n" +
                 "    else CONCAT(TIMESTAMPDIFF(YEAR, goodsCreatedAt, NOW()), '년 전') end as lastUploadTime\n" +
+                "    , (select COUNT(*)\n" +
+                "        from GoodsLike\n" +
+                "        where GoodsLike.goodsIdx = G.goodsIdx) as countLike\n" +
                 "from User\n" +
                 "inner join Goods G on User.userIdx = G.userIdx\n" +
                 "where G.userIdx = ? and goodsStatus = 'active'";
@@ -84,10 +87,12 @@ public class UserDao {
                         rs.getInt("goodsIdx"),
                         rs.getString("goodsStatus"),
                         rs.getString("goodsImgUrl"),
+                        rs.getString("IsSecurePayment"),
                         rs.getInt("goodsPrice"),
                         rs.getString("goodsName"),
                         rs.getString("goodsAddress"),
-                        rs.getString("lastUploadTime")),
+                        rs.getString("lastUploadTime"),
+                        rs.getInt("countLike")),
                 getGoodsParams);
     }
 
@@ -95,7 +100,7 @@ public class UserDao {
         String getGoodsByNameQuery = "select G.goodsIdx, goodsStatus\n" +
                 "     , (select goodsImgUrl from GoodsImg\n" +
                 "       where G.goodsIdx = GoodsImg.goodsIdx limit 1) as goodsImgUrl\n" +
-                "     , goodsPrice, goodsName\n" +
+                "     , IsSecurePayment, goodsPrice, goodsName\n" +
                 "     , case\n" +
                 "         when goodsAddress is null then '지역정보 없음'\n" +
                 "        else goodsAddress end as goodsAddress\n" +
@@ -111,6 +116,9 @@ public class UserDao {
                 "        when TIMESTAMPDIFF(MONTH, goodsCreatedAt, NOW()) < 12\n" +
                 "            then CONCAT(TIMESTAMPDIFF(MONTH, goodsCreatedAt, NOW()), '달 전')\n" +
                 "    else CONCAT(TIMESTAMPDIFF(YEAR, goodsCreatedAt, NOW()), '년 전') end as lastUploadTime\n" +
+                "    , (select COUNT(*)\n" +
+                "        from GoodsLike\n" +
+                "        where GoodsLike.goodsIdx = G.goodsIdx) as countLike\n" +
                 "from User\n" +
                 "inner join Goods G on User.userIdx = G.userIdx\n" +
                 "where G.userIdx = ? and goodsName like concat('%', ?,'%') and goodsStatus = 'active'";
@@ -121,15 +129,17 @@ public class UserDao {
                         rs.getInt("goodsIdx"),
                         rs.getString("goodsStatus"),
                         rs.getString("goodsImgUrl"),
+                        rs.getString("IsSecurePayment"),
                         rs.getInt("goodsPrice"),
                         rs.getString("goodsName"),
                         rs.getString("goodsAddress"),
-                        rs.getString("lastUploadTime")),
+                        rs.getString("lastUploadTime"),
+                        rs.getInt("countLike")),
                 getGoodsByNameParams1, getGoodsByNameParams2);
     }
 
     public GetMyPageRes getMyPage(int userIdx){
-        String getMyPageAndGoodsQuery = "select userIdx, userImgUrl, userNickName\n" +
+        String getMyPageAndGoodsQuery = "select userIdx, userImgUrl, userNickName, userContent\n" +
                 "     , (select case when AVG(score) is null then 0 else AVG(score) end\n" +
                 "        from Review\n" +
                 "        where sellerIdx = User.userIdx\n" +
@@ -158,6 +168,7 @@ public class UserDao {
                         rs.getInt("userIdx"),
                         rs.getString("userImgUrl"),
                         rs.getString("userNickName"),
+                        rs.getString("userContent"),
                         rs.getDouble("scoreAvg"),
                         rs.getInt("tradeCount"),
                         rs.getInt("follower"),
@@ -170,7 +181,7 @@ public class UserDao {
     }
 
     public GetMyPageRes getMyPageByName(int userIdx, String searchName){
-        String getMyPageByNameQuery = "select userIdx, userImgUrl, userNickName\n" +
+        String getMyPageByNameQuery = "select userIdx, userImgUrl, userNickName, userContent\n" +
                 "     , (select case when AVG(score) is null then 0 else AVG(score) end\n" +
                 "        from Review\n" +
                 "        where sellerIdx = User.userIdx\n" +
@@ -199,6 +210,7 @@ public class UserDao {
                         rs.getInt("userIdx"),
                         rs.getString("userImgUrl"),
                         rs.getString("userNickName"),
+                        rs.getString("userContent"),
                         rs.getDouble("scoreAvg"),
                         rs.getInt("tradeCount"),
                         rs.getInt("follower"),

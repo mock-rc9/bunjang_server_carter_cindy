@@ -10,8 +10,10 @@ public class GetGoodsRes {
     private int goodsIdx;
     private String goodsStatus;
     private String goodsImgUrl;
+    private String IsSecurePayment;
     private int goodsPrice;
     private String goodsName;
     private String goodsAddress;
     private String lastUploadTime;
+    private int countLike;
 }
