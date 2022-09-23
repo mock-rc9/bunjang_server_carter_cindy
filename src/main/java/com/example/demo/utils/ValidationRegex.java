@@ -10,5 +10,12 @@ public class ValidationRegex {
         Matcher matcher = pattern.matcher(target);
         return matcher.find();
     }
+
+    public static boolean isRegexUserNickName(String target) {
+        String regex = "^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$";
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(target);
+        return matcher.find();
+    }
 }
 

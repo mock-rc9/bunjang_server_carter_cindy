@@ -58,6 +58,16 @@ public enum BaseResponseStatus {
     POST_ORDER_EMPTY_ORDERPAYMENTMETHOD(false, 2032, "결제 수단을 입력해주세요."),
 
 
+    //[POST] /payment
+    PAYMENTS_EMPTY_PAYMENTS_ID (false, 2040, "결제 수단을 확인해 주세요."),
+    PAYMENTS_EMPTY_USER_PAYMENT(false, 2041, "결제 수단,유저를 확인해 주세요."),
+
+    //[PATCH] /mypages
+    PATCH_USERINFO_EMPTY_USERNICKNAME(false, 2042, "상점명은 최소 2자, 최대 10자까지 입력 가능합니다."),
+    PATCH_USERINFO_INVALID_USERNICKNAME(false, 2043, "상점명은 띄어쓰기 없이 한글, 영문, 숫자만 가능합니다."),
+
+
+
     /**
      * 3000 : Response 오류
      */
@@ -83,6 +93,11 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
 
     MODIFY_FAIL_GOODS(false,4020,"상품 수정 실패"),
+
+
+    DELETE_FAIL_GOODS(false,4021,"상품 삭제 실패"),
+
+    MODIFY_FAIL_PAYMENT(false,4022,"계좌 수정 실패"),
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
@@ -93,7 +108,10 @@ public enum BaseResponseStatus {
     DELETE_FAIL_ADDRESS(false, 4014, "주소 정보 삭제에 실패하였습니다."),
 
     //[DELETE] /orders/{orderIdx}
-    DELETE_FAIL_ORDER(false, 4015, "주문 취소에 실패하였습니다.");
+    DELETE_FAIL_ORDER(false, 4015, "주문 취소에 실패하였습니다."),
+
+    //[PATCH] /mypages
+    MODIFY_FAIL_USERINFO(false, 4016, "상점 소개 변경에 실패하였습니다.");
 
 
     // 5000
