@@ -12,6 +12,7 @@ public class GetMyPageRes {
     private int userIdx;
     private String userImgUrl;
     private String userNickName;
+    private String userContent;
     private double scoreAvg;
     private int tradeCount;
     private int follower;
