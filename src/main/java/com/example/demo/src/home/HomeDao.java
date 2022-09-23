@@ -42,9 +42,8 @@ public class HomeDao {
                 "        end AS goodsUpdatedAtTime\n" +
                 "from Goods G\n" +
                 "inner join  User U on G.userIdx = U.userIdx\n" +
-                "left join Address A on U.userIdx = A.userIdx";
-        String getHomeImgQuery = "select *\n" +
-                "from GoodsImg";
+                "left join Address A on U.userIdx = A.userIdx where goodsStatus='active'";
+        String getHomeImgQuery = "select * from GoodsImg inner join Goods G on GoodsImg.goodsIdx = G.goodsIdx where G.goodsIdx=? and G.goodsStatus='active'";
         return this.jdbcTemplate.query(getHomeQuery,
                 (rs,rowNum) -> new GetHomeDataRes(
                         rs.getInt("goodsIdx"),
@@ -56,7 +55,7 @@ public class HomeDao {
                         rs.getString("address"),
                         getHomeImgRes= this.jdbcTemplate.query(getHomeImgQuery,
                                 (rk,rownum)->new GetHomeImgRes(rk.getInt("goodsIdx"),
-                                        rk.getString("goodsImgUrl"))
+                                        rk.getString("goodsImgUrl")),rs.getInt("goodsIdx")
                                 )
                         )
         );
@@ -66,7 +65,7 @@ public class HomeDao {
     /* 메인페이지 이미지 URL 불러오는 쿼리문*/
     public List<GetMainPageImgRes> getPageImg(){
         String getMainImgQuery = "select *\n" +
-                "from GoodsImg";
+                "from MainPageImg";
         return this.jdbcTemplate.query(getMainImgQuery,
                 (rs,rowNum) -> new GetMainPageImgRes(
                         rs.getString("mainPageImgUrl")));

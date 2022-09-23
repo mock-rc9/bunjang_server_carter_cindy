@@ -32,6 +32,8 @@ public class GoodsService {
 
 
     public PostGoodsRes createGoods(int userIdx,PostGoodsReq postGoodsReq) throws BaseException {
+
+
         try{
 
             int goodsIdx = goodsDao.createGoods(userIdx,postGoodsReq);
@@ -67,5 +69,28 @@ public class GoodsService {
             System.out.println(exception);
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    public void deleteGoods(int userIdx, int goodsIdx) throws BaseException {
+
+        if(goodsProvider.checkUserExits(userIdx)==0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        if(goodsProvider.checkGoodsExits(goodsIdx)==0){
+            throw new BaseException(GOODS_EMPTY_GOODS_ID);
+        }
+        if(goodsProvider.checkUserGoodsExist(userIdx, goodsIdx)==0){
+            throw new BaseException(GOODS_EMPTY_USER_GOODS);
+        }
+        try{
+            int result = goodsDao.deleteGoods(goodsIdx);
+            if(result==0){
+                throw new BaseException(DELETE_FAIL_GOODS);
+            }
+
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 }

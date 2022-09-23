@@ -17,7 +17,7 @@ import sun.awt.image.OffScreenImageSource;
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
-@RequestMapping("/app/goods")
+@RequestMapping("/goods")
 public class GoodsController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -41,6 +41,7 @@ public class GoodsController {
     @ResponseBody
     @GetMapping("/{goodsIdx}")
     public BaseResponse<GetGoodsRes> getGoods(@PathVariable("goodsIdx") int goodsIdx){
+
         try{
             GetGoodsRes getGoodsRes = goodsProvider.getGoods(goodsIdx);
             return new BaseResponse<>(getGoodsRes);
@@ -86,6 +87,8 @@ public class GoodsController {
         }
     }
 
+
+    /*제품 수정*/
     @ResponseBody
     @PatchMapping("/{goodsIdx}")
     public BaseResponse<String> modifyGoods(@PathVariable("goodsIdx")int goodsIdx, @RequestBody PatchGoodsReq patchGoodsReq){
@@ -100,4 +103,25 @@ public class GoodsController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+
+    /*상품 삭제*/
+    @ResponseBody
+    @PatchMapping("/{goodsIdx}/status")
+    public BaseResponse<String> deleteGoods(@PathVariable("goodsIdx") int goodsIdx)  {
+
+
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            goodsService.deleteGoods(userIdxByJwt,goodsIdx);
+            String result="삭제 되었습니다.";
+            return new BaseResponse<>(result);
+        }
+        catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 }
+
+
