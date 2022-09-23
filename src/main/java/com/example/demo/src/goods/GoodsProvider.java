@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 public class GoodsProvider {
@@ -57,7 +57,10 @@ public class GoodsProvider {
     }
 
     public GetGoodsRes getGoods(int goodsIdx) throws BaseException{
+
+
         try {
+
 
             GetGoodsDataRes getGoodsDataRes = goodsDao.getGoods(goodsIdx);
             /*판매자의 다른 상품*/

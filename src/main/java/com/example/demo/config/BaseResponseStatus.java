@@ -58,6 +58,12 @@ public enum BaseResponseStatus {
     POST_ORDER_EMPTY_ORDERPAYMENTMETHOD(false, 2032, "결제 수단을 입력해주세요."),
 
 
+    //[POST] /payment
+
+    PAYMENTS_EMPTY_PAYMENTS_ID (false, 2040, "결제 수단을 확인해 주세요."),
+    PAYMENTS_EMPTY_USER_PAYMENT(false, 2041, "결제 수단,유저를 확인해 주세요."),
+
+
     /**
      * 3000 : Response 오류
      */

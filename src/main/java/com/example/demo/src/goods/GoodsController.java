@@ -41,6 +41,7 @@ public class GoodsController {
     @ResponseBody
     @GetMapping("/{goodsIdx}")
     public BaseResponse<GetGoodsRes> getGoods(@PathVariable("goodsIdx") int goodsIdx){
+
         try{
             GetGoodsRes getGoodsRes = goodsProvider.getGoods(goodsIdx);
             return new BaseResponse<>(getGoodsRes);
@@ -106,7 +107,8 @@ public class GoodsController {
     /*상품 삭제*/
     @ResponseBody
     @PatchMapping("/{goodsIdx}/status")
-    public BaseResponse<String> deleteGoods(@PathVariable("goodsIdx") int goodsIdx){
+    public BaseResponse<String> deleteGoods(@PathVariable("goodsIdx") int goodsIdx)  {
+
 
         try {
             //jwt에서 idx 추출.

@@ -40,7 +40,7 @@ public class GoodsDao {
                 "        then concat(TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '달 전')\n" +
                 "        else concat(TIMESTAMPDIFF(YEAR,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '년 전')\n" +
                 "        end AS goodsUpdatedAtTime\n" +
-                "       from Goods G where goodsIdx=?";
+                "       from Goods G where goodsIdx=? and goodsStatus='active'";
         int getGoodsParams = goodsIdx;
         String getGoodsImgQuery ="select * from GoodsImg where goodsIdx=?";
 
@@ -66,7 +66,7 @@ public class GoodsDao {
     public List<GetStoreGoodsRes> getStoreGoods(int userIdx){
         String getStoreQuery ="select * from Goods where userIdx=?";
         int getStoreparams = userIdx;
-        String getGoodsImgQuery ="select * from GoodsImg left join Goods G on G.goodsIdx = GoodsImg.goodsIdx where G.goodsIdx=?";
+        String getGoodsImgQuery ="select * from GoodsImg left join Goods G on G.goodsIdx = GoodsImg.goodsIdx where G.goodsIdx=? and goodsStatus='active'";
 
         return this.jdbcTemplate.query(getStoreQuery,
                 (rs,rowNum)->new GetStoreGoodsRes(
@@ -173,7 +173,6 @@ public class GoodsDao {
                 "        SET goodsStatus = 'deleted'\n" +
                 "        WHERE goodsIdx = ? ";
         Object[] deleteGoodsParams = new Object[]{goodsIdx};
-
         return this.jdbcTemplate.update(deleteGoodsQuery,deleteGoodsParams);
 
     }

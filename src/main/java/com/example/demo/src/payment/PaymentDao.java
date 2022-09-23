@@ -35,7 +35,7 @@ public class PaymentDao {
     }
 
     public List<GetPaymentRes> getPayment(int userIdx) {
-        String getPaymentQuery ="select * from Payment where userIdx=?";
+        String getPaymentQuery ="select * from Payment where userIdx=? and paymentStatus='active'";
         int getPaymentparams = userIdx;
         return this.jdbcTemplate.query(getPaymentQuery,
                 (rs,rowNum)->new GetPaymentRes(

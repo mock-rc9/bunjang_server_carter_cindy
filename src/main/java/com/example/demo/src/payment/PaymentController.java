@@ -75,6 +75,20 @@ public class PaymentController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+//    @ResponseBody
+//    @PatchMapping("/{paymentIdx}/status")
+//    public BaseResponse<String> modifyPayment(@PathVariable("paymentIdx") int paymentIdx, @RequestBody PatchPaymentReq patchPaymentReq) {
+//
+//        try {
+//            int userIdxJwt = jwtService.getUserIdx();
+//            paymentService.modifyPayment(userIdxJwt, paymentIdx, patchPaymentReq);
+//            String result = "수정을 완료하였습니다.";
+//            return new BaseResponse<>(result);
+//        } catch (BaseException exception) {
+//            System.out.println(exception);
+//            return new BaseResponse<>(exception.getStatus());
+//        }
+//    }
 }
 
 

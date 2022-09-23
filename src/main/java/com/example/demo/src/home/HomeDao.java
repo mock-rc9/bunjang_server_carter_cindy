@@ -42,8 +42,8 @@ public class HomeDao {
                 "        end AS goodsUpdatedAtTime\n" +
                 "from Goods G\n" +
                 "inner join  User U on G.userIdx = U.userIdx\n" +
-                "left join Address A on U.userIdx = A.userIdx";
-        String getHomeImgQuery = "select * from GoodsImg where goodsIdx=?";
+                "left join Address A on U.userIdx = A.userIdx where goodsStatus='active'";
+        String getHomeImgQuery = "select * from GoodsImg inner join Goods G on GoodsImg.goodsIdx = G.goodsIdx where G.goodsIdx=? and G.goodsStatus='active'";
         return this.jdbcTemplate.query(getHomeQuery,
                 (rs,rowNum) -> new GetHomeDataRes(
                         rs.getInt("goodsIdx"),
