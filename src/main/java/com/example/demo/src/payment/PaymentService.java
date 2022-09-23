@@ -46,10 +46,10 @@ public class PaymentService {
             throw new BaseException(USERS_EMPTY_USER_ID);
         }
         if(paymentProvider.checkPaymentExits(paymentIdx)==0){
-            throw new BaseException(USERS_EMPTY_USER_ID);
+            throw new BaseException(PAYMENTS_EMPTY_PAYMENTS_ID);
         }
         if(paymentProvider.checkUserPaymentExist(userIdx,paymentIdx)==0){
-            throw new BaseException(USERS_EMPTY_USER_ID);
+            throw new BaseException(PAYMENTS_EMPTY_USER_PAYMENT);
         }
         try {
             int result = paymentDao.updatePayment(paymentIdx,patchPaymentReq);
