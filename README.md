@@ -97,4 +97,6 @@
 - Review API 생성중
 
 #### Cindy
-
+- 회원가입 API, 카카오 로그인 API 수정
+- 팔로워 조회 API
+- 팔로잉 조회 API
