@@ -59,9 +59,13 @@ public enum BaseResponseStatus {
 
 
     //[POST] /payment
-
     PAYMENTS_EMPTY_PAYMENTS_ID (false, 2040, "결제 수단을 확인해 주세요."),
     PAYMENTS_EMPTY_USER_PAYMENT(false, 2041, "결제 수단,유저를 확인해 주세요."),
+
+    //[PATCH] /mypages
+    PATCH_USERINFO_EMPTY_USERNICKNAME(false, 2042, "상점명은 최소 2자, 최대 10자까지 입력 가능합니다."),
+    PATCH_USERINFO_INVALID_USERNICKNAME(false, 2043, "상점명은 띄어쓰기 없이 한글, 영문, 숫자만 가능합니다."),
+
 
 
     /**
@@ -106,10 +110,16 @@ public enum BaseResponseStatus {
 
     //[DELETE] /orders/{orderIdx}
     DELETE_FAIL_ORDER(false, 4015, "주문 취소에 실패하였습니다."),
+
     MODIFY_FAIL_PAYMENT(false,4022,"계좌 수정 실패"),
 
     DELETE_FAIL_PAYMENT(false,4023,"계좌 삭제 실패");
 
+
+
+
+    //[PATCH] /mypages
+    MODIFY_FAIL_USERINFO(false, 4016, "상점 소개 변경에 실패하였습니다.");
 
 
 
