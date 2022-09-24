@@ -113,10 +113,7 @@ public enum BaseResponseStatus {
 
     MODIFY_FAIL_PAYMENT(false,4022,"계좌 수정 실패"),
 
-    DELETE_FAIL_PAYMENT(false,4023,"계좌 삭제 실패");
-
-
-
+    DELETE_FAIL_PAYMENT(false,4023,"계좌 삭제 실패"),
 
     //[PATCH] /mypages
     MODIFY_FAIL_USERINFO(false, 4016, "상점 소개 변경에 실패하였습니다.");
