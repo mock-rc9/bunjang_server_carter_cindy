@@ -63,4 +63,28 @@ public class PaymentService {
         }
 
     }
+
+    public void deletePayment(int userIdx, int paymentIdx) throws BaseException {
+
+        if(paymentProvider.checkUserExits(userIdx)==0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        if(paymentProvider.checkPaymentExits(paymentIdx)==0){
+            throw new BaseException(PAYMENTS_EMPTY_PAYMENTS_ID);
+        }
+        if(paymentProvider.checkUserPaymentExist(userIdx,paymentIdx)==0){
+            throw new BaseException(PAYMENTS_EMPTY_USER_PAYMENT);
+        }
+
+        try {
+            int result = paymentDao.deletePayment(paymentIdx);
+            if(result==0){
+                throw new BaseException(DELETE_FAIL_PAYMENT);
+            }
+        }
+        catch (Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

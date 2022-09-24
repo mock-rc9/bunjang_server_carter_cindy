@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.PAYMENTS_EMPTY_PAYMENTS_ID;
 
 @Service
 public class PaymentProvider {
@@ -24,6 +25,7 @@ public class PaymentProvider {
     }
 
     public List<GetPaymentRes> getPayment(int userIdx) throws BaseException {
+
 
         try {
             List<GetPaymentRes> getPaymentRes = paymentDao.getPayment(userIdx);

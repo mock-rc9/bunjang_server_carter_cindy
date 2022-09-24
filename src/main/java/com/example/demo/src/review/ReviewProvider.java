@@ -45,13 +45,18 @@ public class ReviewProvider {
         }
 
     }
-//    public int checkSellerExits(int orderIdx) throws BaseException {
-//        try{
-//            return reviewDao.checkSellerExist(orderIdx);
-//        }catch (Exception exception){
-//            throw new BaseException(DATABASE_ERROR);
-//        }
-//    }
+
+
+    public int checkSellerExits(int orderIdx) throws BaseException {
+        try{
+            return reviewDao.checkSellerExist(orderIdx);
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkReviewExits(int reviewIdx) {
+    }
 //
 //    public int checkUserOrderExist(int userIdx, int orderIdx) throws BaseException {
 //        try {

@@ -93,7 +93,8 @@ public enum BaseResponseStatus {
 
     DELETE_FAIL_GOODS(false,4021,"상품 삭제 실패"),
 
-    MODIFY_FAIL_PAYMENT(false,4022,"계좌 수정 실패"),
+
+
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
@@ -104,7 +105,12 @@ public enum BaseResponseStatus {
     DELETE_FAIL_ADDRESS(false, 4014, "주소 정보 삭제에 실패하였습니다."),
 
     //[DELETE] /orders/{orderIdx}
-    DELETE_FAIL_ORDER(false, 4015, "주문 취소에 실패하였습니다.");
+    DELETE_FAIL_ORDER(false, 4015, "주문 취소에 실패하였습니다."),
+    MODIFY_FAIL_PAYMENT(false,4022,"계좌 수정 실패"),
+
+    DELETE_FAIL_PAYMENT(false,4023,"계좌 삭제 실패");
+
+
 
 
     // 5000
