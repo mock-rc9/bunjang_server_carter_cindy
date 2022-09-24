@@ -90,3 +90,11 @@
 - 상점 소개 편집 API
 - 더미데이터 추가
 
+### 2022-09-24 진행상황
+#### Carter
+- Category API 생성
+- 상품 삭제 API  완료
+- Review API 생성중
+
+#### Cindy
+
