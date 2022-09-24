@@ -26,8 +26,8 @@ public class ReviewService {
         this.reviewProvider= reviewProvider;
     }
 
-    public void deleteReview(int userIdxJwt, int reviewIdx) {
-    }
+//    public void deleteReview(int userIdxJwt, int reviewIdx) {
+//    }
 
 //    public void modifyReview(int userIdx, int reviewIdx, PatchReviewReq patchReviewReq) throws BaseException {
 //        if(reviewProvider.checkUserExits(userIdx)==0){
