@@ -22,7 +22,7 @@ public class ReviewDao {
     }
 
     public List<GetReviewRes> getReviews(int userIdx) {
-        String getReviewQuery = "select * from Review where =?";
+        String getReviewQuery = "select * from Review where sellerIdx = ?";
         int getReviewparams = userIdx;
         return this.jdbcTemplate.query(getReviewQuery,
                 (rs, rowNum) -> new GetReviewRes(
@@ -49,7 +49,7 @@ public class ReviewDao {
 
 //    public int checkSellerExist(int paymentIdx) {
 //    }
-//
+
 //    public int checkUserOrderExist(int userIdx, int paymentIdx) {
 //    }
 }

@@ -76,4 +76,14 @@ public class PaymentDao {
                 int.class,
                 checkPaymentExistParams);
     }
+
+    public int deletePayment(int paymentIdx) {
+        String deletePaymentQuery = "UPDATE Payment\n" +
+                "        SET paymentStatus = 'deleted'\n" +
+                "        WHERE paymentIdx = ? ";
+        Object[] deletePaymentParams = new Object[]{paymentIdx};
+        return this.jdbcTemplate.update(deletePaymentQuery,deletePaymentParams);
+
+
+    }
 }

@@ -5,6 +5,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.payment.model.PatchPaymentReq;
 import com.example.demo.src.review.model.GetReviewRes;
+import com.example.demo.src.review.model.PatchReviewReq;
 import com.example.demo.src.review.model.PostReviewReq;
 import com.example.demo.src.review.model.PostReviewRes;
 import com.example.demo.utils.JwtService;
@@ -65,18 +66,32 @@ public class ReviewController {
 //    }
 
 
-//    @ResponseBody
-//    @PatchMapping("/{reviewIdx}")
-//    public BaseResponse<String> modifyPayment(@PathVariable("reviewIdx") int reviewIdx, @RequestBody PatchR patchPaymentReq) {
-//
-//        try {
-//            int userIdxJwt = jwtService.getUserIdx();
-//            paymentService.modifyPayment(userIdxJwt, paymentIdx, patchPaymentReq);
-//            String result = "수정을 완료하였습니다.";
-//            return new BaseResponse<>(result);
-//        } catch (BaseException exception) {
-//            System.out.println(exception);
-//            return new BaseResponse<>(exception.getStatus());
-//        }
-//    }
+    @ResponseBody
+    @PatchMapping("/{reviewIdx}")
+    public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") int reviewIdx, @RequestBody PatchReviewReq patchReviewReq) {
+
+        try {
+            int userIdxJwt = jwtService.getUserIdx();
+            reviewService.modifyReview(userIdxJwt, reviewIdx, patchReviewReq);
+            String result = "수정을 완료하였습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            System.out.println(exception);
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+    @ResponseBody
+    @PatchMapping("/{reviewIdx}/status")
+    public BaseResponse<String> deleteReview(@PathVariable("reviewIdx") int reviewIdx) {
+
+        try {
+            int userIdxJwt = jwtService.getUserIdx();
+            reviewService.deleteReview(userIdxJwt, reviewIdx);
+            String result = "삭제를 완료하였습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            System.out.println(exception);
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
 }
