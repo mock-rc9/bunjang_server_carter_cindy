@@ -54,6 +54,7 @@ public class GoodsDao {
                         rs.getString("goodsUpdatedAt"),
                         rs.getString("goodsUpdatedAtTime"),
                         rs.getString("IsSecurePayment"),
+                        rs.getString("goodsAddress"),
                         rs.getString("IsDeilveryFee"),
                         rs.getInt("goodsCount"),
                         rs.getString("goodsCondition"),
