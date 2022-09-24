@@ -65,33 +65,33 @@ public class ReviewController {
 //        }
 //    }
 
-
-    @ResponseBody
-    @PatchMapping("/{reviewIdx}")
-    public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") int reviewIdx, @RequestBody PatchReviewReq patchReviewReq) {
-
-        try {
-            int userIdxJwt = jwtService.getUserIdx();
-            reviewService.modifyReview(userIdxJwt, reviewIdx, patchReviewReq);
-            String result = "수정을 완료하였습니다.";
-            return new BaseResponse<>(result);
-        } catch (BaseException exception) {
-            System.out.println(exception);
-            return new BaseResponse<>(exception.getStatus());
-        }
-    }
-    @ResponseBody
-    @PatchMapping("/{reviewIdx}/status")
-    public BaseResponse<String> deleteReview(@PathVariable("reviewIdx") int reviewIdx) {
-
-        try {
-            int userIdxJwt = jwtService.getUserIdx();
-            reviewService.deleteReview(userIdxJwt, reviewIdx);
-            String result = "삭제를 완료하였습니다.";
-            return new BaseResponse<>(result);
-        } catch (BaseException exception) {
-            System.out.println(exception);
-            return new BaseResponse<>(exception.getStatus());
-        }
-    }
+//
+//    @ResponseBody
+//    @PatchMapping("/{reviewIdx}")
+//    public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") int reviewIdx, @RequestBody PatchReviewReq patchReviewReq) {
+//
+//        try {
+//            int userIdxJwt = jwtService.getUserIdx();
+//            reviewService.modifyReview(userIdxJwt, reviewIdx, patchReviewReq);
+//            String result = "수정을 완료하였습니다.";
+//            return new BaseResponse<>(result);
+//        } catch (BaseException exception) {
+//            System.out.println(exception);
+//            return new BaseResponse<>(exception.getStatus());
+//        }
+//    }
+//    @ResponseBody
+//    @PatchMapping("/{reviewIdx}/status")
+//    public BaseResponse<String> deleteReview(@PathVariable("reviewIdx") int reviewIdx) {
+//
+//        try {
+//            int userIdxJwt = jwtService.getUserIdx();
+//            reviewService.deleteReview(userIdxJwt, reviewIdx);
+//            String result = "삭제를 완료하였습니다.";
+//            return new BaseResponse<>(result);
+//        } catch (BaseException exception) {
+//            System.out.println(exception);
+//            return new BaseResponse<>(exception.getStatus());
+//        }
+//    }
 }
