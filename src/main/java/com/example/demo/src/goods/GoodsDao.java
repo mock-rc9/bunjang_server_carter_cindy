@@ -16,6 +16,7 @@ public class GoodsDao {
 
     private List<GetGoodsImgRes> getGoodsImgRes;
     private List<GetStoreReviewRes> getStoreReviewRes;
+    private List<GetGoodsLikeRes> getGoodsLikeRes;
     private List<GetCategoryOptionRes> getCategoryOptionRes;
 
 
@@ -63,7 +64,11 @@ public class GoodsDao {
                 "        end AS goodsUpdatedAtTime\n" +
                 "       from Goods G where goodsIdx=? and goodsStatus='active'";
         int getGoodsParams = goodsIdx;
+
+        String getGoodsLikeQuery ="select count(*) as likes from GoodsLike where goodsIdx=?";
+
         String getGoodsImgQuery ="select * from GoodsImg where goodsIdx=?";
+
 
         return this.jdbcTemplate.queryForObject(getGoodsQuery,
                 (rs, rowNum) -> new GetGoodsDataRes(
@@ -79,10 +84,15 @@ public class GoodsDao {
                         rs.getString("IsDeilveryFee"),
                         rs.getInt("goodsCount"),
                         rs.getString("goodsCondition"),
+                        rs.getString("IsExchange"),
+                        getGoodsLikeRes = this.jdbcTemplate.query(getGoodsLikeQuery,
+                                (rl,rownuM)->new GetGoodsLikeRes(
+                                        rl.getInt("likes")),rs.getInt("goodsIdx")),
                         getGoodsImgRes = this.jdbcTemplate.query(getGoodsImgQuery,
-                                (rk,rownum)->new GetGoodsImgRes(rk.getInt("goodsIdx"),
-                                        rk.getString("goodsImgUrl")),rs.getInt("goodsIdx")))
-                ,getGoodsParams) ;
+                                (rk,rownum)->new GetGoodsImgRes(
+                                        rk.getInt("goodsIdx"),
+                                        rk.getString("goodsImgUrl")),
+                                rs.getInt("goodsIdx"))),getGoodsParams);
 
     }
     public List<GetStoreGoodsRes> getStoreGoods(int userIdx){
