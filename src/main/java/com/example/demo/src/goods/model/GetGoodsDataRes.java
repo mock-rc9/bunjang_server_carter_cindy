@@ -20,6 +20,7 @@ public class GetGoodsDataRes {
     private String goodsUpdatedAt;
     private String goodsUpdatedAtTime;
     private String IsSecurePayment;
+    private String goodsAddress;
     private String IsDeilveryFee;
     private int goodsCount;
     private String goodsCondition;
