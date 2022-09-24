@@ -24,6 +24,10 @@ public class GetGoodsDataRes {
     private String IsDeilveryFee;
     private int goodsCount;
     private String goodsCondition;
+    private String IsExchange;
+    private List<GetGoodsLikeRes> likes;
     private List<GetGoodsImgRes> Imgs;
+
+
 
 }
