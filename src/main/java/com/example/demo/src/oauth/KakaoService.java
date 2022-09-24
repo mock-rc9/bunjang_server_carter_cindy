@@ -85,9 +85,7 @@ public class KakaoService {
         String email = jsonNode.get("kakao_account").get("email").asText();
         String nickName = jsonNode.get("properties").get("nickname").asText();
 
-        String profileImgUrl = jsonNode.get("kakao_account").get("profile").get("thumbnail_image_url").asText();
-
-        return new SocialUserInfo(id, nickName, email, profileImgUrl);
+        return new SocialUserInfo(id, nickName, email);
     }
 
     public UserInfo createUser(SocialUserInfo kakaoSocialUserInfo) throws BaseException {
@@ -95,7 +93,7 @@ public class KakaoService {
         try {
             // 암호화
             pwd = new SHA256().encrypt(UUID.randomUUID().toString());
-            UserInfo kakaoUser = new UserInfo(kakaoSocialUserInfo.getEmail(), pwd, kakaoSocialUserInfo.getNickname(), kakaoSocialUserInfo.getProfileImgUrl());
+            UserInfo kakaoUser = new UserInfo(kakaoSocialUserInfo.getEmail(), pwd, kakaoSocialUserInfo.getNickname());
 
             int userIdx = userInfoDao.createUser(kakaoUser);
             // jwt 발급
