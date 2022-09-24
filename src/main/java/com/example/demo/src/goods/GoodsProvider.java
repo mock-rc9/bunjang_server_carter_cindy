@@ -3,10 +3,7 @@ package com.example.demo.src.goods;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
-import com.example.demo.src.goods.model.GetGoodsDataRes;
-import com.example.demo.src.goods.model.GetGoodsRes;
-import com.example.demo.src.goods.model.GetStoreGoodsRes;
-import com.example.demo.src.goods.model.GetStoreReviewRes;
+import com.example.demo.src.goods.model.*;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,5 +70,18 @@ public class GoodsProvider {
             System.out.println(exception);
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    public List<GetCategoryRes> getCategorys() throws BaseException {
+
+        try {
+        List<GetCategoryRes> getCategoryRes = goodsDao.getCategorys();
+        return getCategoryRes;
+        }
+    catch (Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 }

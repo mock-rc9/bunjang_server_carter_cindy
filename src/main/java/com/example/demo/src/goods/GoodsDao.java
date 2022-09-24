@@ -16,12 +16,33 @@ public class GoodsDao {
 
     private List<GetGoodsImgRes> getGoodsImgRes;
     private List<GetStoreReviewRes> getStoreReviewRes;
+    private List<GetCategoryOptionRes> getCategoryOptionRes;
+
 
 
     private JdbcTemplate jdbcTemplate;
     @Autowired
     public void setDataSource(DataSource dataSource){
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+
+    public List<GetCategoryRes> getCategorys() {
+        String getCategoryQuery ="select * from Category";
+        String getCategoryOptionQuery ="select * from CategoryOption where categoryIdx=?";
+
+
+        return this.jdbcTemplate.query(getCategoryQuery,
+                (rs,rowNum)->new GetCategoryRes(
+                        rs.getInt("categoryIdx"),
+                        rs.getString("categoryName"),
+                        getCategoryOptionRes = this.jdbcTemplate.query(getCategoryOptionQuery,
+                                (rk,rownum)->new GetCategoryOptionRes(rk.getInt("categoryIdx"),
+                                        rk.getInt("categoryOptionIdx"),
+                                        rk.getString("categoryOptionName")),
+                                rs.getInt("categoryIdx"))));
+
+
     }
 
 
@@ -177,4 +198,8 @@ public class GoodsDao {
         return this.jdbcTemplate.update(deleteGoodsQuery,deleteGoodsParams);
 
     }
+
+
+
+
 }
