@@ -14,4 +14,5 @@ public class GetGoodsRes {
     private GetGoodsDataRes getGoodsDataRes;
     private List<GetStoreGoodsRes> getStoreGoodsRes;
     private List<GetStoreReviewRes> getStoreReviewRes;
+    private GetStoreDataRes getStoreDataRes;
 }

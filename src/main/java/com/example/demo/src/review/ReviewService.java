@@ -26,44 +26,61 @@ public class ReviewService {
         this.reviewProvider= reviewProvider;
     }
 
-//    public void deleteReview(int userIdxJwt, int reviewIdx) {
-//    }
+    public void deleteReview(int userIdx, int reviewIdx) throws BaseException {
+        if(reviewProvider.checkUserExits(userIdx)==0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        if(reviewProvider.checkReviewExits(reviewIdx)==0){
+            throw new BaseException(REVIEW_EMPTY_REVIEW_ID);
+        }
+        try {
+            int result = reviewDao.deleteReview(reviewIdx);
+            if(result==0){
+                throw new BaseException(DELETE_FAIL_REVIEW);
+            }
+        }
+        catch (Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
-//    public void modifyReview(int userIdx, int reviewIdx, PatchReviewReq patchReviewReq) throws BaseException {
-//        if(reviewProvider.checkUserExits(userIdx)==0){
-//            throw new BaseException(USERS_EMPTY_USER_ID);
-//        }
-//        if(reviewProvider.checkReviewExits(reviewIdx)==0){
-//            throw new BaseException(REVIEW_EMPTY_REVIEW_ID);
-//        }
-//        try {
-//            int result = reviewDao.updateReview(reviewIdx,patchReviewReq);
-//            if(result==0){
-//                throw new BaseException(MODIFY_FAIL_REVIEW);
-//            }
-//        }
-//        catch (Exception exception){
-//            System.out.println(exception);
-//            throw new BaseException(DATABASE_ERROR);
-//        }
-//
-//    }
-//    public PostReviewRes createReview(int userIdx, PostReviewReq postReviewReq) throws BaseException {
-//
-//
-//        if(reviewProvider.checkUserExits(userIdx)==0){
-//            throw new BaseException(USERS_EMPTY_USER_ID);
-//        }
-//        if(reviewProvider.checkSellerExits(userIdx)==0){
-//            throw new BaseException(REVIEW_EMPTY_SELLER_ID);
-//        }
-//
-//        try {
-//            int reviewIdx = reviewDao.createReview(userIdx,postReviewReq);
-//            return new PostReviewRes (reviewIdx);
-//        }catch (Exception exception){
-//            System.out.println(exception);
-//            throw new BaseException(DATABASE_ERROR);
-//        }
-//    }
+
+    public void modifyReview(int userIdx, int reviewIdx, PatchReviewReq patchReviewReq) throws BaseException {
+        if(reviewProvider.checkUserExits(userIdx)==0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        if(reviewProvider.checkReviewExits(reviewIdx)==0){
+            throw new BaseException(REVIEW_EMPTY_REVIEW_ID);
+        }
+        try {
+            int result = reviewDao.updateReview(reviewIdx,patchReviewReq);
+            if(result==0){
+                throw new BaseException(MODIFY_FAIL_REVIEW);
+            }
+        }
+        catch (Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+    public PostReviewRes createReview(int userIdx, int orderIdx, PostReviewReq postReviewReq) throws BaseException {
+
+
+        if(reviewProvider.checkUserExits(userIdx)==0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        if(reviewProvider.checkBuyerExits(userIdx)==0){
+            throw new BaseException(REVIEW_EMPTY_BUYER_ID);
+        }
+
+        try {
+            int reviewIdx = reviewDao.createReview(userIdx,orderIdx,postReviewReq);
+            return new PostReviewRes (reviewIdx);
+        }catch (Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

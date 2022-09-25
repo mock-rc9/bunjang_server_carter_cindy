@@ -60,11 +60,12 @@ public class GoodsProvider {
 
 
             GetGoodsDataRes getGoodsDataRes = goodsDao.getGoods(goodsIdx);
+            GetStoreDataRes getStoreDataRes =goodsDao.getStoreData(getGoodsDataRes.getUserIdx());
             /*판매자의 다른 상품*/
             List<GetStoreGoodsRes> getStoreGoodsRes =goodsDao.getStoreGoods(getGoodsDataRes.getUserIdx());
             /*판매자의 리뷰*/
             List<GetStoreReviewRes> getStoreReviewRes = goodsDao.getStoreReviews(getGoodsDataRes.getUserIdx());
-            GetGoodsRes getGoodsRes = new GetGoodsRes(getGoodsDataRes,getStoreGoodsRes,getStoreReviewRes);
+            GetGoodsRes getGoodsRes = new GetGoodsRes(getGoodsDataRes,getStoreGoodsRes,getStoreReviewRes,getStoreDataRes);
             return getGoodsRes;
         }catch (Exception exception){
             System.out.println(exception);
@@ -79,6 +80,18 @@ public class GoodsProvider {
         return getCategoryRes;
         }
     catch (Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+
+    public List<GetCategoryOptionRes> getCategory(int categoryIdx) throws BaseException {
+        try {
+            List<GetCategoryOptionRes> getCategoryOptionRes = goodsDao.getCategory(categoryIdx);
+            return getCategoryOptionRes;
+        }
+        catch (Exception exception){
             System.out.println(exception);
             throw new BaseException(DATABASE_ERROR);
         }

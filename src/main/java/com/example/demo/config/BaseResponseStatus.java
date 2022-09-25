@@ -65,7 +65,7 @@ public enum BaseResponseStatus {
     //[PATCH] /mypages
     PATCH_USERINFO_EMPTY_USERNICKNAME(false, 2042, "상점명은 최소 2자, 최대 10자까지 입력 가능합니다."),
     PATCH_USERINFO_INVALID_USERNICKNAME(false, 2043, "상점명은 띄어쓰기 없이 한글, 영문, 숫자만 가능합니다."),
-
+    REVIEW_EMPTY_BUYER_ID(false, 2050, "유효 하지 않는 리뷰 요청 입니다"),
 
 
     /**
