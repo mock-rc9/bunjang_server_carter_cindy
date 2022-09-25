@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class OrderDao {
@@ -67,6 +68,120 @@ public class OrderDao {
         String deleteOrderQuery = "update Orders set orderStatus = 'deleted' where orderIdx = ?";
         int deleteOrderParams = orderIdx;
         return this.jdbcTemplate.update(deleteOrderQuery, deleteOrderParams);
+    }
+
+    public List<GetMyTradesRes> getMyAllBuyTrades(int userIdx) {
+        String getMyAllBuyTradesQuery = "select orderIdx, orderStatus, goodsName\n" +
+                "     , CONCAT(G.goodsPrice, '원') as goodsPrice, userNickName\n" +
+                "     , REPLACE(\n" +
+                "            REPLACE(\n" +
+                "                DATE_FORMAT(orderCreatedAt, '%Y.%m.%d (%p %h:%i)'), 'AM', '오전'\n" +
+                "                ), 'PM', '오후') as orderTime\n" +
+                "    , (select COUNT(orderIdx)\n" +
+                "        from Review\n" +
+                "        where Review.orderIdx = Orders.orderIdx) as isReview\n" +
+                "from Orders\n" +
+                "inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
+                "inner join User U on G.userIdx = U.userIdx\n" +
+                "where buyerIdx = ?";
+        int getMyAllBuyTradesParams = userIdx;
+
+        return this.jdbcTemplate.query(getMyAllBuyTradesQuery,
+                (rs, rsNum) -> new GetMyTradesRes(
+                        rs.getInt("orderIdx"),
+                        rs.getString("orderStatus"),
+                        rs.getString("goodsName"),
+                        rs.getString("goodsPrice"),
+                        rs.getString("userNickName"),
+                        rs.getString("orderTime"),
+                        rs.getInt("isReview")),
+                getMyAllBuyTradesParams);
+    }
+
+    public List<GetMyTradesRes> getMyAllSellerTrades(int userIdx) {
+        String getMyAllSellerTradesQuery = "select orderIdx, orderStatus, goodsName\n" +
+                "     , CONCAT(G.goodsPrice, '원') as goodsPrice, userNickName\n" +
+                "     , REPLACE(\n" +
+                "            REPLACE(\n" +
+                "                DATE_FORMAT(orderCreatedAt, '%Y.%m.%d (%p %h:%i)'), 'AM', '오전'\n" +
+                "                ), 'PM', '오후') as orderTime\n" +
+                "    , (select COUNT(orderIdx)\n" +
+                "        from Review\n" +
+                "        where Review.orderIdx = Orders.orderIdx) as isReview\n" +
+                "from Orders\n" +
+                "inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
+                "inner join User U on Orders.buyerIdx = U.userIdx\n" +
+                "where G.userIdx = ?";
+        int getMyAllSellerTradesParams = userIdx;
+
+        return this.jdbcTemplate.query(getMyAllSellerTradesQuery,
+                (rs, rsNum) -> new GetMyTradesRes(
+                        rs.getInt("orderIdx"),
+                        rs.getString("orderStatus"),
+                        rs.getString("goodsName"),
+                        rs.getString("goodsPrice"),
+                        rs.getString("userNickName"),
+                        rs.getString("orderTime"),
+                        rs.getInt("isReview")),
+                getMyAllSellerTradesParams);
+    }
+
+    public List<GetMyTradesRes> getMyBuyTrades(int userIdx, String orderStatus) {
+        String getMyBuyTradesQuery = "select orderIdx, orderStatus, goodsName\n" +
+                "     , CONCAT(G.goodsPrice, '원') as goodsPrice, userNickName\n" +
+                "     , REPLACE(\n" +
+                "            REPLACE(\n" +
+                "                DATE_FORMAT(orderCreatedAt, '%Y.%m.%d (%p %h:%i)'), 'AM', '오전'\n" +
+                "                ), 'PM', '오후') as orderTime\n" +
+                "    , (select COUNT(orderIdx)\n" +
+                "        from Review\n" +
+                "        where Review.orderIdx = Orders.orderIdx) as isReview\n" +
+                "from Orders\n" +
+                "inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
+                "inner join User U on G.userIdx = U.userIdx\n" +
+                "where buyerIdx = ? and orderStatus = ?";
+        int getMyBuyTradesParams1 = userIdx;
+        String getMyBuyTradesParams2 = orderStatus;
+
+        return this.jdbcTemplate.query(getMyBuyTradesQuery,
+                (rs, rsNum) -> new GetMyTradesRes(
+                        rs.getInt("orderIdx"),
+                        rs.getString("orderStatus"),
+                        rs.getString("goodsName"),
+                        rs.getString("goodsPrice"),
+                        rs.getString("userNickName"),
+                        rs.getString("orderTime"),
+                        rs.getInt("isReview")),
+                getMyBuyTradesParams1, getMyBuyTradesParams2);
+    }
+
+    public List<GetMyTradesRes> getMySellerTrades(int userIdx, String orderStatus) {
+        String getMySellerTradesQuery = "select orderIdx, orderStatus, goodsName\n" +
+                "     , CONCAT(G.goodsPrice, '원') as goodsPrice, userNickName\n" +
+                "     , REPLACE(\n" +
+                "            REPLACE(\n" +
+                "                DATE_FORMAT(orderCreatedAt, '%Y.%m.%d (%p %h:%i)'), 'AM', '오전'\n" +
+                "                ), 'PM', '오후') as orderTime\n" +
+                "    , (select COUNT(orderIdx)\n" +
+                "        from Review\n" +
+                "        where Review.orderIdx = Orders.orderIdx) as isReview\n" +
+                "from Orders\n" +
+                "inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
+                "inner join User U on Orders.buyerIdx = U.userIdx\n" +
+                "where G.userIdx = ? and orderStatus = ?";
+        int getMySellerTradesParams1 = userIdx;
+        String getMySellerTradesParams2 = orderStatus;
+
+        return this.jdbcTemplate.query(getMySellerTradesQuery,
+                (rs, rsNum) -> new GetMyTradesRes(
+                        rs.getInt("orderIdx"),
+                        rs.getString("orderStatus"),
+                        rs.getString("goodsName"),
+                        rs.getString("goodsPrice"),
+                        rs.getString("userNickName"),
+                        rs.getString("orderTime"),
+                        rs.getInt("isReview")),
+                getMySellerTradesParams1, getMySellerTradesParams2);
     }
 
 }
