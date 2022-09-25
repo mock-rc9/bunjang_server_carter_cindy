@@ -3,6 +3,7 @@ package com.example.demo.src.review;
 
 import com.example.demo.src.payment.model.GetPaymentRes;
 import com.example.demo.src.review.model.GetReviewRes;
+import com.example.demo.src.review.model.PatchReviewReq;
 import com.example.demo.src.review.model.PostReviewReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,9 +35,18 @@ public class ReviewDao {
 
     }
 
-//    public int createReview(int userIdx, PostReviewReq postReviewReq) {
-//
-//    }
+    public int createReview(int userIdx,int orderIdx, PostReviewReq postReviewReq) {
+        String createPaymentQuery ="insert into Review (" +
+                "sellerIdx" +
+                ",buyerIdx" +
+                ",score" +
+                ",reviewContent,orderIdx)VALUES (?,?,?,?,?)";
+        Object[] createPaymentParams = new Object[]{userIdx,postReviewReq.getBuyerIdx(),postReviewReq.getScore(),postReviewReq.getReviewContent(),orderIdx};
+        this.jdbcTemplate.update(createPaymentQuery, createPaymentParams);
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+
+    }
 
     public int checkUserExist(int userIdx) {
         String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ?)";
@@ -47,10 +57,51 @@ public class ReviewDao {
 
     }
 
-//    public int checkSellerExist(int paymentIdx) {
-//    }
 
-//    public int checkUserOrderExist(int userIdx, int paymentIdx) {
-//    }
+
+    public int deleteReview(int reviewIdx) {
+        String deleteReviewQuery = "UPDATE Review\n" +
+                "        SET reviewStatus = 'deleted'\n" +
+                "        WHERE reviewIdx = ? ";
+        Object[] deleteReviewParams = new Object[]{reviewIdx};
+        return this.jdbcTemplate.update(deleteReviewQuery,deleteReviewParams);
+
+
+    }
+
+    public int checkUserOrderExist(int userIdx, int orderIdx) {
+        String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ?)";
+        int checkUserExistParams = userIdx;
+        return this.jdbcTemplate.queryForObject(checkUserExistQuery,
+                int.class,
+                checkUserExistParams);
+    }
+
+
+    public int updateReview(int reviewIdx, PatchReviewReq patchReviewReq) {
+        String updateGoodsQuery = "UPDATE Review\n" +
+                "        SET reviewContent = ?\n" +
+                "        and score = ?\n" +
+                "        WHERE reviewIdx = ?" ;
+        Object[] updateGoodsParams = new Object[]{patchReviewReq.getReviewContent(),patchReviewReq.getScore(), reviewIdx};
+        return this.jdbcTemplate.update(updateGoodsQuery,updateGoodsParams);
+    }
+
+    public int checkBuyerExist(int userIdx){
+        String checkUserExistQuery = "select exists(select userIdx from Review where buyerIdx = ?)";
+        int checkUserExistParams = userIdx;
+        return this.jdbcTemplate.queryForObject(checkUserExistQuery,
+                int.class,
+                checkUserExistParams);
+
+    }
+
+    public int checkReviewExist(int reviewIdx) {
+        String checkUserExistQuery = "select exists(select reviewIdx from Review where reviewIdx = ?)";
+        int checkUserExistParams = reviewIdx;
+        return this.jdbcTemplate.queryForObject(checkUserExistQuery,
+                int.class,
+                checkUserExistParams);
+    }
 }
 

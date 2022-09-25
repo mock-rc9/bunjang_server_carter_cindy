@@ -37,7 +37,6 @@ public class HomeProvider {
         try {
             List<GetHomeDataRes> getHomeDataRes = homeDao.getHome();
             List<GetMainPageImgRes> getMainPageImgRes = homeDao.getPageImg();
-
             GetHomeRes getHomeRes = new GetHomeRes(getHomeDataRes,getMainPageImgRes);
 
             return getHomeRes;

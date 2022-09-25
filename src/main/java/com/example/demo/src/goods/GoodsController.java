@@ -3,16 +3,15 @@ package com.example.demo.src.goods;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.goods.model.GetGoodsRes;
-import com.example.demo.src.goods.model.PatchGoodsReq;
-import com.example.demo.src.goods.model.PostGoodsReq;
-import com.example.demo.src.goods.model.PostGoodsRes;
+import com.example.demo.src.goods.model.*;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.awt.image.OffScreenImageSource;
+
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -122,6 +121,34 @@ public class GoodsController {
         }
     }
 
+
+    @ResponseBody
+    @GetMapping("/categorys")
+    public BaseResponse<List<GetCategoryRes>> getCategory(){
+
+        try{
+            List<GetCategoryRes> getCategoryRes = goodsProvider.getCategorys();
+            return new BaseResponse<>(getCategoryRes);
+        }
+        catch (BaseException exception){
+            System.out.println(exception);
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/categorys/{categoryIdx}")
+    public BaseResponse<List<GetCategoryOptionRes>> getCategory(@PathVariable("categoryIdx") int categoryIdx){
+
+        try{
+            List<GetCategoryOptionRes> getCategoryOptionRes = goodsProvider.getCategory(categoryIdx);
+            return new BaseResponse<>(getCategoryOptionRes);
+        }
+        catch (BaseException exception){
+            System.out.println(exception);
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
 }
 
 
