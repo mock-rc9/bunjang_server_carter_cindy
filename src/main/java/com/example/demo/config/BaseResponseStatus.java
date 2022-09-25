@@ -119,6 +119,9 @@ public enum BaseResponseStatus {
     //[PATCH] /mypages
     MODIFY_FAIL_USERINFO(false, 4016, "상점 소개 변경에 실패하였습니다."),
 
+    //[PATCH] /follows/{followingIdx}
+    MODIFY_FAIL_UNFOLLOW(false, 4017, "팔로우 취소에 실패하였습니다."),
+
     MODIFY_FAIL_REVIEW(false,4030,"리뷰 수정 실패"),
     REVIEW_EMPTY_REVIEW_ID(false,4031,"잘못된 리뷰 연결"),
     DELETE_FAIL_REVIEW(false,4032,"리뷰 삭제 실패");

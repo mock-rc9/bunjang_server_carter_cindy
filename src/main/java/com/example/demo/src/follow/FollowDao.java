@@ -48,7 +48,7 @@ public class FollowDao {
                 "from User\n" +
                 "where userIdx in (select followerIdx\n" +
                 "from Follow\n" +
-                "where followingIdx = ?)";
+                "where followingIdx = ? and followStatus = 'active')";
         int getFollowersParams = userIdx;
 
         return jdbcTemplate.query(getFollowersQuery,
@@ -73,7 +73,7 @@ public class FollowDao {
                 "from User\n" +
                 "where userIdx in (select followingIdx\n" +
                 "from Follow\n" +
-                "where followerIdx = ?)";
+                "where followerIdx = ? and followStatus = 'active')";
         int getFollowingsParams = userIdx;
 
         return jdbcTemplate.query(getFollowingsQuery,
@@ -85,6 +85,31 @@ public class FollowDao {
                         rs.getInt("followerCount"),
                         getGoodsList(rs.getInt("userIdx"))),
                 getFollowingsParams);
+    }
+
+    public int follow(int followerIdx, int followingIdx){
+        String followQuery = "insert into Follow (followerIdx, followingIdx) VALUES (?, ?);";
+        Object[] followParams = new Object[]{followerIdx, followingIdx};
+        this.jdbcTemplate.update(followQuery, followParams);
+
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
+    }
+
+    public int checkFollow(int followerIdx, int followingIdx){
+        String checkFollowQuery = "select followIdx\n" +
+                "from Follow\n" +
+                "where followerIdx = ? and followingIdx = ?";
+        Object[] checkFollowParams = new Object[]{followerIdx, followingIdx};
+
+        return this.jdbcTemplate.queryForObject(checkFollowQuery, int.class, checkFollowParams);
+    }
+
+    public int unfollow(int followIdx){
+        String unfollowQuery = "update Follow set followStatus = 'deleted' where followIdx = ?";
+        int unfollowParams = followIdx;
+
+        return this.jdbcTemplate.update(unfollowQuery, unfollowParams);
     }
 
 }
