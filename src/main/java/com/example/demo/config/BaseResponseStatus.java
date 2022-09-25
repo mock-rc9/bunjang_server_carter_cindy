@@ -116,7 +116,10 @@ public enum BaseResponseStatus {
     DELETE_FAIL_PAYMENT(false,4023,"계좌 삭제 실패"),
 
     //[PATCH] /mypages
-    MODIFY_FAIL_USERINFO(false, 4016, "상점 소개 변경에 실패하였습니다.");
+    MODIFY_FAIL_USERINFO(false, 4016, "상점 소개 변경에 실패하였습니다."),
+
+    //[PATCH] /follows/{followingIdx}
+    MODIFY_FAIL_UNFOLLOW(false, 4017, "팔로우 취소에 실패하였습니다.");
 
 
 
