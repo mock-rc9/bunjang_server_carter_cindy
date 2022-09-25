@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.List;
+
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
-@RequestMapping("/app/orders")
+@RequestMapping("/app")
 public class OrderController {
 
     final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -38,7 +40,7 @@ public class OrderController {
      * @return BaseResponse<PostOrderRes>
      */
     @ResponseBody
-    @PostMapping("")
+    @PostMapping("/orders")
     public BaseResponse<PostOrderRes> createOrder(@RequestBody PostOrderReq postOrderReq){
         try {
             int buyerIdx = jwtService.getUserIdx();
@@ -61,7 +63,7 @@ public class OrderController {
      * @return BaseResponse<GetOrderRes>
      */
     @ResponseBody
-    @GetMapping("/{orderIdx}")
+    @GetMapping("/orders/{orderIdx}")
     public BaseResponse<GetOrderRes> getOrder(@PathVariable("orderIdx") int orderIdx){
         try {
             jwtService.getUserIdx();
@@ -78,7 +80,7 @@ public class OrderController {
      * @return
      */
     @ResponseBody
-    @DeleteMapping("/{orderIdx}")
+    @DeleteMapping("/orders/{orderIdx}")
     public BaseResponse<String> deleteOrder(@PathVariable("orderIdx") int orderIdx){
         try {
             jwtService.getUserIdx();
@@ -87,6 +89,29 @@ public class OrderController {
 
             String result = "주문이 취소되었습니다";
             return new BaseResponse<>(result);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 거래 내역 조회 API
+     * [GET] /mytrades
+     * @return BaseResponse<List<GetMyTradesRes>>
+     */
+    @ResponseBody
+    @GetMapping("/mytrades")
+    public BaseResponse<List<GetMyTradesRes>> getMyTrades(@RequestParam(required = true) int type, @RequestParam(required = false) String orderStatus) {
+        try {
+            int userIdx = jwtService.getUserIdx();
+
+            if(orderStatus == null){
+                List<GetMyTradesRes> getMyAllTradesRes = orderProvider.getMyAllTrades(type, userIdx);
+                return new BaseResponse<>(getMyAllTradesRes);
+            }
+
+            List<GetMyTradesRes> getMyTradesRes = orderProvider.getMyTrades(type, userIdx, orderStatus);
+            return new BaseResponse<>(getMyTradesRes);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }
