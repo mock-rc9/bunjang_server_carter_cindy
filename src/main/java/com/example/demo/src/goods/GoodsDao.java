@@ -31,8 +31,6 @@ public class GoodsDao {
     public List<GetCategoryRes> getCategorys() {
         String getCategoryQuery ="select * from Category";
         String getCategoryOptionQuery ="select * from CategoryOption where categoryIdx=?";
-
-
         return this.jdbcTemplate.query(getCategoryQuery,
                 (rs,rowNum)->new GetCategoryRes(
                         rs.getInt("categoryIdx"),
@@ -42,7 +40,16 @@ public class GoodsDao {
                                         rk.getInt("categoryOptionIdx"),
                                         rk.getString("categoryOptionName")),
                                 rs.getInt("categoryIdx"))));
+    }
+    public List<GetCategoryOptionRes> getCategory(int categoryIdx) {
 
+        int getCategoryParams = categoryIdx;
+        String getCategoryOptionQuery ="select * from CategoryOption where categoryIdx=?";
+        return this.jdbcTemplate.query(getCategoryOptionQuery,
+                (rk,rownum)->new GetCategoryOptionRes(
+                        rk.getInt("categoryIdx"),
+                        rk.getInt("categoryOptionIdx"),
+                        rk.getString("categoryOptionName")),getCategoryParams);
 
     }
 
@@ -66,6 +73,9 @@ public class GoodsDao {
         int getGoodsParams = goodsIdx;
 
         String getGoodsLikeQuery ="select count(*) as likes from GoodsLike where goodsIdx=?";
+
+
+
 
         String getGoodsImgQuery ="select * from GoodsImg where goodsIdx=?";
 
@@ -95,10 +105,33 @@ public class GoodsDao {
                                 rs.getInt("goodsIdx"))),getGoodsParams);
 
     }
+
+    public GetStoreDataRes getStoreData(int userIdx) {
+
+        int getStoreParams = userIdx;
+        String getStoreDataQuery ="select ROUND(AVG(R.score),1) as score ,User.userNickName,User.userImgUrl\n" +
+                "\n" +
+                "       from User\n" +
+                "\n" +
+                "            inner join Goods G on User.userIdx = G.userIdx\n" +
+                "            left join ChatRoom CR on G.goodsIdx = CR.goodsIdx\n" +
+                "        left join Review R on User.userIdx = R.sellerIdx\n" +
+                "where G.userIdx=?";
+        return this.jdbcTemplate.queryForObject(getStoreDataQuery,
+                (rk,rownum)->new GetStoreDataRes(
+                        rk.getDouble("score"),
+                        rk.getString("userImgUrl"),
+                        rk.getString("userNickName")
+                        ),getStoreParams);
+
+
+    }
     public List<GetStoreGoodsRes> getStoreGoods(int userIdx){
-        String getStoreQuery ="select * from Goods where userIdx=?";
+        String getStoreQuery ="select * from Goods inner join User U on Goods.userIdx = U.userIdx where Goods.userIdx=? and Goods.goodsStatus='active'";
         int getStoreparams = userIdx;
         String getGoodsImgQuery ="select * from GoodsImg left join Goods G on G.goodsIdx = GoodsImg.goodsIdx where G.goodsIdx=? and goodsStatus='active'";
+
+
 
         return this.jdbcTemplate.query(getStoreQuery,
                 (rs,rowNum)->new GetStoreGoodsRes(
@@ -208,7 +241,6 @@ public class GoodsDao {
         return this.jdbcTemplate.update(deleteGoodsQuery,deleteGoodsParams);
 
     }
-
 
 
 

@@ -135,6 +135,20 @@ public class GoodsController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+
+    @ResponseBody
+    @GetMapping("/categorys/{categoryIdx}")
+    public BaseResponse<List<GetCategoryOptionRes>> getCategory(@PathVariable("categoryIdx") int categoryIdx){
+
+        try{
+            List<GetCategoryOptionRes> getCategoryOptionRes = goodsProvider.getCategory(categoryIdx);
+            return new BaseResponse<>(getCategoryOptionRes);
+        }
+        catch (BaseException exception){
+            System.out.println(exception);
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
 }
 
 
