@@ -52,7 +52,7 @@ public class HomeDao {
                         rs.getString("goodsUpdatedAt"),
                         rs.getString( "IsSecurePayment"),
                         rs.getString("goodsUpdatedAtTime"),
-                        rs.getString("address"),
+                        rs.getString("goodsAddress"),
                         getHomeImgRes= this.jdbcTemplate.query(getHomeImgQuery,
                                 (rk,rownum)->new GetHomeImgRes(rk.getInt("goodsIdx"),
                                         rk.getString("goodsImgUrl")),rs.getInt("goodsIdx")
