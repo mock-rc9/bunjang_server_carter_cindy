@@ -164,4 +164,22 @@ public class UserController {
         }
     }
 
+    /**
+     * 판매자 프로필 상세 페이지 API
+     * [GET] /app/sellerpages/:sellerIdx
+     * @return BaseResponse<GetSellerPageRes>
+     */
+    @ResponseBody
+    @GetMapping("/sellerpages/{sellerIdx}")
+    public BaseResponse<GetSellerPageRes> getSellerPage(@PathVariable("sellerIdx") int sellerIdx){
+        try {
+            int userIdx = jwtService.getUserIdx();
+
+            GetSellerPageRes getSellerPageRes = userProvider.getSellerPage(userIdx, sellerIdx);
+            return new BaseResponse<>(getSellerPageRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 }
