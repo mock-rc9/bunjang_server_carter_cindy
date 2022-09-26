@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PostGoodsReq {
     private int userIdx;
+    private String goodsAddress;
     private String goodsName;
     private String goodsContent;
     private int goodsPrice;
@@ -20,7 +21,9 @@ public class PostGoodsReq {
     private int goodsCount;
     private int goodsCondition;
     private String IsExchange;
+    private int categoryIdx;
     private int categoryOptionIdx;
     private List<PostGoodsImgReq> imgs;
+    private List<PostGoodsTagReq> tags;
 }
 
