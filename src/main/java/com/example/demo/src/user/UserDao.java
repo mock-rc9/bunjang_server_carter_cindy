@@ -229,4 +229,10 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyUserInfoQuery, modifyUserInfoParams);
     }
 
+    public int deleteUser(int userIdx){
+        String deleteUserQuery = "update User set userStatus = 'deleted' where userIdx = ?";
+        int deleteUserParams = userIdx;
+        return this.jdbcTemplate.update(deleteUserQuery, deleteUserParams);
+    }
+
 }
