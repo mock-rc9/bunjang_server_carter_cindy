@@ -9,4 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PatchReviewReq {
+
+    private Double score;
+    private String reviewContent;
+
 }
