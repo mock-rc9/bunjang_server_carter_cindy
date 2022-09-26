@@ -56,8 +56,7 @@ public class ReviewController {
     public BaseResponse<PostReviewRes> createReview(@RequestBody PostReviewReq postReviewReq){
         try {
             int userIdxJwt = jwtService.getUserIdx();
-
-            PostReviewRes postReviewRes = reviewService.createReview(userIdxJwt,postReviewReq.getOrderIdx(),postReviewReq);
+            PostReviewRes postReviewRes = reviewService.createReview(userIdxJwt,postReviewReq);
             return new BaseResponse<>(postReviewRes);
 
         } catch (BaseException exception) {

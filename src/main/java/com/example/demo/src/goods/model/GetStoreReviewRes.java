@@ -11,6 +11,7 @@ import lombok.Setter;
 public class GetStoreReviewRes {
 
     private int reviewIdx;
+    private int buyerIdx;
     private String reviewContent;
     private Double score;
     private String reviewCreatedAt;

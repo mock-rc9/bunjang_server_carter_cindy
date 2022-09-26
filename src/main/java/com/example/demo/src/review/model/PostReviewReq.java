@@ -9,8 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PostReviewReq {
-    private int sellerIdx;
+
     private int buyerIdx;
+    private int sellerIdx;
     private Double score;
     private String reviewContent;
     private int orderIdx;
