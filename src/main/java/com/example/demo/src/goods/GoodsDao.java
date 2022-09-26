@@ -192,7 +192,7 @@ public class GoodsDao {
                 ",categoryIdx,categoryOptionIdx) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         Object[] createGoodsParams = new Object[]{userIdx,postGoodsReq.getGoodsAddress(),postGoodsReq.getGoodsName(),postGoodsReq.getGoodsContent(),postGoodsReq.getGoodsPrice(),postGoodsReq.getIsSecurePayment(),postGoodsReq.getIsDeilveryFee(),postGoodsReq.getGoodsCount(),postGoodsReq.getGoodsCondition(),postGoodsReq.getIsExchange(),postGoodsReq.getCategoryIdx(),postGoodsReq.getCategoryOptionIdx()};
         this.jdbcTemplate.update(createGoodsQuery, createGoodsParams);
-        String lastInsertIdQuery = "select last_insert_id()";
+        String lastInsertIdQuery  = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
     public int createTag(int goodsIdx, PostGoodsTagReq postGoodsTagReq) {
