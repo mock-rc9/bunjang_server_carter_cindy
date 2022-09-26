@@ -146,4 +146,22 @@ public class UserController {
         }
     }
 
+    /**
+     * 탈퇴하기 API
+     * [PATCH] /app/users
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/users")
+    public BaseResponse<String> deleteUser(){
+        try {
+            int userIdx = jwtService.getUserIdx();
+            userService.deleteUser(userIdx);
+            String result = "탈퇴가 완료되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 }
