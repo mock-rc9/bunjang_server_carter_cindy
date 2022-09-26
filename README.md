@@ -112,8 +112,8 @@
 
 ### 2022-09-26 진행상황
 #### Carter
--Review API
--찜 API 
+- Review API
+- 찜 API 
 
 #### Cindy
 - 팔로우 API
