@@ -69,7 +69,9 @@ public class GoodsDao {
                 "        when TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP) < 12\n" +
                 "        then concat(TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '달 전')\n" +
                 "        else concat(TIMESTAMPDIFF(YEAR,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '년 전')\n" +
-                "        end AS goodsUpdatedAtTime\n" +
+                "        end AS goodsUpdatedAtTime," +
+                "case when goodsAddress is null then '지역정보 없음'\n" +
+                "        else goodsAddress end goodsAddressnull\n" +
                 "       from Goods G where goodsIdx=? and goodsStatus='active'";
         int getGoodsParams = goodsIdx;
 
@@ -91,7 +93,7 @@ public class GoodsDao {
                         rs.getString("goodsUpdatedAt"),
                         rs.getString("goodsUpdatedAtTime"),
                         rs.getString("IsSecurePayment"),
-                        rs.getString("goodsAddress"),
+                        rs.getString("goodsAddressnull"),
                         rs.getString("IsDeilveryFee"),
                         rs.getInt("goodsCount"),
                         rs.getString("goodsCondition"),

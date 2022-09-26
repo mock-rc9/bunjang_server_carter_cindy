@@ -39,7 +39,9 @@ public class HomeDao {
                 "        when TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP) < 12\n" +
                 "        then concat(TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '달 전')\n" +
                 "        else concat(TIMESTAMPDIFF(YEAR,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '년 전')\n" +
-                "        end AS goodsUpdatedAtTime\n" +
+                "        end AS goodsUpdatedAtTime," +
+                "case when G.goodsAddress is null then '지역정보 없음'\n" +
+                "        else G.goodsAddress end GoodsAddressnull\n" +
                 "from Goods G\n" +
                 "inner join  User U on G.userIdx = U.userIdx\n" +
                 "left join Address A on U.userIdx = A.userIdx where goodsStatus='active'";
@@ -52,7 +54,7 @@ public class HomeDao {
                         rs.getString("goodsUpdatedAt"),
                         rs.getString( "IsSecurePayment"),
                         rs.getString("goodsUpdatedAtTime"),
-                        rs.getString("goodsAddress"),
+                        rs.getString("GoodsAddressnull"),
                         getHomeImgRes= this.jdbcTemplate.query(getHomeImgQuery,
                                 (rk,rownum)->new GetHomeImgRes(rk.getInt("goodsIdx"),
                                         rk.getString("goodsImgUrl")),rs.getInt("goodsIdx")
