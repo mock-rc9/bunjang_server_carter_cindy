@@ -87,7 +87,7 @@ public class FollowController {
     /**
      * 팔로우 취소 API
      * [PATCH] /follows/:followingIdx
-     * @return
+     * @return BaseResponse<String>
      */
     @ResponseBody
     @PatchMapping("/follows/{followingIdx}")
@@ -106,7 +106,7 @@ public class FollowController {
     /**
      * 내 피드 조회 API
      * [GET] /app/myfeeds
-     * @return
+     * @return BaseResponse<List<GetMyFeedRes>>
      */
     @ResponseBody
     @GetMapping("/myfeeds")
