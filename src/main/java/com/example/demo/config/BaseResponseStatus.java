@@ -65,7 +65,7 @@ public enum BaseResponseStatus {
     //[PATCH] /mypages
     PATCH_USERINFO_EMPTY_USERNICKNAME(false, 2042, "상점명은 최소 2자, 최대 10자까지 입력 가능합니다."),
     PATCH_USERINFO_INVALID_USERNICKNAME(false, 2043, "상점명은 띄어쓰기 없이 한글, 영문, 숫자만 가능합니다."),
-
+    REVIEW_EMPTY_BUYER_ID(false, 2050, "유효 하지 않는 리뷰 요청 입니다"),
 
 
     /**
@@ -80,7 +80,7 @@ public enum BaseResponseStatus {
     INACTIVE_USER(false, 3015, "비활성화된 유저입니다."),
     DELETED_USER(false, 3016, "탈퇴한 유저입니다."),
 
-
+    FAILED_TO_UNFOLLOW(false, 3017, "팔로우한 유저가 아닙니다."),
 
 
     /**
@@ -115,11 +115,19 @@ public enum BaseResponseStatus {
 
     DELETE_FAIL_PAYMENT(false,4023,"계좌 삭제 실패"),
 
+
     //[PATCH] /mypages
     MODIFY_FAIL_USERINFO(false, 4016, "상점 소개 변경에 실패하였습니다."),
 
+    //[POST] /follows/{followingIdx}
+    MODIFY_FAIL_FOLLOW(false, 4017, "팔로우에 실패하였습니다."),
+
     //[PATCH] /follows/{followingIdx}
-    MODIFY_FAIL_UNFOLLOW(false, 4017, "팔로우 취소에 실패하였습니다.");
+    MODIFY_FAIL_UNFOLLOW(false, 4018, "팔로우 취소에 실패하였습니다."),
+
+    MODIFY_FAIL_REVIEW(false,4030,"리뷰 수정 실패"),
+    REVIEW_EMPTY_REVIEW_ID(false,4031,"잘못된 리뷰 연결"),
+    DELETE_FAIL_REVIEW(false,4032,"리뷰 삭제 실패");
 
 
 
