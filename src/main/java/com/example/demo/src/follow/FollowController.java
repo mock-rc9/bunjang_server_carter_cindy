@@ -3,6 +3,7 @@ package com.example.demo.src.follow;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.follow.model.GetFollowRes;
+import com.example.demo.src.follow.model.GetMyFeedRes;
 import com.example.demo.src.follow.model.PostFollowRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +87,7 @@ public class FollowController {
     /**
      * 팔로우 취소 API
      * [PATCH] /follows/:followingIdx
-     * @return
+     * @return BaseResponse<String>
      */
     @ResponseBody
     @PatchMapping("/follows/{followingIdx}")
@@ -97,6 +98,24 @@ public class FollowController {
             followService.unfollow(followerIdx, followingIdx);
             String result = "팔로우가 취소되었습니다";
             return new BaseResponse<>(result);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 내 피드 조회 API
+     * [GET] /app/myfeeds
+     * @return BaseResponse<List<GetMyFeedRes>>
+     */
+    @ResponseBody
+    @GetMapping("/myfeeds")
+    public BaseResponse<List<GetMyFeedRes>> getMyFeed() {
+        try {
+            int userIdx = jwtService.getUserIdx();
+
+            List<GetMyFeedRes> getMyFeedRes = followProvider.getMyFeed(userIdx);
+            return new BaseResponse<>(getMyFeedRes);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }

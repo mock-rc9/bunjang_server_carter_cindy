@@ -88,4 +88,13 @@ public class UserProvider {
         }
     }
 
+    public GetSellerPageRes getSellerPage(int userIdx, int sellerIdx) throws BaseException{
+        try {
+            GetSellerPageRes getSellerPageRes = userDao.getSellerPage(userIdx, sellerIdx);
+            return getSellerPageRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }

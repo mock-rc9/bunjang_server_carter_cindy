@@ -235,4 +235,53 @@ public class UserDao {
         return this.jdbcTemplate.update(deleteUserQuery, deleteUserParams);
     }
 
+    public GetSellerPageRes getSellerPage(int userIdx, int sellerIdx){
+        String getSellerPageQuery = "select userIdx as sellerIdx\n" +
+                "     , (select exists (select followIdx\n" +
+                "        from Follow\n" +
+                "        where followerIdx = ? and followingIdx = ? and followStatus = 'active')) as isFollow\n" +
+                "     , userImgUrl, userNickName, userContent\n" +
+                "     , (select case when AVG(score) is null then 0 else AVG(score) end\n" +
+                "        from Review\n" +
+                "        where sellerIdx = User.userIdx\n" +
+                "          and reviewStatus = 'active') as scoreAvg\n" +
+                "    , (select COUNT(orderIdx)\n" +
+                "        from Orders\n" +
+                "        inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
+                "        where userIdx = User.userIdx and orderStatus = 'active') as tradeCount\n" +
+                "    , (select COUNT(followIdx)\n" +
+                "        from Follow\n" +
+                "        where followingIdx = User.userIdx and followStatus = 'active') as follower\n" +
+                "    , (select COUNT(followIdx)\n" +
+                "        from Follow\n" +
+                "        where followerIdx = User.userIdx and followStatus = 'active') as following\n" +
+                "    , (select COUNT(orderIdx)\n" +
+                "        from Orders\n" +
+                "        inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
+                "        where userIdx = User.userIdx and goodsStatus = 'active' and IsSecurePayment = 'Y') as securePaymentCount\n" +
+                "    , CONCAT('+', TIMESTAMPDIFF(DAY, userCreatedAt, now())) as openDay\n" +
+                "    , 'OK' as userStatusCheck\n" +
+                "from User\n" +
+                "where userIdx = ? and userStatus = 'active'";
+        int getSellerPageParams1 = userIdx;
+        int getSellerPageParams2 = sellerIdx;
+        int getSellerPageParams3 = sellerIdx;
+        return jdbcTemplate.queryForObject(getSellerPageQuery,
+                (rs, rsNum) -> new GetSellerPageRes(
+                        rs.getInt("sellerIdx"),
+                        rs.getInt("isFollow"),
+                        rs.getString("userImgUrl"),
+                        rs.getString("userNickName"),
+                        rs.getString("userContent"),
+                        rs.getDouble("scoreAvg"),
+                        rs.getInt("tradeCount"),
+                        rs.getInt("follower"),
+                        rs.getInt("following"),
+                        rs.getInt("securePaymentCount"),
+                        rs.getString("openDay"),
+                        rs.getString("userStatusCheck"),
+                        getGoods(sellerIdx)),
+                getSellerPageParams1, getSellerPageParams2, getSellerPageParams3);
+    }
+
 }
