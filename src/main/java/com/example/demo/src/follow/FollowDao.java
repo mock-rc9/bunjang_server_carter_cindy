@@ -2,6 +2,7 @@ package com.example.demo.src.follow;
 
 import com.example.demo.src.follow.model.GetFollowRes;
 import com.example.demo.src.follow.model.GetGoodsListRes;
+import com.example.demo.src.user.model.PatchUserReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -87,6 +88,39 @@ public class FollowDao {
                 getFollowingsParams);
     }
 
+    public int checkNotFollow(int followerIdx, int followingIdx){
+        String checkNotFollowQuery = "select exists(select * from Follow where followerIdx = ? and followingIdx = ?)";
+        int checkNotFollowParams1 = followerIdx;
+        int checkNotFollowParams2 = followingIdx;
+        return this.jdbcTemplate.queryForObject(checkNotFollowQuery,
+                int.class,
+                checkNotFollowParams1, checkNotFollowParams2);
+    }
+
+    public int checkFollow(int followerIdx, int followingIdx){
+        String checkFollowQuery = "select exists(select * from Follow where followerIdx = ? and followingIdx = ? and followStatus = 'active')";
+        int checkFollowParams1 = followerIdx;
+        int checkFollowParams2 = followingIdx;
+        return this.jdbcTemplate.queryForObject(checkFollowQuery,
+                int.class,
+                checkFollowParams1, checkFollowParams2);
+    }
+
+    public int getFollowIdx(int followerIdx, int followingIdx){
+        String getFollowIdxQuery = "select followIdx\n" +
+                "from Follow\n" +
+                "where followerIdx = ? and followingIdx = ?";
+        Object[] getFollowIdxParams = new Object[]{followerIdx, followingIdx};
+
+        return this.jdbcTemplate.queryForObject(getFollowIdxQuery, int.class, getFollowIdxParams);
+    }
+
+    public int modifyFollowStatus(int followIdx){
+        String modifyFollowStatusQuery = "update Follow set followStatus = 'active' where followIdx = ?";
+        int modifyFollowStatusParams = followIdx;
+        return this.jdbcTemplate.update(modifyFollowStatusQuery, modifyFollowStatusParams);
+    }
+
     public int follow(int followerIdx, int followingIdx){
         String followQuery = "insert into Follow (followerIdx, followingIdx) VALUES (?, ?);";
         Object[] followParams = new Object[]{followerIdx, followingIdx};
@@ -94,15 +128,6 @@ public class FollowDao {
 
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
-    }
-
-    public int checkFollow(int followerIdx, int followingIdx){
-        String checkFollowQuery = "select followIdx\n" +
-                "from Follow\n" +
-                "where followerIdx = ? and followingIdx = ?";
-        Object[] checkFollowParams = new Object[]{followerIdx, followingIdx};
-
-        return this.jdbcTemplate.queryForObject(checkFollowQuery, int.class, checkFollowParams);
     }
 
     public int unfollow(int followIdx){

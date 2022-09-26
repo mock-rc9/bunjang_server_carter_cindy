@@ -80,6 +80,9 @@ public enum BaseResponseStatus {
     INACTIVE_USER(false, 3015, "비활성화된 유저입니다."),
     DELETED_USER(false, 3016, "탈퇴한 유저입니다."),
 
+    // [PATCH] /follows/:followings
+    FAILED_TO_UNFOLLOW(false, 3017, "팔로우하지 않은 유저입니다."),
+
 
 
 
@@ -121,6 +124,7 @@ public enum BaseResponseStatus {
 
     //[PATCH] /follows/{followingIdx}
     MODIFY_FAIL_UNFOLLOW(false, 4017, "팔로우 취소에 실패하였습니다."),
+    MODIFY_FAIL_FOLLOW(false, 4018, "팔로우에 실패하였습니다."),
 
     MODIFY_FAIL_REVIEW(false,4030,"리뷰 수정 실패"),
     REVIEW_EMPTY_REVIEW_ID(false,4031,"잘못된 리뷰 연결"),
