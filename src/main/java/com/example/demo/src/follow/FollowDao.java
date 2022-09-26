@@ -2,6 +2,7 @@ package com.example.demo.src.follow;
 
 import com.example.demo.src.follow.model.GetFollowRes;
 import com.example.demo.src.follow.model.GetGoodsListRes;
+import com.example.demo.src.follow.model.GetMyFeedRes;
 import com.example.demo.src.user.model.PatchUserReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -135,6 +136,34 @@ public class FollowDao {
         int unfollowParams = followIdx;
 
         return this.jdbcTemplate.update(unfollowQuery, unfollowParams);
+    }
+
+    public List<GetMyFeedRes> getMyFeed(int userIdx){
+        String getMyFeedQuery = "select goodsIdx, IsSecurePayment as isSecurePayment\n" +
+                "    , (select goodsImgUrl\n" +
+                "       from GoodsImg\n" +
+                "       where Goods.goodsIdx = GoodsImg.goodsIdx\n" +
+                "       limit 1) as goodsImgUrl\n" +
+                "    , CONCAT(goodsPrice, '원') as goodsPrice, goodsName\n" +
+                "    , userImgUrl, userNickName\n" +
+                "from Goods\n" +
+                "inner join User U on Goods.userIdx = U.userIdx\n" +
+                "where U.userIdx in (select followingIdx\n" +
+                "                  from Follow\n" +
+                "                  where followerIdx = ?)\n" +
+                "order by goodsCreatedAt desc";
+        int getMyFeedParams = userIdx;
+
+        return this.jdbcTemplate.query(getMyFeedQuery,
+                (rs, rsNum) -> new GetMyFeedRes(
+                    rs.getInt("goodsIdx"),
+                    rs.getString("isSecurePayment"),
+                    rs.getString("goodsImgUrl"),
+                    rs.getString("goodsPrice"),
+                    rs.getString("goodsName"),
+                    rs.getString("userImgUrl"),
+                    rs.getString("userNickName")),
+                getMyFeedParams);
     }
 
 }

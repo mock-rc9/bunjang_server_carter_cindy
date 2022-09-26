@@ -2,6 +2,7 @@ package com.example.demo.src.follow;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.follow.model.GetFollowRes;
+import com.example.demo.src.follow.model.GetMyFeedRes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,15 @@ public class FollowProvider {
         try {
             List<GetFollowRes> getFollowings = followDao.getFollowings(userIdx);
             return getFollowings;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetMyFeedRes> getMyFeed(int userIdx) throws BaseException {
+        try {
+            List<GetMyFeedRes> getMyFeedRes = followDao.getMyFeed(userIdx);
+            return getMyFeedRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
