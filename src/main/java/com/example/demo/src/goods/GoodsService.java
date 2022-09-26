@@ -40,6 +40,9 @@ public class GoodsService {
             for(int i=0;i<postGoodsReq.getImgs().size();i++){
                 goodsDao.createGoodsImg(goodsIdx,postGoodsReq.getImgs().get(i));
             }
+            for(int i=0;i<postGoodsReq.getTags().size();i++) {
+                goodsDao.createTag(goodsIdx, postGoodsReq.getTags().get(i));
+            }
             return new PostGoodsRes(goodsIdx);
         }catch (Exception exception){
             System.out.println(exception);

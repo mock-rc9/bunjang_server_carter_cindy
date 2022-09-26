@@ -21,6 +21,7 @@ public class GoodsDao {
 
 
 
+
     private JdbcTemplate jdbcTemplate;
     @Autowired
     public void setDataSource(DataSource dataSource){
@@ -178,7 +179,9 @@ public class GoodsDao {
     }
 
     public int createGoods(int userIdx,PostGoodsReq postGoodsReq) {
-        String createGoodsQuery = "insert into Goods (userIdx,goodsName" +
+        String createGoodsQuery = "insert into Goods (userIdx," +
+                "goodsAddress" +
+                "goodsName" +
                 ",goodsContent" +
                 ",goodsPrice" +
                 ",IsSecurePayment" +
@@ -186,9 +189,16 @@ public class GoodsDao {
                 ",goodsCount" +
                 ",goodsCondition" +
                 ",IsExchange" +
-                ",categoryOptionIdx) VALUES (?,?,?,?,?,?,?,?,?,?)";
-        Object[] createGoodsParams = new Object[]{userIdx,postGoodsReq.getGoodsName(),postGoodsReq.getGoodsContent(),postGoodsReq.getGoodsPrice(),postGoodsReq.getIsSecurePayment(),postGoodsReq.getIsDeilveryFee(),postGoodsReq.getGoodsCount(),postGoodsReq.getGoodsCondition(),postGoodsReq.getIsExchange(),postGoodsReq.getCategoryOptionIdx()};
+                ",categoryIdx,categoryOptionIdx) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        Object[] createGoodsParams = new Object[]{userIdx,postGoodsReq.getGoodsAddress(),postGoodsReq.getGoodsName(),postGoodsReq.getGoodsContent(),postGoodsReq.getGoodsPrice(),postGoodsReq.getIsSecurePayment(),postGoodsReq.getIsDeilveryFee(),postGoodsReq.getGoodsCount(),postGoodsReq.getGoodsCondition(),postGoodsReq.getIsExchange(),postGoodsReq.getCategoryIdx(),postGoodsReq.getCategoryOptionIdx()};
         this.jdbcTemplate.update(createGoodsQuery, createGoodsParams);
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+    }
+    public int createTag(int goodsIdx, PostGoodsTagReq postGoodsTagReq) {
+        String createGoodsTagQuery = "insert into Tag (goodsIdx,tagName) VALUES (?,?)";
+        Object[] createGoodsTagParams = new Object[]{goodsIdx,postGoodsTagReq.getTagName()};
+        this.jdbcTemplate.update(createGoodsTagQuery, createGoodsTagParams);
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
