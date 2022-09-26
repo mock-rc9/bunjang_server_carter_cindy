@@ -25,6 +25,7 @@ public class GetGoodsDataRes {
     private int goodsCount;
     private String goodsCondition;
     private String IsExchange;
+    private int chat;
     private List<GetGoodsLikeRes> likes;
     private List<GetGoodsImgRes> Imgs;
 

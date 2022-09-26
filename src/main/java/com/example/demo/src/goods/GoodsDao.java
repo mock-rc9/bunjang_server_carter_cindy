@@ -19,6 +19,7 @@ public class GoodsDao {
     private List<GetGoodsLikeRes> getGoodsLikeRes;
     private List<GetCategoryOptionRes> getCategoryOptionRes;
 
+    private List<GetStoreFollowRes> getStoreFollowRes;
 
 
 
@@ -57,22 +58,22 @@ public class GoodsDao {
 
     /*상세 제품 쿼리*/
     public GetGoodsDataRes getGoods(int goodsIdx) {
-        String getGoodsQuery ="select *,\n" +
-                "        case when TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
-                "        then concat(TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP),'초 전')\n" +
-                "        when TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
-                "        then concat(TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'분 전')\n" +
-                "        when TIMESTAMPDIFF(HOUR , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<24\n" +
-                "        then concat(TIMESTAMPDIFF(HOUR , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'시간 전')\n" +
-                "        when TIMESTAMPDIFF(DAY , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<30\n" +
-                "        then concat(TIMESTAMPDIFF(DAY , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'일 전')\n" +
-                "        when TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP) < 12\n" +
-                "        then concat(TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '달 전')\n" +
-                "        else concat(TIMESTAMPDIFF(YEAR,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '년 전')\n" +
-                "        end AS goodsUpdatedAtTime," +
-                "case when goodsAddress is null then '지역정보 없음'\n" +
-                "        else goodsAddress end goodsAddressnull\n" +
-                "       from Goods G where goodsIdx=? and goodsStatus='active'";
+        String getGoodsQuery ="select G.goodsIdx,G.userIdx,G.goodsName,G.goodsContent,G.goodsPrice,G.goodsUpdatedAt,G.IsDeilveryFee,G.IsDeilveryFee,G.goodsCount,G.goodsCondition,G.IsExchange,G.IsSecurePayment, COUNT(chatRoomIdx) as Chat,\n" +
+                "                        case when TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
+                "                        then concat(TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP),'초 전')\n" +
+                "                        when TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
+                "                        then concat(TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'분 전')\n" +
+                "                        when TIMESTAMPDIFF(HOUR , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<24\n" +
+                "                        then concat(TIMESTAMPDIFF(HOUR , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'시간 전')\n" +
+                "                        when TIMESTAMPDIFF(DAY , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<30\n" +
+                "                        then concat(TIMESTAMPDIFF(DAY , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'일 전')\n" +
+                "                        when TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP) < 12\n" +
+                "                        then concat(TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '달 전')\n" +
+                "                        else concat(TIMESTAMPDIFF(YEAR,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '년 전')\n" +
+                "                        end AS goodsUpdatedAtTime,\n" +
+                "                case when goodsAddress is null then '지역정보 없음'\n" +
+                "                        else goodsAddress end goodsAddressnull\n" +
+                "                       from Goods G left join ChatRoom CR on G.goodsIdx = CR.goodsIdx where G.goodsIdx=? and G.goodsStatus='active'";
         int getGoodsParams = goodsIdx;
 
         String getGoodsLikeQuery ="select count(*) as likes from GoodsLike where goodsIdx=?";
@@ -98,6 +99,7 @@ public class GoodsDao {
                         rs.getInt("goodsCount"),
                         rs.getString("goodsCondition"),
                         rs.getString("IsExchange"),
+                        rs.getInt("Chat"),
                         getGoodsLikeRes = this.jdbcTemplate.query(getGoodsLikeQuery,
                                 (rl,rownuM)->new GetGoodsLikeRes(
                                         rl.getInt("likes")),rs.getInt("goodsIdx")),
@@ -120,12 +122,19 @@ public class GoodsDao {
                 "            left join ChatRoom CR on G.goodsIdx = CR.goodsIdx\n" +
                 "        left join Review R on User.userIdx = R.sellerIdx\n" +
                 "where G.userIdx=?";
+
+        String getFollowerQuery ="select count(followIdx) as follow\n" +
+                "from User as U inner join Follow F on U.userIdx = F.followingIdx\n" +
+                "where U.userIdx=? and followStatus='active' ";
         return this.jdbcTemplate.queryForObject(getStoreDataQuery,
                 (rk,rownum)->new GetStoreDataRes(
                         rk.getDouble("score"),
                         rk.getString("userImgUrl"),
-                        rk.getString("userNickName")
-                        ),getStoreParams);
+                        rk.getString("userNickName"),
+                        getStoreFollowRes=this.jdbcTemplate.query(getFollowerQuery,
+                                (rl,roWnum)->new GetStoreFollowRes(
+                                        rl.getInt("follow")),getStoreParams)),getStoreParams
+                        );
 
 
     }
@@ -173,6 +182,7 @@ public class GoodsDao {
         return this.jdbcTemplate.query(getStoreReviewQuery,
                 (rm,rownum)->new GetStoreReviewRes(
                         rm.getInt("goodsIdx"),
+                        rm.getInt("buyerIdx"),
                         rm.getString("reviewContent"),
                         rm.getDouble("score"),
                         rm.getString("reviewCreatedAt"),

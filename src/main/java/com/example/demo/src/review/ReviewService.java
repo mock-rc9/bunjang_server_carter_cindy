@@ -65,18 +65,17 @@ public class ReviewService {
         }
 
     }
-    public PostReviewRes createReview(int userIdx, int orderIdx, PostReviewReq postReviewReq) throws BaseException {
+    public PostReviewRes createReview(int buyerIdx, PostReviewReq postReviewReq) throws BaseException {
 
 
-        if(reviewProvider.checkUserExits(userIdx)==0){
+        if(reviewProvider.checkUserExits(buyerIdx)==0){
             throw new BaseException(USERS_EMPTY_USER_ID);
         }
-        if(reviewProvider.checkBuyerExits(userIdx)==0){
+        if(reviewProvider.checkBuyerExits(buyerIdx)==0){
             throw new BaseException(REVIEW_EMPTY_BUYER_ID);
         }
-
         try {
-            int reviewIdx = reviewDao.createReview(userIdx,orderIdx,postReviewReq);
+            int reviewIdx = reviewDao.createReview(buyerIdx,postReviewReq);
             return new PostReviewRes (reviewIdx);
         }catch (Exception exception){
             System.out.println(exception);

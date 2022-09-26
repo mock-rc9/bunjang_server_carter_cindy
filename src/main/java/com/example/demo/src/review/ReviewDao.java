@@ -23,7 +23,7 @@ public class ReviewDao {
     }
 
     public List<GetReviewRes> getReviews(int userIdx) {
-        String getReviewQuery = "select * from Review where sellerIdx = ?";
+        String getReviewQuery = "select * from Review where buyerIdx = ? and reviewStatus='active'";
         int getReviewparams = userIdx;
         return this.jdbcTemplate.query(getReviewQuery,
                 (rs, rowNum) -> new GetReviewRes(
@@ -35,17 +35,17 @@ public class ReviewDao {
 
     }
 
-    public int createReview(int userIdx,int orderIdx, PostReviewReq postReviewReq) {
-        String createPaymentQuery ="insert into Review (" +
-                "sellerIdx" +
-                ",buyerIdx" +
+    public int createReview(int buyerIdx, PostReviewReq postReviewReq) {
+        String createReviewQuery ="insert into Review (" +
+                "buyerIdx" +
+                ",sellerIdx" +
                 ",score" +
-                ",reviewContent,orderIdx)VALUES (?,?,?,?,?)";
-        Object[] createPaymentParams = new Object[]{userIdx,postReviewReq.getBuyerIdx(),postReviewReq.getScore(),postReviewReq.getReviewContent(),orderIdx};
-        this.jdbcTemplate.update(createPaymentQuery, createPaymentParams);
+                ",reviewContent," +
+                "orderIdx)VALUES (?,?,?,?,?)";
+        Object[] createReviewParams = new Object[]{buyerIdx,postReviewReq.getSellerIdx(),postReviewReq.getScore(),postReviewReq.getReviewContent(),postReviewReq.getOrderIdx()};
+        this.jdbcTemplate.update(createReviewQuery, createReviewParams);
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
-
     }
 
     public int checkUserExist(int userIdx) {
@@ -81,19 +81,18 @@ public class ReviewDao {
     public int updateReview(int reviewIdx, PatchReviewReq patchReviewReq) {
         String updateGoodsQuery = "UPDATE Review\n" +
                 "        SET reviewContent = ?\n" +
-                "        and score = ?\n" +
+                "        , score = ?\n" +
                 "        WHERE reviewIdx = ?" ;
         Object[] updateGoodsParams = new Object[]{patchReviewReq.getReviewContent(),patchReviewReq.getScore(), reviewIdx};
         return this.jdbcTemplate.update(updateGoodsQuery,updateGoodsParams);
     }
 
     public int checkBuyerExist(int userIdx){
-        String checkUserExistQuery = "select exists(select userIdx from Review where buyerIdx = ?)";
+        String checkUserExistQuery = "select exists(select orderIdx from Orders where buyerIdx = ?)";
         int checkUserExistParams = userIdx;
         return this.jdbcTemplate.queryForObject(checkUserExistQuery,
                 int.class,
                 checkUserExistParams);
-
     }
 
     public int checkReviewExist(int reviewIdx) {
