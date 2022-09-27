@@ -2,6 +2,7 @@ package com.example.demo.src.order;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.order.model.GetMyTradesRes;
+import com.example.demo.src.order.model.GetOrderGoodsInfoRes;
 import com.example.demo.src.order.model.GetOrderRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -61,6 +62,15 @@ public class OrderProvider {
                 List<GetMyTradesRes> getMyBuyTrades = orderDao.getMyBuyTrades(userIdx, orderStatus);
                 return getMyBuyTrades;
             }
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetOrderGoodsInfoRes getOrderGoodsInfo(int goodsIdx) throws BaseException {
+        try {
+            GetOrderGoodsInfoRes getOrderGoodsInfoRes = orderDao.getOrderGoodsInfo(goodsIdx);
+            return getOrderGoodsInfoRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }

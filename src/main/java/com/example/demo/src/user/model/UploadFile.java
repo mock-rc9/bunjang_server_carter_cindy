@@ -6,7 +6,9 @@ import lombok.Setter;
 
 @Getter @Setter
 @AllArgsConstructor
-public class PatchUserReq {
-    private String userNickName;
-    private String userContent;
+public class UploadFile {
+
+    private String uploadFileName;
+    private String storeFileUrl;
+
 }

@@ -67,6 +67,9 @@ public enum BaseResponseStatus {
     PATCH_USERINFO_INVALID_USERNICKNAME(false, 2043, "상점명은 띄어쓰기 없이 한글, 영문, 숫자만 가능합니다."),
     REVIEW_EMPTY_BUYER_ID(false, 2050, "유효 하지 않는 리뷰 요청 입니다"),
 
+    //[POST] /reports/:goodsIdx
+    POST_REPORT_EMPTY_TITLE(false, 2052, "신고글 카테고리 제목을 입력해주세요."),
+
 
     /**
      * 3000 : Response 오류

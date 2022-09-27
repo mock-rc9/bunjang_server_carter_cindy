@@ -184,4 +184,22 @@ public class OrderDao {
                 getMySellerTradesParams1, getMySellerTradesParams2);
     }
 
+    public GetOrderGoodsInfoRes getOrderGoodsInfo(int userIdx){
+        String getOrderGoodsInfoQuery = "select goodsName\n" +
+                "     , (select goodsImgUrl\n" +
+                "        from GoodsImg\n" +
+                "        where goodsIdx = goodsIdx\n" +
+                "        limit 1) as goodsImgUrl, goodsPrice\n" +
+                "from Goods\n" +
+                "where goodsIdx = ?";
+        int getOrderGoodsInfoParams = userIdx;
+
+        return this.jdbcTemplate.queryForObject(getOrderGoodsInfoQuery,
+                (rs, rsNum) -> new GetOrderGoodsInfoRes(
+                        rs.getString("goodsName"),
+                        rs.getString("goodsImgUrl"),
+                        rs.getInt("goodsPrice")),
+                getOrderGoodsInfoParams);
+    }
+
 }

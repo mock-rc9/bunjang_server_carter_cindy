@@ -117,5 +117,23 @@ public class OrderController {
         }
     }
 
+    /**
+     * 주문시 상품 정보 조회 API
+     * [GET] /app/carts/:goodsIdx
+     * @return BaseResponse<GetOrderGoodsInfoRes>
+     */
+    @ResponseBody
+    @GetMapping("/carts/{goodsIdx}")
+    public BaseResponse<GetOrderGoodsInfoRes> getOrderGoodsInfo(@PathVariable("goodsIdx") int goodsIdx) {
+        try {
+            jwtService.getUserIdx();
+
+            GetOrderGoodsInfoRes getOrderGoodsInfoRes = orderProvider.getOrderGoodsInfo(goodsIdx);
+            return new BaseResponse<>(getOrderGoodsInfoRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 
 }
