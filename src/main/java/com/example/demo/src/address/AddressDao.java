@@ -23,7 +23,7 @@ public class AddressDao {
     public List<GetAddressRes> getAddresses(int userIdx){
         String getAddressQuery = "select addressIdx, IsBaseAddress, userName, address, addressDetail, userPhoneNum\n" +
                 "from Address\n" +
-                "where userIdx = ?";
+                "where userIdx = ? and addressStatus = 'active'";
         int getAddressParams = userIdx;
         return this.jdbcTemplate.query(getAddressQuery,
                 (rs, rowNum) -> new GetAddressRes(
