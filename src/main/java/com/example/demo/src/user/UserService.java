@@ -2,7 +2,6 @@ package com.example.demo.src.user;
 
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.demo.config.BaseException;
 import com.example.demo.src.user.model.PatchUserReq;
@@ -94,7 +93,7 @@ public class UserService {
         String ext = originalFilename.substring(index + 1);
 
         String storeFileName = UUID.randomUUID() + "." + ext;
-        String key = "userImg/" +storeFileName;
+        String key = "userImg/" + storeFileName;
 
         amazonS3.putObject(bucket, key, multipartFile.getInputStream(), objectMetadata);
         String storeFileUrl = amazonS3.getUrl(bucket, key).toString();
@@ -102,14 +101,14 @@ public class UserService {
         UploadFile uploadFile = new UploadFile(originalFilename, storeFileUrl);
 
 
-//        try {
+        try {
             int result = userDao.modifyUploadFile(userIdx, uploadFile);
             if(result == 0){
                 throw new BaseException(MODIFY_FAIL_USERINFO);
             }
-//        } catch (Exception exception){
-//            throw new BaseException(DATABASE_ERROR);
-//        }
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
     public void deleteUser(int userIdx) throws BaseException {

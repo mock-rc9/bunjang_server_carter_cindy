@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
@@ -113,6 +114,24 @@ public class UserController {
             }
             GetMyPageRes getMyPageRes = userProvider.getMyPageByName(userIdx, searchName);
             return new BaseResponse<>(getMyPageRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 마이페이지 상점 후기 조회 API
+     * [GET] /app/mypages/reviews
+     * @return BaseResponse<List<GetReviewsRes>>
+     */
+    @ResponseBody
+    @GetMapping("/mypages/reviews")
+    public BaseResponse<List<GetReviewsRes>> getReviews(){
+        try {
+            int userIdx = jwtService.getUserIdx();
+
+            List<GetReviewsRes> getReviewsRes = userProvider.getReviews(userIdx);
+            return new BaseResponse<>(getReviewsRes);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }
