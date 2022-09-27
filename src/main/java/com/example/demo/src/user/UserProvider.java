@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
@@ -83,6 +85,15 @@ public class UserProvider {
         try {
             GetMyPageRes getMyPageRes = userDao.getMyPageByName(userIdx, searchName);
             return getMyPageRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetReviewsRes> getReviews(int userIdx) throws BaseException{
+        try {
+            List<GetReviewsRes> getReviewsRes = userDao.getReviews(userIdx);
+            return getReviewsRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }

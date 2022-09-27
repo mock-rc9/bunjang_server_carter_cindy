@@ -223,6 +223,38 @@ public class UserDao {
                 getMyPageByNameParams);
     }
 
+    public List<GetReviewsRes> getReviews(int userIdx) {
+        String getReviewsQuery = "select reviewIdx, score as reviewScore, reviewContent\n" +
+                "     , (select userNickName\n" +
+                "        from User\n" +
+                "        where userIdx = Review.buyerIdx) as reviewer\n" +
+                "    , case\n" +
+                "        when TIMESTAMPDIFF(MINUTE , reviewCreatedAt, NOW()) <= 0\n" +
+                "            then CONCAT('방금 전')\n" +
+                "        when TIMESTAMPDIFF(MINUTE, reviewCreatedAt, NOW()) < 60\n" +
+                "            then CONCAT(TIMESTAMPDIFF(MINUTE, reviewCreatedAt, NOW()), '분 전')\n" +
+                "        when TIMESTAMPDIFF(HOUR, reviewCreatedAt, NOW()) < 24\n" +
+                "            then CONCAT(TIMESTAMPDIFF(HOUR, reviewCreatedAt, NOW()), '시간 전')\n" +
+                "        when TIMESTAMPDIFF(DAY, reviewCreatedAt, NOW()) < 30\n" +
+                "            then CONCAT(TIMESTAMPDIFF(DAY, reviewCreatedAt, NOW()), '일 전')\n" +
+                "        when TIMESTAMPDIFF(MONTH, reviewCreatedAt, NOW()) < 12\n" +
+                "            then CONCAT(TIMESTAMPDIFF(MONTH, reviewCreatedAt, NOW()), '달 전')\n" +
+                "    else CONCAT(TIMESTAMPDIFF(YEAR, reviewCreatedAt, NOW()), '년 전') end as lastUploadTime\n" +
+                "from Review\n" +
+                "inner join User U on Review.sellerIdx = U.userIdx\n" +
+                "where userIdx = ?";
+        int getReviewsParams = userIdx;
+
+        return this.jdbcTemplate.query(getReviewsQuery,
+                (rs, rsNum) -> new GetReviewsRes(
+                        rs.getInt("reviewIdx"),
+                        rs.getString("reviewScore"),
+                        rs.getString("reviewContent"),
+                        rs.getString("reviewer"),
+                        rs.getString("lastUploadTime")),
+                getReviewsParams);
+    }
+
     public int modifyUserInfo(int userIdx, PatchUserReq patchUserReq){
         String modifyUserInfoQuery = "update User set userNickName = ?, userContent = ? where userIdx = ?";
         Object[] modifyUserInfoParams = new Object[]{patchUserReq.getUserNickName(), patchUserReq.getUserContent(), userIdx};
