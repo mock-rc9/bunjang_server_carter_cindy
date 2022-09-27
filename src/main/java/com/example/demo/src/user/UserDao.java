@@ -224,9 +224,15 @@ public class UserDao {
     }
 
     public int modifyUserInfo(int userIdx, PatchUserReq patchUserReq){
-        String modifyUserInfoQuery = "update User set userImgUrl = ?, userNickName = ?, userContent = ? where userIdx = ?";
-        Object[] modifyUserInfoParams = new Object[]{patchUserReq.getUserImgUrl(), patchUserReq.getUserNickName(), patchUserReq.getUserContent(), userIdx};
+        String modifyUserInfoQuery = "update User set userNickName = ?, userContent = ? where userIdx = ?";
+        Object[] modifyUserInfoParams = new Object[]{patchUserReq.getUserNickName(), patchUserReq.getUserContent(), userIdx};
         return this.jdbcTemplate.update(modifyUserInfoQuery, modifyUserInfoParams);
+    }
+
+    public int modifyUploadFile(int userIdx, UploadFile uploadFile){
+        String modifyUploadFileQuery = "update User set userImgUrl = ?, userImgFileName = ? where userIdx = ?";
+        Object[] modifyUploadFileParams = new Object[]{uploadFile.getStoreFileUrl(), uploadFile.getUploadFileName(), userIdx};
+        return this.jdbcTemplate.update(modifyUploadFileQuery, modifyUploadFileParams);
     }
 
     public int deleteUser(int userIdx){

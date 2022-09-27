@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
@@ -122,7 +125,7 @@ public class UserController {
      */
     @ResponseBody
     @PatchMapping("/mypages")
-    public BaseResponse<String> modifyUserInfo(@RequestBody PatchUserReq patchUserReq){
+    public BaseResponse<String> modifyUserInfo(@RequestPart(value = "multipartFile", required = false) MultipartFile multipartFile, @RequestPart(value = "patchUserReq") PatchUserReq patchUserReq) throws IOException {
         try {
             int userIdx = jwtService.getUserIdx();
 
@@ -138,6 +141,7 @@ public class UserController {
             }
 
             userService.modifyUserInfo(userIdx, patchUserReq);
+            userService.modifyUploadFile(userIdx, multipartFile);
 
             String result = "상점 소개가 수정되었습니다.";
             return new BaseResponse<>(result);
@@ -145,6 +149,7 @@ public class UserController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+
 
     /**
      * 탈퇴하기 API
