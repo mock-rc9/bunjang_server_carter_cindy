@@ -2,7 +2,6 @@ package com.example.demo.src.goods;
 
 
 import com.example.demo.config.BaseException;
-import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.goods.model.*;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.*;
+import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
 
 @Service
 public class GoodsProvider {
@@ -55,7 +54,6 @@ public class GoodsProvider {
 
     public GetGoodsRes getGoods(int goodsIdx) throws BaseException{
 
-
         try {
 
 
@@ -96,5 +94,17 @@ public class GoodsProvider {
             throw new BaseException(DATABASE_ERROR);
         }
 
+    }
+
+    public List<GetGoodsSearchRes> getSearchGoods(String searchGoods) throws BaseException {
+
+        try {
+            List<GetGoodsSearchRes> getGoodsSearchRes = goodsDao.getSearchGoods(searchGoods);
+            return getGoodsSearchRes;
+        }
+        catch (Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }

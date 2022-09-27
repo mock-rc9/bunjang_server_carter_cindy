@@ -22,6 +22,7 @@ public class ReviewDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+
     public List<GetReviewRes> getReviews(int userIdx) {
         String getReviewQuery = "select * from Review where buyerIdx = ? and reviewStatus='active'";
         int getReviewparams = userIdx;

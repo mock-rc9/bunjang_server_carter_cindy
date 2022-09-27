@@ -23,7 +23,6 @@ public class PostGoodsReq {
     private String IsExchange;
     private int categoryIdx;
     private int categoryOptionIdx;
-    private List<PostGoodsImgReq> imgs;
     private List<PostGoodsTagReq> tags;
 }
 
