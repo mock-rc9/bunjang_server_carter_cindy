@@ -133,7 +133,9 @@ public enum BaseResponseStatus {
     REVIEW_EMPTY_REVIEW_ID(false,4031,"잘못된 리뷰 연결"),
     DELETE_FAIL_REVIEW(false,4032,"리뷰 삭제 실패"),
 
-    DELETE_FAIL_USER(false, 4033, "유저 탈퇴에 실패하였습니다.");
+    DELETE_FAIL_USER(false, 4033, "유저 탈퇴에 실패하였습니다."),
+
+    DELETE_FAIL_STORELIKE(false, 4034, "찜 삭제에 실패하였습니다.");
 
 
 

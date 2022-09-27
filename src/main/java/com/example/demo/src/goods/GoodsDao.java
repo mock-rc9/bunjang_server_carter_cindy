@@ -191,9 +191,10 @@ public class GoodsDao {
     }
 
     public int createGoods(int userIdx,PostGoodsReq postGoodsReq) {
-        String createGoodsQuery = "insert into Goods (userIdx," +
+        String createGoodsQuery = "insert into Goods (" +
+                "userIdx," +
                 "goodsAddress" +
-                "goodsName" +
+                ",goodsName" +
                 ",goodsContent" +
                 ",goodsPrice" +
                 ",IsSecurePayment" +
@@ -215,13 +216,13 @@ public class GoodsDao {
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 
-    public int createGoodsImg(int goodsIdx, PostGoodsImgReq postGoodsImgReq) {
-        String createGoodsImgQuery = "insert into GoodsImg (goodsIdx,goodsImgUrl) VALUES (?,?)";
-        Object[] createGoodsImgwParams = new Object[]{goodsIdx,postGoodsImgReq.getGoodsImgUrl()};
-        this.jdbcTemplate.update(createGoodsImgQuery, createGoodsImgwParams);
-        String lastInsertIdQuery = "select last_insert_id()";
-        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
-    }
+//    public int createGoodsImg(int goodsIdx, MultipartFile multipartFile) {
+//        String createGoodsImgQuery = "insert into GoodsImg (goodsIdx,goodsImgUrl) VALUES (?,?)";
+//        Object[] createGoodsImgwParams = new Object[]{goodsIdx,multipartFile};
+//        this.jdbcTemplate.update(createGoodsImgQuery, createGoodsImgwParams);
+//        String lastInsertIdQuery = "select last_insert_id()";
+//        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+//    }
     public int updateGoods(int goodsIdx, PatchGoodsReq patchGoodsReq) {
         String updateGoodsQuery = "UPDATE Goods\n" +
                 "        SET goodsContent = ?\n" +
@@ -265,5 +266,28 @@ public class GoodsDao {
     }
 
 
+    public List<GetGoodsSearchRes> getSearchGoods(String searchGoods) {
+        String getGoodsSearchQuery = "select *  from Goods as G\n" +
+                "    inner join GoodsImg GI on G.goodsIdx = GI.goodsIdx\n" +
+                "          where G.goodsName LIKE concat('%',?,'%') and G.goodsStatus='active'";
+        String getGoodsName = searchGoods;
+        String getGoodsSearchLikeQuery ="select count(*) as likes from GoodsLike where goodsIdx=?";
 
+        return jdbcTemplate.query(getGoodsSearchQuery,
+                (rs,Numm)->new GetGoodsSearchRes(
+                        rs.getInt("goodsIdx"),
+                        rs.getString("goodsName"),
+                        rs.getString("goodsAddress"),
+                        rs.getString("IsSecurePayment"),
+                        rs.getInt("goodsPrice"),
+                        rs.getString("goodsUpdatedAt"),
+                        rs.getInt("chat"),
+                        getGoodsLikeRes = this.jdbcTemplate.query(getGoodsSearchLikeQuery,
+                        (rl,rownuM)->new GetGoodsLikeRes(
+                                rl.getInt("likes"))
+                                ,rs.getInt("goodsIdx"),getGoodsName))
+                );
+
+
+    }
 }
