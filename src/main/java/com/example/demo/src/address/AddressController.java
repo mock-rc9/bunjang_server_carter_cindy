@@ -58,9 +58,6 @@ public class AddressController {
      */
     @ResponseBody
     @PostMapping("")
-
-
-
     public BaseResponse<PostAddressRes> createAddress(@RequestBody PostAddressReq postAddressReq){
         // 이름 유효성 검사
         if(postAddressReq.getUserName() == null) {
@@ -156,6 +153,23 @@ public class AddressController {
 
             String result = "주소가 삭제되었습니다";
             return new BaseResponse<>(result);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 특정 주소 조회 API
+     * [GET] /addresses/:addressIdx
+     * @return BaseResponse<List<GetAddressRes>>
+     */
+    @ResponseBody
+    @GetMapping("/{addressIdx}")
+    public BaseResponse<List<GetAddressRes>> getAddress(@PathVariable("addressIdx") int addressIdx){
+        try{
+            int userIdx = jwtService.getUserIdx();
+            List<GetAddressRes> getAddressRes = addressProvider.getAddress(userIdx, addressIdx);
+            return new BaseResponse<>(getAddressRes);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }
