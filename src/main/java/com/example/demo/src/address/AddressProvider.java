@@ -34,4 +34,13 @@ public class AddressProvider {
         }
     }
 
+    public List<GetAddressRes> getAddress(int userIdx, int addressIdx) throws BaseException {
+        try{
+            List<GetAddressRes> getAddressRes = addressDao.getAddress(userIdx, addressIdx);
+            return getAddressRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }

@@ -59,4 +59,21 @@ public class AddressDao {
         return this.jdbcTemplate.update(deleteAddressQuery, deleteAddressParams);
     }
 
+    public List<GetAddressRes> getAddress(int userIdx, int addressIdx){
+        String getAddressQuery = "select addressIdx, IsBaseAddress, userName, address, addressDetail, userPhoneNum\n" +
+                "from Address\n" +
+                "where userIdx = ? and addressIdx = ? and addressStatus = 'active'";
+        int getAddressParams1 = userIdx;
+        int getAddressParams2 = addressIdx;
+        return this.jdbcTemplate.query(getAddressQuery,
+                (rs, rowNum) -> new GetAddressRes(
+                        rs.getInt("addressIdx"),
+                        rs.getString("IsBaseAddress"),
+                        rs.getString("userName"),
+                        rs.getString("address"),
+                        rs.getString("addressDetail"),
+                        rs.getString("userPhoneNum")),
+                getAddressParams1, getAddressParams2);
+    }
+
 }
