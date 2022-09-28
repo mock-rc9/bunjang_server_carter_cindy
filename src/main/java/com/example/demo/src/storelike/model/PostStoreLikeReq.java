@@ -9,5 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PostStoreLikeReq {
+    public PostStoreLikeReq(){};
     private int goodsIdx;
 }

@@ -281,7 +281,7 @@ public class GoodsDao {
                 "                        else concat(TIMESTAMPDIFF(YEAR,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '년 전')\n" +
                 "                        end AS goodsUpdatedAtTime,\n" +
                 "    (select COUNT(*)   from GoodsLike\n" +
-                "                        where GoodsLike.goodsIdx = G.goodsIdx) as goodslike,\n" +
+                "                        where GoodsLike.goodsIdx = G.goodsIdx) as countLike,\n" +
                 "    (select COUNT(*) from ChatRoom where ChatRoom.goodsIdx = G.goodsIdx) as chat\n" +
                 "        from Goods as G\n" +
                 "\n" +
