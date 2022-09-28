@@ -139,7 +139,11 @@ public enum BaseResponseStatus {
 
     DELETE_FAIL_USER(false, 4033, "유저 탈퇴에 실패하였습니다."),
 
-    CREATE_FAIL_QNAIMG(false, 4034, "상품 이미지 업로드에 실패하였습니다.");
+    CREATE_FAIL_QNAIMG(false, 4034, "상품 이미지 업로드에 실패하였습니다."),
+
+    //[PATCH] /qnas/{qnaIdx}
+    DELETE_FAIL_QNA(false, 4035, "문의글 삭제에 실패하였습니다."),
+    DELETE_FAIL_QNAIMG(false, 4036, "문의글 첨부 사진 삭제에 실패하였습니다.");
 
 
 

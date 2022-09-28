@@ -44,4 +44,12 @@ public class QnaProvider {
         }
     }
 
+    public int checkQnaImg(int qnaIdx) throws BaseException{
+        try{
+            return qnaDao.checkQnaImg(qnaIdx);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }

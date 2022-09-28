@@ -103,4 +103,24 @@ public class QnaController {
         }
     }
 
+    /**
+     * 문의 취소 API
+     * [PATCH] /qnas/:qnaIdx
+     * @return
+     */
+    @ResponseBody
+    @PatchMapping("/{qnaIdx}")
+    public BaseResponse<String> deleteQna(@PathVariable("qnaIdx") int qnaIdx){
+        try {
+            jwtService.getUserIdx();
+
+            qnaService.deleteQna(qnaIdx);
+
+            String result = "문의가 삭제되었습니다";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 }

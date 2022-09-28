@@ -42,7 +42,7 @@ public class QnaDao {
     public List<GetQnaListRes> getQnaList(int userIdx){
         String getQnaListQuery = "select qnaIdx, qnaCategory, qnaStatus\n" +
                 "from Qna\n" +
-                "where userIdx = ?";
+                "where userIdx = ? and qnaStatus != 'deleted'";
         int getQnaListParams = userIdx;
 
         return this.jdbcTemplate.query(getQnaListQuery,
@@ -81,6 +81,29 @@ public class QnaDao {
                         getQnaImgs(rs.getInt("qnaIdx"))),
                 getQnaParams);
     }
+
+    public int deleteQna(int qnaIdx){
+        String deleteQnaQuery = "update Qna set qnaStatus = 'deleted' where qnaIdx = ?";
+        int deleteQnaParams = qnaIdx;
+        return this.jdbcTemplate.update(deleteQnaQuery, deleteQnaParams);
+    }
+
+    public int checkQnaImg(int qnaIdx){
+        String checkQnaImgQuery = "select exists(select qnaImgIdx from QnaImg where qnaIdx = ? and qnaImgStatus = 'active')";
+        int checkQnaImgParams = qnaIdx;
+        return this.jdbcTemplate.queryForObject(checkQnaImgQuery,
+                int.class,
+                checkQnaImgParams);
+    }
+
+    public int deleteQnaImg(int qnaIdx){
+        String deleteQnaImgQuery = "update QnaImg set qnaImgStatus = 'deleted' where qnaIdx = ?";
+        int deleteQnaImgParams = qnaIdx;
+        return this.jdbcTemplate.update(deleteQnaImgQuery, deleteQnaImgParams);
+    }
+
+
+
 
 
 

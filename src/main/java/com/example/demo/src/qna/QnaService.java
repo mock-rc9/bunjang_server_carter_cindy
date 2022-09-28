@@ -26,14 +26,16 @@ public class QnaService {
 
     private final QnaDao qnaDao;
     private final AmazonS3 amazonS3;
+    private final QnaProvider qnaProvider;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     @Autowired
-    public QnaService(QnaDao qnaDao, AmazonS3 amazonS3){
+    public QnaService(QnaDao qnaDao, AmazonS3 amazonS3, QnaProvider qnaProvider){
         this.qnaDao = qnaDao;
         this.amazonS3 = amazonS3;
+        this.qnaProvider = qnaProvider;
     }
 
     public int createQna(int userIdx, PostQnaReq postQnaReq) throws BaseException {
@@ -69,6 +71,24 @@ public class QnaService {
             } catch (Exception exception){
                 throw new BaseException(DATABASE_ERROR);
             }
+        }
+    }
+
+
+    public void deleteQna(int qnaIdx) throws BaseException {
+        try {
+            int result = qnaDao.deleteQna(qnaIdx);
+            if(result == 0) {
+                throw new BaseException(DELETE_FAIL_QNA);
+            }
+            if(qnaProvider.checkQnaImg(qnaIdx) == 1){
+                int result2 = qnaDao.deleteQnaImg(qnaIdx);
+                if(result2 == 0){
+                    throw new BaseException(DELETE_FAIL_QNAIMG);
+                }
+            }
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 
