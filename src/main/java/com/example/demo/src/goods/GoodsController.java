@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -158,7 +157,7 @@ public class GoodsController {
         }
     }
     @ResponseBody
-    @GetMapping("/goodssearch")
+    @GetMapping("/goods-search")
     public BaseResponse<List<GetGoodsSearchRes>> getSearchGoods(@RequestParam(required = false) String searchGoods){
 
         try{
@@ -171,11 +170,7 @@ public class GoodsController {
         }
     }
 
-    @PostMapping("/upload")
-    public void uploadFile(@RequestParam("imgase") MultipartFile multipartFile) throws IOException {
 
-        goodsService.saveUploadFile(multipartFile);
-    }
 
 }
 

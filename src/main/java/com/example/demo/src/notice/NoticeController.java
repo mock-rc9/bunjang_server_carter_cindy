@@ -4,7 +4,6 @@ package com.example.demo.src.notice;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.notice.model.GetNoticeRes;
-import com.example.demo.src.storelike.model.GetStoreLikeRes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class NoticeController {
 
     @ResponseBody
     @GetMapping("/{noticeIdx}")
-    public BaseResponse <GetNoticeRes> getStoreNotice(@RequestParam (required = false) int noticeIdx){
+    public BaseResponse <GetNoticeRes> getStoreNotice(@PathVariable("noticeIdx") int noticeIdx){
 
         try {
             GetNoticeRes getNoticeRes = noticeProvider.getNotice(noticeIdx);

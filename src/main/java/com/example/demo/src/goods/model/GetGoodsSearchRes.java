@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 
 @Getter
 @Setter
@@ -17,6 +15,7 @@ public class GetGoodsSearchRes {
     private String IsSecurePayment;
     private int goodsPrice;
     private String goodsUpdatedAt;
+    private int likes;
+    private String goodsImgUrl;
     private int chat;
-    private List<GetGoodsLikeRes> likes;
 }

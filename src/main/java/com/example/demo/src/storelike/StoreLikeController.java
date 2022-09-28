@@ -3,8 +3,6 @@ package com.example.demo.src.storelike;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.review.model.PatchReviewReq;
-import com.example.demo.src.review.model.PostReviewRes;
 import com.example.demo.src.storelike.model.GetStoreLikeRes;
 import com.example.demo.src.storelike.model.PatchStoreLikeReq;
 import com.example.demo.src.storelike.model.PostStoreLikeReq;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/storelikes")
+@RequestMapping("/store-likes")
 public class StoreLikeController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
