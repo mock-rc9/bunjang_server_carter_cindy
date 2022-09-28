@@ -39,29 +39,37 @@ public class OrderProvider {
         }
     }
 
-    public List<GetMyTradesRes> getMyAllTrades(int type, int userIdx) throws BaseException {
+    public List<GetMyTradesRes> getMyOrders(int userIdx) throws BaseException {
         try {
-            if (type == 1) { // 판매 내역
-                List<GetMyTradesRes> MyAllSellerTrades = orderDao.getMyAllSellerTrades(userIdx);
-                return MyAllSellerTrades;
-            } else { // 구매 내역
-                List<GetMyTradesRes> getMyAllBuyTrades = orderDao.getMyAllBuyTrades(userIdx);
-                return getMyAllBuyTrades;
-            }
+            List<GetMyTradesRes> getMyOrdersRes = orderDao.getMyOrders(userIdx);
+            return getMyOrdersRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
-    public List<GetMyTradesRes> getMyTrades(int type, int userIdx, String orderStatus) throws BaseException {
+    public List<GetMyTradesRes> getMyOrdersByStatus(int userIdx, String orderStatus) throws BaseException {
         try {
-            if (type == 1) { // 판매 내역
-                List<GetMyTradesRes> MySellerTrades = orderDao.getMySellerTrades(userIdx, orderStatus);
-                return MySellerTrades;
-            } else { // 구매 내역
-                List<GetMyTradesRes> getMyBuyTrades = orderDao.getMyBuyTrades(userIdx, orderStatus);
-                return getMyBuyTrades;
-            }
+            List<GetMyTradesRes> getMyOrdersByStatusRes = orderDao.getMyOrdersByStatus(userIdx, orderStatus);
+            return getMyOrdersByStatusRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetMyTradesRes> getMySales(int userIdx) throws BaseException {
+        try {
+            List<GetMyTradesRes> getMySalesRes = orderDao.getMySales(userIdx);
+            return getMySalesRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetMyTradesRes> getMySalesByStatus(int userIdx, String orderStatus) throws BaseException {
+        try {
+            List<GetMyTradesRes> getMySalesByStatusRes = orderDao.getMySalesByStatus(userIdx, orderStatus);
+            return getMySalesByStatusRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
