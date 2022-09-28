@@ -70,8 +70,8 @@ public class OrderDao {
         return this.jdbcTemplate.update(deleteOrderQuery, deleteOrderParams);
     }
 
-    public List<GetMyTradesRes> getMyAllBuyTrades(int userIdx) {
-        String getMyAllBuyTradesQuery = "select orderIdx, orderStatus, goodsName\n" +
+    public List<GetMyTradesRes> getMyOrders(int userIdx) {
+        String getMyOrdersQuery = "select orderIdx, orderStatus, goodsName\n" +
                 "     , CONCAT(G.goodsPrice, '원') as goodsPrice, userNickName\n" +
                 "     , REPLACE(\n" +
                 "            REPLACE(\n" +
@@ -84,9 +84,9 @@ public class OrderDao {
                 "inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
                 "inner join User U on G.userIdx = U.userIdx\n" +
                 "where buyerIdx = ?";
-        int getMyAllBuyTradesParams = userIdx;
+        int getMyOrdersParams = userIdx;
 
-        return this.jdbcTemplate.query(getMyAllBuyTradesQuery,
+        return this.jdbcTemplate.query(getMyOrdersQuery,
                 (rs, rsNum) -> new GetMyTradesRes(
                         rs.getInt("orderIdx"),
                         rs.getString("orderStatus"),
@@ -95,11 +95,11 @@ public class OrderDao {
                         rs.getString("userNickName"),
                         rs.getString("orderTime"),
                         rs.getInt("isReview")),
-                getMyAllBuyTradesParams);
+                getMyOrdersParams);
     }
 
-    public List<GetMyTradesRes> getMyAllSellerTrades(int userIdx) {
-        String getMyAllSellerTradesQuery = "select orderIdx, orderStatus, goodsName\n" +
+    public List<GetMyTradesRes> getMySales(int userIdx) {
+        String getMySalesQuery = "select orderIdx, orderStatus, goodsName\n" +
                 "     , CONCAT(G.goodsPrice, '원') as goodsPrice, userNickName\n" +
                 "     , REPLACE(\n" +
                 "            REPLACE(\n" +
@@ -112,9 +112,9 @@ public class OrderDao {
                 "inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
                 "inner join User U on Orders.buyerIdx = U.userIdx\n" +
                 "where G.userIdx = ?";
-        int getMyAllSellerTradesParams = userIdx;
+        int getMySalesParams = userIdx;
 
-        return this.jdbcTemplate.query(getMyAllSellerTradesQuery,
+        return this.jdbcTemplate.query(getMySalesQuery,
                 (rs, rsNum) -> new GetMyTradesRes(
                         rs.getInt("orderIdx"),
                         rs.getString("orderStatus"),
@@ -123,11 +123,11 @@ public class OrderDao {
                         rs.getString("userNickName"),
                         rs.getString("orderTime"),
                         rs.getInt("isReview")),
-                getMyAllSellerTradesParams);
+                getMySalesParams);
     }
 
-    public List<GetMyTradesRes> getMyBuyTrades(int userIdx, String orderStatus) {
-        String getMyBuyTradesQuery = "select orderIdx, orderStatus, goodsName\n" +
+    public List<GetMyTradesRes> getMyOrdersByStatus(int userIdx, String orderStatus) {
+        String getMyOrdersByStatusQuery = "select orderIdx, orderStatus, goodsName\n" +
                 "     , CONCAT(G.goodsPrice, '원') as goodsPrice, userNickName\n" +
                 "     , REPLACE(\n" +
                 "            REPLACE(\n" +
@@ -140,10 +140,10 @@ public class OrderDao {
                 "inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
                 "inner join User U on G.userIdx = U.userIdx\n" +
                 "where buyerIdx = ? and orderStatus = ?";
-        int getMyBuyTradesParams1 = userIdx;
-        String getMyBuyTradesParams2 = orderStatus;
+        int getMyOrdersByStatusParams1 = userIdx;
+        String getMyOrdersByStatusParams2 = orderStatus;
 
-        return this.jdbcTemplate.query(getMyBuyTradesQuery,
+        return this.jdbcTemplate.query(getMyOrdersByStatusQuery,
                 (rs, rsNum) -> new GetMyTradesRes(
                         rs.getInt("orderIdx"),
                         rs.getString("orderStatus"),
@@ -152,11 +152,11 @@ public class OrderDao {
                         rs.getString("userNickName"),
                         rs.getString("orderTime"),
                         rs.getInt("isReview")),
-                getMyBuyTradesParams1, getMyBuyTradesParams2);
+                getMyOrdersByStatusParams1, getMyOrdersByStatusParams2);
     }
 
-    public List<GetMyTradesRes> getMySellerTrades(int userIdx, String orderStatus) {
-        String getMySellerTradesQuery = "select orderIdx, orderStatus, goodsName\n" +
+    public List<GetMyTradesRes> getMySalesByStatus(int userIdx, String orderStatus) {
+        String getMySalesByStatusQuery = "select orderIdx, orderStatus, goodsName\n" +
                 "     , CONCAT(G.goodsPrice, '원') as goodsPrice, userNickName\n" +
                 "     , REPLACE(\n" +
                 "            REPLACE(\n" +
@@ -169,10 +169,10 @@ public class OrderDao {
                 "inner join Goods G on Orders.goodsIdx = G.goodsIdx\n" +
                 "inner join User U on Orders.buyerIdx = U.userIdx\n" +
                 "where G.userIdx = ? and orderStatus = ?";
-        int getMySellerTradesParams1 = userIdx;
-        String getMySellerTradesParams2 = orderStatus;
+        int getMySalesByStatusParams1 = userIdx;
+        String getMySalesByStatusParams2 = orderStatus;
 
-        return this.jdbcTemplate.query(getMySellerTradesQuery,
+        return this.jdbcTemplate.query(getMySalesByStatusQuery,
                 (rs, rsNum) -> new GetMyTradesRes(
                         rs.getInt("orderIdx"),
                         rs.getString("orderStatus"),
@@ -181,7 +181,7 @@ public class OrderDao {
                         rs.getString("userNickName"),
                         rs.getString("orderTime"),
                         rs.getInt("isReview")),
-                getMySellerTradesParams1, getMySellerTradesParams2);
+                getMySalesByStatusParams1, getMySalesByStatusParams2);
     }
 
     public GetOrderGoodsInfoRes getOrderGoodsInfo(int userIdx){

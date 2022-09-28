@@ -95,22 +95,45 @@ public class OrderController {
     }
 
     /**
-     * 거래 내역 조회 API
-     * [GET] /mytrades
+     * 구매 내역 조회 API
+     * [GET] /myorders
      * @return BaseResponse<List<GetMyTradesRes>>
      */
     @ResponseBody
-    @GetMapping("/mytrades")
-    public BaseResponse<List<GetMyTradesRes>> getMyTrades(@RequestParam(required = true) int type, @RequestParam(required = false) String orderStatus) {
+    @GetMapping("/myorders")
+    public BaseResponse<List<GetMyTradesRes>> getMyOrders(@RequestParam(required = false) String orderStatus) {
         try {
             int userIdx = jwtService.getUserIdx();
 
             if(orderStatus == null){
-                List<GetMyTradesRes> getMyAllTradesRes = orderProvider.getMyAllTrades(type, userIdx);
-                return new BaseResponse<>(getMyAllTradesRes);
+                List<GetMyTradesRes> getMyTradesRes = orderProvider.getMyOrders(userIdx);
+                return new BaseResponse<>(getMyTradesRes);
             }
 
-            List<GetMyTradesRes> getMyTradesRes = orderProvider.getMyTrades(type, userIdx, orderStatus);
+            List<GetMyTradesRes> getMyTradesRes = orderProvider.getMyOrdersByStatus(userIdx, orderStatus);
+            return new BaseResponse<>(getMyTradesRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 판매 내역 조회 API
+     * [GET] /mysales
+     * @return BaseResponse<List<GetMyTradesRes>>
+     */
+    @ResponseBody
+    @GetMapping("/mysales")
+    public BaseResponse<List<GetMyTradesRes>> getMySales(@RequestParam(required = false) String orderStatus) {
+        try {
+            int userIdx = jwtService.getUserIdx();
+
+            if(orderStatus == null){
+                List<GetMyTradesRes> getMyTradesRes = orderProvider.getMySales(userIdx);
+                return new BaseResponse<>(getMyTradesRes);
+            }
+
+            List<GetMyTradesRes> getMyTradesRes = orderProvider.getMySalesByStatus(userIdx, orderStatus);
             return new BaseResponse<>(getMyTradesRes);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
