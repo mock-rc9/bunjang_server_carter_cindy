@@ -267,11 +267,28 @@ public class GoodsDao {
 
 
     public List<GetGoodsSearchRes> getSearchGoods(String searchGoods) {
-        String getGoodsSearchQuery = "select *  from Goods as G\n" +
+        String getGoodsSearchQuery = "select *,\n" +
+                "        case when TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
+                "                        then concat(TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP),'초 전')\n" +
+                "                        when TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
+                "                        then concat(TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'분 전')\n" +
+                "                        when TIMESTAMPDIFF(HOUR , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<24\n" +
+                "                        then concat(TIMESTAMPDIFF(HOUR , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'시간 전')\n" +
+                "                        when TIMESTAMPDIFF(DAY , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<30\n" +
+                "                        then concat(TIMESTAMPDIFF(DAY , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'일 전')\n" +
+                "                        when TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP) < 12\n" +
+                "                        then concat(TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '달 전')\n" +
+                "                        else concat(TIMESTAMPDIFF(YEAR,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '년 전')\n" +
+                "                        end AS goodsUpdatedAtTime,\n" +
+                "    (select COUNT(*)   from GoodsLike\n" +
+                "                        where GoodsLike.goodsIdx = G.goodsIdx) as goodslike,\n" +
+                "    (select COUNT(*) from ChatRoom where ChatRoom.goodsIdx = G.goodsIdx) as chat\n" +
+                "        from Goods as G\n" +
+                "\n" +
                 "    inner join GoodsImg GI on G.goodsIdx = GI.goodsIdx\n" +
+                "          left join ChatRoom CR on G.goodsIdx = CR.goodsIdx\n" +
                 "          where G.goodsName LIKE concat('%',?,'%') and G.goodsStatus='active'";
         String getGoodsName = searchGoods;
-        String getGoodsSearchLikeQuery ="select count(*) as likes from GoodsLike where goodsIdx=?";
 
         return jdbcTemplate.query(getGoodsSearchQuery,
                 (rs,Numm)->new GetGoodsSearchRes(
@@ -280,14 +297,9 @@ public class GoodsDao {
                         rs.getString("goodsAddress"),
                         rs.getString("IsSecurePayment"),
                         rs.getInt("goodsPrice"),
-                        rs.getString("goodsUpdatedAt"),
-                        rs.getInt("chat"),
-                        getGoodsLikeRes = this.jdbcTemplate.query(getGoodsSearchLikeQuery,
-                        (rl,rownuM)->new GetGoodsLikeRes(
-                                rl.getInt("likes"))
-                                ,rs.getInt("goodsIdx"),getGoodsName))
-                );
-
-
+                        rs.getString("goodsUpdatedAtTime"),
+                        rs.getInt("goodslike"),
+                        rs.getString("goodsImgUrl"),
+                        rs.getInt("chat")),getGoodsName);
     }
 }
