@@ -1,5 +1,6 @@
 # 번개장터 클론 프로젝트
-- Client(ios) & Server(spring-boot) 협업
+- Server 2인 협업 (Cindy @syb0228, Carter : @GeonH0)
+- Client(ios) 3인에게 서버 제공
 
 ## SKILLS
 - **Backend**
@@ -8,10 +9,12 @@
 - **IDE** : IntelliJ
   - **build tool** : gradle
 - **Database** : mysql 5.7.21
+  - Database Service : Amazon RDS 
   - Database tool : DataGrip
 - **Deployment** : AWS(EC2)
   - OS : Ubuntu 20.04
   - Web Server : nginx1.10.3
+  - Storage Service : Amazon S3
 - **Version Control** : Github
 - **Open Source** : Kakao Login API
 
@@ -133,3 +136,13 @@
 - 주문시 상품 정보 조회 API
 - 이미지 파일 S3 외부 스토리지에 저장
 
+### 2022-09-28 진행상황
+#### Carter
+
+#### Cindy
+- 마이페이지 리뷰 조회 API
+- 특정 주소 조회 API
+- 문의글 업로드 API
+- 문의글 전체 조회 API
+- 특정 문의글 조회 API
+- 문의 취소 API
