@@ -4,8 +4,6 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.qna.model.PostQnaReq;
 import com.example.demo.src.qna.model.PostQnaRes;
-import com.example.demo.src.user.model.PostUserReq;
-import com.example.demo.src.user.model.PostUserRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +15,6 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
-import static com.example.demo.config.BaseResponseStatus.POST_USERS_EMPTY_NAME;
-import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
 @RestController
 @RequestMapping("/app/qnas")
@@ -60,7 +56,7 @@ public class QnaController {
         try{
             int userIdx = jwtService.getUserIdx();
             int qnaIdx = qnaService.createQna(userIdx, postQnaReq);
-            if(!multipartFiles.isEmpty()){
+            if(multipartFiles != null && !multipartFiles.isEmpty()){
                 qnaService.createQnaFile(qnaIdx, multipartFiles);
             }
             PostQnaRes postQnaRes = new PostQnaRes(qnaIdx);

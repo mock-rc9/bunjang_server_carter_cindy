@@ -1,14 +1,11 @@
 package com.example.demo.src.qna;
 
 import com.example.demo.src.qna.model.PostQnaReq;
-import com.example.demo.src.user.model.PostUserReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.DataSource;
-import java.util.List;
 
 @Repository
 public class QnaDao {

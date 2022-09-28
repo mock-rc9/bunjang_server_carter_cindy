@@ -4,11 +4,6 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.demo.config.BaseException;
 import com.example.demo.src.qna.model.PostQnaReq;
-import com.example.demo.src.qna.model.PostQnaRes;
-import com.example.demo.src.user.model.PostUserReq;
-import com.example.demo.src.user.model.PostUserRes;
-import com.example.demo.src.user.model.UploadFile;
-import com.example.demo.utils.SHA256;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,14 +61,14 @@ public class QnaService {
             amazonS3.putObject(bucket, key, multipartFile.get(i).getInputStream(), objectMetadata);
             String storeFileUrl = amazonS3.getUrl(bucket, key).toString();
 
-//            try {
+            try {
                 int result = qnaDao.createQnaImg(qnaIdx, storeFileUrl);
                 if(result == 0){
                     throw new BaseException(CREATE_FAIL_QNAIMG);
                 }
-//            } catch (Exception exception){
-//                throw new BaseException(DATABASE_ERROR);
-//            }
+            } catch (Exception exception){
+                throw new BaseException(DATABASE_ERROR);
+            }
         }
     }
 
