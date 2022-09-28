@@ -70,9 +70,11 @@ public enum BaseResponseStatus {
     //[POST] /reports/:goodsIdx
     POST_REPORT_EMPTY_TITLE(false, 2052, "신고글 카테고리 제목을 입력해주세요."),
 
+
     //[POST] /qnas
     POST_QNA_EMPTY_CATEGORY(false, 2053, "문의 유형을 입력해주세요."),
     POST_QNA_EMPTY_CONTENT(false, 2054, "문의 내용을 입력해주세요."),
+
 
 
     /**
@@ -139,11 +141,15 @@ public enum BaseResponseStatus {
 
     DELETE_FAIL_USER(false, 4033, "유저 탈퇴에 실패하였습니다."),
 
-    CREATE_FAIL_QNAIMG(false, 4034, "상품 이미지 업로드에 실패하였습니다."),
+    DELETE_FAIL_STORELIKE(false, 4034, "찜 삭제에 실패하였습니다."),
+
+    CREATE_FAIL_QNAIMG(false, 4035, "상품 이미지 업로드에 실패하였습니다."),
 
     //[PATCH] /qnas/{qnaIdx}
-    DELETE_FAIL_QNA(false, 4035, "문의글 삭제에 실패하였습니다."),
-    DELETE_FAIL_QNAIMG(false, 4036, "문의글 첨부 사진 삭제에 실패하였습니다.");
+    DELETE_FAIL_QNA(false, 4036, "문의글 삭제에 실패하였습니다."),
+    DELETE_FAIL_QNAIMG(false, 4037, "문의글 첨부 사진 삭제에 실패하였습니다.");
+
+
 
 
 
