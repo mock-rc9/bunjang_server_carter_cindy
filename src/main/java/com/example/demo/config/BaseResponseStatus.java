@@ -70,6 +70,10 @@ public enum BaseResponseStatus {
     //[POST] /reports/:goodsIdx
     POST_REPORT_EMPTY_TITLE(false, 2052, "신고글 카테고리 제목을 입력해주세요."),
 
+    //[POST] /qnas
+    POST_QNA_EMPTY_CATEGORY(false, 2053, "문의 유형을 입력해주세요."),
+    POST_QNA_EMPTY_CONTENT(false, 2054, "문의 내용을 입력해주세요."),
+
 
     /**
      * 3000 : Response 오류
@@ -133,7 +137,9 @@ public enum BaseResponseStatus {
     REVIEW_EMPTY_REVIEW_ID(false,4031,"잘못된 리뷰 연결"),
     DELETE_FAIL_REVIEW(false,4032,"리뷰 삭제 실패"),
 
-    DELETE_FAIL_USER(false, 4033, "유저 탈퇴에 실패하였습니다.");
+    DELETE_FAIL_USER(false, 4033, "유저 탈퇴에 실패하였습니다."),
+
+    CREATE_FAIL_QNAIMG(false, 4034, "상품 이미지 업로드에 실패하였습니다.");
 
 
 
