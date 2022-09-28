@@ -2,6 +2,7 @@ package com.example.demo.src.qna;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.qna.model.GetQnaRes;
 import com.example.demo.src.qna.model.PostQnaReq;
 import com.example.demo.src.qna.model.PostQnaRes;
 import com.example.demo.utils.JwtService;
@@ -62,6 +63,24 @@ public class QnaController {
             PostQnaRes postQnaRes = new PostQnaRes(qnaIdx);
             return new BaseResponse<>(postQnaRes);
         } catch(BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+
+    /**
+     * 문의글 전체 조회 API
+     * [GET] /qnas
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("")
+    public BaseResponse<List<GetQnaRes>> getQnaList(){
+        try {
+            int userIdx = jwtService.getUserIdx();
+            List<GetQnaRes> getQnaRes = qnaProvider.getQnaList(userIdx);
+            return new BaseResponse<>(getQnaRes);
+        } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }
     }
