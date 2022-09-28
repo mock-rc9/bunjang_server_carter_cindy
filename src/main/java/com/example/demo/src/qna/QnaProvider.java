@@ -1,6 +1,7 @@
 package com.example.demo.src.qna;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.qna.model.GetQnaListRes;
 import com.example.demo.src.qna.model.GetQnaRes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +26,18 @@ public class QnaProvider {
         this.qnaDao = qnaDao;
     }
 
-    public List<GetQnaRes> getQnaList(int userIdx) throws BaseException {
+    public List<GetQnaListRes> getQnaList(int userIdx) throws BaseException {
         try {
-            List<GetQnaRes> getQnaRes = qnaDao.getQnaList(userIdx);
+            List<GetQnaListRes> getQnaListRes = qnaDao.getQnaList(userIdx);
+            return getQnaListRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetQnaRes getQna(int qnaIdx) throws BaseException {
+        try {
+            GetQnaRes getQnaRes = qnaDao.getQna(qnaIdx);
             return getQnaRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);

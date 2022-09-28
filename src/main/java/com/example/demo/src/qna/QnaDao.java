@@ -1,6 +1,7 @@
 package com.example.demo.src.qna;
 
 import com.example.demo.src.qna.model.GetQnaImgRes;
+import com.example.demo.src.qna.model.GetQnaListRes;
 import com.example.demo.src.qna.model.GetQnaRes;
 import com.example.demo.src.qna.model.PostQnaReq;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,20 @@ public class QnaDao {
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
     }
 
+    public List<GetQnaListRes> getQnaList(int userIdx){
+        String getQnaListQuery = "select qnaIdx, qnaCategory, qnaStatus\n" +
+                "from Qna\n" +
+                "where userIdx = ?";
+        int getQnaListParams = userIdx;
+
+        return this.jdbcTemplate.query(getQnaListQuery,
+                (rs, rsNum) -> new GetQnaListRes(
+                        rs.getInt("qnaIdx"),
+                        rs.getString("qnaCategory"),
+                        rs.getString("qnaStatus")),
+                getQnaListParams);
+    }
+
     public List<GetQnaImgRes> getQnaImgs(int qnaIdx){
         String getQnaImgsQuery = "select qnaImgIdx, qnaImgUrl\n" +
                 "from QnaImg\n" +
@@ -51,20 +66,22 @@ public class QnaDao {
                 getQnaImgsParams);
     }
 
-    public List<GetQnaRes> getQnaList(int uesrIdx){
+    public GetQnaRes getQna(int qnaIdx){
         String getQnaListQuery = "select qnaIdx, qnaCategory, REPLACE(qnaUpdatedAt, '-', '.') as qnaUpdatedAt, qnaContent\n" +
                 "from Qna\n" +
-                "where userIdx = ?";
-        int getQnaListParams = uesrIdx;
+                "where qnaIdx = ?";
+        int getQnaParams = qnaIdx;
 
-        return this.jdbcTemplate.query(getQnaListQuery,
+        return this.jdbcTemplate.queryForObject(getQnaListQuery,
                 (rs, rsNum) -> new GetQnaRes(
                         rs.getInt("qnaIdx"),
                         rs.getString("qnaCategory"),
                         rs.getString("qnaUpdatedAt"),
                         rs.getString("qnaContent"),
                         getQnaImgs(rs.getInt("qnaIdx"))),
-                getQnaListParams);
+                getQnaParams);
     }
+
+
 
 }

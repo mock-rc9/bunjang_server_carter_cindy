@@ -2,6 +2,7 @@ package com.example.demo.src.qna;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.qna.model.GetQnaListRes;
 import com.example.demo.src.qna.model.GetQnaRes;
 import com.example.demo.src.qna.model.PostQnaReq;
 import com.example.demo.src.qna.model.PostQnaRes;
@@ -71,14 +72,31 @@ public class QnaController {
     /**
      * 문의글 전체 조회 API
      * [GET] /qnas
-     * @return
+     * @return BaseResponse<List<GetQnaListRes>>
      */
     @ResponseBody
     @GetMapping("")
-    public BaseResponse<List<GetQnaRes>> getQnaList(){
+    public BaseResponse<List<GetQnaListRes>> getQnaList(){
         try {
             int userIdx = jwtService.getUserIdx();
-            List<GetQnaRes> getQnaRes = qnaProvider.getQnaList(userIdx);
+            List<GetQnaListRes> getQnaListRes = qnaProvider.getQnaList(userIdx);
+            return new BaseResponse<>(getQnaListRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 특정 문의글 조회 API
+     * [GET] /qnas/:qnaIdx
+     * @return BaseResponse<GetQnaRes>
+     */
+    @ResponseBody
+    @GetMapping("/{qnaIdx}")
+    public BaseResponse<GetQnaRes> getQna(@PathVariable("qnaIdx") int qnaIdx){
+        try {
+            jwtService.getUserIdx();
+            GetQnaRes getQnaRes = qnaProvider.getQna(qnaIdx);
             return new BaseResponse<>(getQnaRes);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
