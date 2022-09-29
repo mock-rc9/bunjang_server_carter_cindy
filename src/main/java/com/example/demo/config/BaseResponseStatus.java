@@ -147,7 +147,9 @@ public enum BaseResponseStatus {
 
     //[PATCH] /qnas/{qnaIdx}
     DELETE_FAIL_QNA(false, 4036, "문의글 삭제에 실패하였습니다."),
-    DELETE_FAIL_QNAIMG(false, 4037, "문의글 첨부 사진 삭제에 실패하였습니다.");
+    DELETE_FAIL_QNAIMG(false, 4037, "문의글 첨부 사진 삭제에 실패하였습니다."),
+
+    DELETE_FAIL_BLOCK(false, 4040, "차단 삭제에 실패하였습니다.");
 
 
 

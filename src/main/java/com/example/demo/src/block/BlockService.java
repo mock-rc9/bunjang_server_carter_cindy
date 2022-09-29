@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import static com.example.demo.config.BaseResponseStatus.USERS_EMPTY_USER_ID;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 public class BlockService {
@@ -27,6 +27,14 @@ public class BlockService {
         if(blockProvider.checkUserExits(userIdx)==0){
             throw new BaseException(USERS_EMPTY_USER_ID);
         }
+        try{
+            int result = blockDao.deleteblock(userIdx);
+            if(result==0){
+                throw new BaseException(DELETE_FAIL_BLOCK);
+            }
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
 
     }
 
@@ -35,6 +43,15 @@ public class BlockService {
 
         if(blockProvider.checkUserExits(userIdx)==0){
             throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        try {
+            int result = blockDao.createBlock(userIdx,postBlockReq);
+            if(result==0){
+                throw new BaseException(MODIFY_FAIL_GOODS);
+            }
+        }catch (Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
         }
 
 
