@@ -55,7 +55,7 @@ public class GoodsController {
 
     @ResponseBody
     @PostMapping("")
-    public  BaseResponse<String> createGoods(@RequestPart(value = "postGoodsReq") PostGoodsReq postGoodsReq,
+    public  BaseResponse<String> createGoods(@RequestPart(value = "goodsAddress") PostGoodsReq postGoodsReq,
                                                    @RequestPart(value = "multipartFile", required = false) MultipartFile multipartFile) {
 
         /*제품 설명 유효성 검사*/

@@ -17,5 +17,6 @@ public class GetGoodsSearchRes {
     private String goodsUpdatedAt;
     private int likes;
     private String goodsImgUrl;
+    private String userImgUrl;
     private int chat;
 }
