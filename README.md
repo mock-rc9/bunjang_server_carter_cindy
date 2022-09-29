@@ -170,7 +170,9 @@ https://www.notion.so/softsquared/A-01a5c61b6a3e47fe8e0564023731bdc8
 
 ### 2022-09-29 진행상황
 #### Carter
-
+- BLOCK API
+- 각 API validation 점검
+- 자주묻는 질문 API
 
 #### Cindy
 - SMS(SENS) API
