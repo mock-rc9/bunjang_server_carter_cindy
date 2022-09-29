@@ -39,7 +39,7 @@ https://www.notion.so/softsquared/A-01a5c61b6a3e47fe8e0564023731bdc8
 
 - - - 
 
-## 개발 일지
+## Server 개발 일지 - 진행상황
 ### 2022-09-17 진행상황
 #### Carter
 - ERD 설계
