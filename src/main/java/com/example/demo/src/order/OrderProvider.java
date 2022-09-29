@@ -31,12 +31,12 @@ public class OrderProvider {
     }
 
     public GetOrderRes getOrder(int orderIdx) throws BaseException {
-        try {
+//        try {
             GetOrderRes getOrderRes = orderDao.getOrder(orderIdx);
             return getOrderRes;
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
+//        } catch (Exception exception){
+//            throw new BaseException(DATABASE_ERROR);
+//        }
     }
 
     public List<GetMyTradesRes> getMyOrders(int userIdx) throws BaseException {
