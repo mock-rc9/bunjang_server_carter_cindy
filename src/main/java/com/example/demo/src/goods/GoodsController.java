@@ -42,6 +42,8 @@ public class GoodsController {
     @GetMapping("/{goodsIdx}")
     public BaseResponse<GetGoodsRes> getGoods(@PathVariable("goodsIdx") int goodsIdx){
 
+
+
         try{
             GetGoodsRes getGoodsRes = goodsProvider.getGoods(goodsIdx);
             return new BaseResponse<>(getGoodsRes);
@@ -98,6 +100,8 @@ public class GoodsController {
     @ResponseBody
     @PatchMapping("/{goodsIdx}")
     public BaseResponse<String> modifyGoods(@PathVariable("goodsIdx")int goodsIdx, @RequestBody PatchGoodsReq patchGoodsReq){
+
+
 
         try{
             int userIdxJwt = jwtService.getUserIdx();
@@ -159,6 +163,10 @@ public class GoodsController {
     @ResponseBody
     @GetMapping("/goods-search")
     public BaseResponse<List<GetGoodsSearchRes>> getSearchGoods(@RequestParam(required = false) String searchGoods){
+
+        if(searchGoods==null){
+            return new BaseResponse<>(GET_GOODS_EMPTY_SEARCHGOODS);
+        }
 
         try{
             List<GetGoodsSearchRes> getGoodsSearchRes = goodsProvider.getSearchGoods(searchGoods);

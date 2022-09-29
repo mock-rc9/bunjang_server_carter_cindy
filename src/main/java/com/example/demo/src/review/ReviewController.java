@@ -3,7 +3,6 @@ package com.example.demo.src.review;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.payment.model.PatchPaymentReq;
 import com.example.demo.src.review.model.GetReviewRes;
 import com.example.demo.src.review.model.PatchReviewReq;
 import com.example.demo.src.review.model.PostReviewReq;
@@ -15,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
 @RequestMapping("/reviews")
@@ -54,6 +55,13 @@ public class ReviewController {
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostReviewRes> createReview(@RequestBody PostReviewReq postReviewReq){
+        if(postReviewReq.getReviewContent()==null){
+            return new BaseResponse<>(POST_REVIEW_EMPTY_CONTENT);
+        }
+        if(postReviewReq.getScore()==null){
+            return new BaseResponse<>(POST_REVIEW_EMPTY_SCORE);
+        }
+
         try {
             int userIdxJwt = jwtService.getUserIdx();
             PostReviewRes postReviewRes = reviewService.createReview(userIdxJwt,postReviewReq);
@@ -70,6 +78,12 @@ public class ReviewController {
     @PatchMapping("/{reviewIdx}")
     public BaseResponse<String> modifyReview(@PathVariable("reviewIdx") int reviewIdx, @RequestBody PatchReviewReq patchReviewReq) {
 
+        if(patchReviewReq.getReviewContent()==null){
+            return new BaseResponse<>(POST_REVIEW_EMPTY_CONTENT);
+        }
+        if(patchReviewReq.getScore()==null){
+            return new BaseResponse<>(POST_REVIEW_EMPTY_SCORE);
+        }
         try {
             int userIdxJwt = jwtService.getUserIdx();
             reviewService.modifyReview(userIdxJwt, reviewIdx, patchReviewReq);

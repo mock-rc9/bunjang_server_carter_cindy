@@ -36,6 +36,7 @@ public enum BaseResponseStatus {
     POST_LOGIN_INVALID_EMAIL(false, 2016, "아이디는 이메일주소 형식으로 입력해주세요."),
     POST_LOGIN_EMPTY_PASSWORD(false, 2017, "비밀번호를 입력해주세요."),
 
+    GET_GOODS_EMPTY_SEARCHGOODS(false, 2018, "검색어를 입력해 주세요"),
 
     // [POST] /app/goods
 
@@ -58,14 +59,25 @@ public enum BaseResponseStatus {
     POST_ORDER_EMPTY_ORDERPAYMENTMETHOD(false, 2032, "결제 수단을 입력해주세요."),
 
 
+
     //[POST] /payment
+    POST_PAYMENT_EMPTY_ACCOUNTNUM(false, 2037, "계좌번호를 입력해 주세요."),
+    POST_PAYMENT_EMPTY_BANK(false, 2038, "은행을 입력해 주세요."),
+    POST_PAYMENT_EMPTY_ACCOUNTHOLDER(false, 2039, "예금주를 입력해 주세요."),
     PAYMENTS_EMPTY_PAYMENTS_ID (false, 2040, "결제 수단을 확인해 주세요."),
     PAYMENTS_EMPTY_USER_PAYMENT(false, 2041, "결제 수단,유저를 확인해 주세요."),
 
     //[PATCH] /mypages
     PATCH_USERINFO_EMPTY_USERNICKNAME(false, 2042, "상점명은 최소 2자, 최대 10자까지 입력 가능합니다."),
     PATCH_USERINFO_INVALID_USERNICKNAME(false, 2043, "상점명은 띄어쓰기 없이 한글, 영문, 숫자만 가능합니다."),
+
+
+
+    REVIEW_EMPTY_REVIEW_ID(false,2047,"잘못된 리뷰 연결"),
+    POST_REVIEW_EMPTY_CONTENT(false, 2048, "리뷰평을 남겨주세요"),
+    POST_REVIEW_EMPTY_SCORE(false, 2049, "별점을 입력해 주세요"),
     REVIEW_EMPTY_BUYER_ID(false, 2050, "유효 하지 않는 리뷰 요청 입니다"),
+
 
     //[POST] /reports/:goodsIdx
     POST_REPORT_EMPTY_TITLE(false, 2052, "신고글 카테고리 제목을 입력해주세요."),
@@ -142,7 +154,8 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_FOLLOW(false, 4018, "팔로우에 실패하였습니다."),
 
     MODIFY_FAIL_REVIEW(false,4030,"리뷰 수정 실패"),
-    REVIEW_EMPTY_REVIEW_ID(false,4031,"잘못된 리뷰 연결"),
+
+
     DELETE_FAIL_REVIEW(false,4032,"리뷰 삭제 실패"),
 
     DELETE_FAIL_USER(false, 4033, "유저 탈퇴에 실패하였습니다."),
@@ -156,6 +169,7 @@ public enum BaseResponseStatus {
     DELETE_FAIL_QNAIMG(false, 4037, "문의글 첨부 사진 삭제에 실패하였습니다."),
 
     DELETE_FAIL_BLOCK(false, 4040, "차단 삭제에 실패하였습니다.");
+
 
 
 

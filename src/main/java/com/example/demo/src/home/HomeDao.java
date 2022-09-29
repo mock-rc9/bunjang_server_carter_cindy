@@ -41,12 +41,14 @@ public class HomeDao {
                 "                        end AS goodsUpdatedAtTime,\n" +
                 "    (select COUNT(*)   from GoodsLike\n" +
                 "                where GoodsLike.goodsIdx = G.goodsIdx) as likes,\n" +
-                "    (select COUNT(*) from GoodsLike where GoodsLike.userIdx=? and GoodsLike.goodsIdx = G.goodsIdx) as goodsLike,\n" +
+                "    (select COUNT(*) from GoodsLike where GoodsLike.userIdx=? and GoodsLike.goodsIdx = G.goodsIdx) as goodsLikeNy,\n" +
+                "\n" +
                 "                case when G.goodsAddress is null then '지역정보 없음'\n" +
                 "                        else G.goodsAddress end GoodsAddressnull\n" +
                 "                from Goods G\n" +
                 "                inner join  User U on G.userIdx = U.userIdx\n" +
-                "                left join Address A on U.userIdx = A.userIdx where goodsStatus='active' group by G.goodsIdx ";
+                "                left join Address A on U.userIdx = A.userIdx\n" +
+                "                where G.goodsStatus='active' group by G.goodsIdx";
 
         String getHomeImgQuery = "select * from GoodsImg inner join Goods G on GoodsImg.goodsIdx = G.goodsIdx where G.goodsIdx=? and G.goodsStatus='active'";
         int getUserParams=userIdx;
@@ -60,12 +62,11 @@ public class HomeDao {
                         rs.getString("goodsUpdatedAtTime"),
                         rs.getString("GoodsAddressnull"),
                         rs.getInt("likes"),
-                        rs.getInt("goodsLike"),
+                        rs.getInt("goodsLikeNy"),
                         getHomeImgRes= this.jdbcTemplate.query(getHomeImgQuery,
                                 (rk,rownum)->new GetHomeImgRes(rk.getInt("goodsIdx"),
                                         rk.getString("goodsImgUrl")),rs.getInt("goodsIdx")
-                                )
-                        ),getUserParams);
+                                )),getUserParams);
 
     }
 

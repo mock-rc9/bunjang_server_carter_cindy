@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.GOODS_EMPTY_GOODS_ID;
 
 @Service
 public class GoodsProvider {
@@ -53,6 +54,10 @@ public class GoodsProvider {
     }
 
     public GetGoodsRes getGoods(int goodsIdx) throws BaseException{
+
+        if(checkGoodsExits(goodsIdx)==0){
+            throw new BaseException(GOODS_EMPTY_GOODS_ID);
+        }
 
         try {
 
@@ -97,6 +102,7 @@ public class GoodsProvider {
     }
 
     public List<GetGoodsSearchRes> getSearchGoods(String searchGoods) throws BaseException {
+
 
         try {
             List<GetGoodsSearchRes> getGoodsSearchRes = goodsDao.getSearchGoods(searchGoods);
