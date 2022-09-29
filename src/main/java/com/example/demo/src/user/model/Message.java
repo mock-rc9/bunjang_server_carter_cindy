@@ -1,4 +1,4 @@
-package com.example.demo.src.sms.model;
+package com.example.demo.src.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

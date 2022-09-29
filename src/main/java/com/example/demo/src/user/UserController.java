@@ -2,15 +2,23 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.user.model.Message;
+import com.example.demo.src.user.model.SmsRes;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -28,11 +36,14 @@ public class UserController {
     private final UserService userService;
     @Autowired
     private final JwtService jwtService;
+    @Autowired
+    private final SmsService smsService;
 
-    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService){
+    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService, SmsService smsService){
         this.userProvider = userProvider;
         this.userService = userService;
         this.jwtService = jwtService;
+        this.smsService = smsService;
     }
 
     /**
@@ -201,6 +212,34 @@ public class UserController {
 
             GetSellerPageRes getSellerPageRes = userProvider.getSellerPage(userIdx, sellerIdx);
             return new BaseResponse<>(getSellerPageRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * SMS API
+     * [POST] /app/sms/sends
+     * @return BaseResponse<SmsRes>
+     */
+    @ResponseBody
+    @PostMapping("/sms/sends")
+    public BaseResponse<SmsRes> sendSms(@RequestBody Message message) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        try {
+            int userIdx = jwtService.getUserIdx();
+
+            if(message.getContent() == null){
+                return new BaseResponse<>(POST_SMS_EMPTY_CONTENT);
+            }
+
+            String userPhoneNum = userProvider.getPhoneNum(userIdx);
+            if(userPhoneNum == null){
+                return new BaseResponse<>(EMPTY_USERPHONENUM);
+            }
+            message.setTo(userPhoneNum);
+
+            SmsRes response = smsService.sendSms(message);
+            return new BaseResponse<>(response);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }

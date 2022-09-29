@@ -1,8 +1,9 @@
-package com.example.demo.src.sms;
+package com.example.demo.src.user;
 
-import com.example.demo.src.sms.model.Message;
-import com.example.demo.src.sms.model.SmsReq;
-import com.example.demo.src.sms.model.SmsRes;
+import com.example.demo.config.BaseException;
+import com.example.demo.src.user.model.Message;
+import com.example.demo.src.user.model.SmsReq;
+import com.example.demo.src.user.model.SmsRes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +73,7 @@ public class SmsService {
         return encodeBase64String;
     }
 
-    public SmsRes sendSms(Message message) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    public SmsRes sendSms(Message message) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException, BaseException {
         Long time = System.currentTimeMillis();
 
         HttpHeaders headers = new HttpHeaders();

@@ -108,4 +108,13 @@ public class UserProvider {
         }
     }
 
+    public String getPhoneNum(int userIdx) throws BaseException{
+        try {
+            String userPhoneNum = userDao.getUserPhoneNum(userIdx);
+            return userPhoneNum;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }
