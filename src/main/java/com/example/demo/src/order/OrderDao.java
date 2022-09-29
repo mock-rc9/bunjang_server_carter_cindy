@@ -34,7 +34,7 @@ public class OrderDao {
                 "     , REPLACE(SUBSTRING(orderCreatedAt, 1, 19), '-', '/') as orderTime\n" +
                 "     , userNickName as sellerName, orderPaymentMethod, orderPaymentBank, orderTotalPrice\n" +
                 "     , Orders.goodsPrice as orderGoodsPrice, orderFee, deliveryFee\n" +
-                "    , A.addressIdx as addressIdx, userName, userPhoneNum\n" +
+                "    , A.addressIdx as addressIdx, userName, A.userPhoneNum as userPhoneNum\n" +
                 "     , CONCAT(address, ' ', addressDetail) as address, orderDeliveryReq\n" +
                 "from Orders\n" +
                 "inner join User U on Orders.buyerIdx = U.userIdx\n" +
