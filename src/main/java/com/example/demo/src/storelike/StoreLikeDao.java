@@ -1,6 +1,5 @@
 package com.example.demo.src.storelike;
 
-import com.example.demo.src.review.model.GetReviewRes;
 import com.example.demo.src.storelike.model.GetStoreLikeRes;
 import com.example.demo.src.storelike.model.PostStoreLikeReq;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class StoreLikeDao {
     }
     public List<GetStoreLikeRes> getStoreLike(int userIdx) {
         String getStoreLikeQuery =
-                "select G.goodsIdx, G.goodsName,G.goodsPrice,U.userNickName,GL.goodsLikeUpdatedAt,G.IsSecurePayment,GI.goodsImgUrl,\n" +
+                "select G.goodsIdx, G.goodsName,G.goodsPrice,U.userNickName,GL.goodsLikeUpdatedAt,G.IsSecurePayment,GI.goodsImgUrl,U.userImgUrl,\n" +
                 "        case when TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
                 "                        then concat(TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP),'초 전')\n" +
                 "                        when TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
@@ -48,7 +47,8 @@ public class StoreLikeDao {
                         rs.getString("UserNickName"),
                         rs.getString("goodsUpdatedAtTime"),
                         rs.getString("IsSecurePayment"),
-                        rs.getString("goodsImgUrl")), getStoreLikeparams);
+                        rs.getString("goodsImgUrl"),
+                        rs.getString("userImgUrl")), getStoreLikeparams);
 
 
     }

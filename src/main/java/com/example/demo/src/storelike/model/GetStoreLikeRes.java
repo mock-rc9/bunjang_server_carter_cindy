@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,6 +16,7 @@ public class GetStoreLikeRes {
     private String updateAt;
     private String IsSecurePayment;
     private String Img;
+    private String userImgUrl;
 
 
 }
