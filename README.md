@@ -16,7 +16,26 @@
   - Web Server : nginx1.10.3
   - Storage Service : Amazon S3
 - **Version Control** : Github
-- **Open Source** : Kakao Login API
+- **Open Source**
+  - Kakao Login API
+  - Naver SENS API
+  
+- - - 
+  
+## ERD 설계
+![번개장터_20220929_212240](https://user-images.githubusercontent.com/62875437/193030511-59f4ba61-8a9a-4997-ab92-49d2db57ee73.png)
+https://aquerytool.com/aquerymain/index/?rurl=5f08af76-cb6f-4f8c-b9c3-1d5f51f07449
+(pwd : lbz62x)
+
+- - - 
+
+## API 명세서
+https://docs.google.com/spreadsheets/d/1ZS2UCFSkcK28vmRZ-4oA8V6786w9PUaX/edit?usp=sharing&ouid=109976337471917835872&rtpof=true&sd=true
+
+- - - 
+
+## Client-Server 협업 - 기능 기획서 및 역할 분담 개발 일지
+https://www.notion.so/softsquared/A-01a5c61b6a3e47fe8e0564023731bdc8
 
 - - - 
 
@@ -148,3 +167,10 @@
 - 문의글 전체 조회 API
 - 특정 문의글 조회 API
 - 문의 취소 API
+
+### 2022-09-29 진행상황
+#### Carter
+
+
+#### Cindy
+- SMS(SENS) API
