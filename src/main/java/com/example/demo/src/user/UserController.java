@@ -232,11 +232,13 @@ public class UserController {
                 return new BaseResponse<>(POST_SMS_EMPTY_CONTENT);
             }
 
-            String userPhoneNum = userProvider.getPhoneNum(userIdx);
-            if(userPhoneNum == null){
-                return new BaseResponse<>(EMPTY_USERPHONENUM);
+            if(message.getTo() == null){
+                String userPhoneNum = userProvider.getPhoneNum(userIdx);
+                if(userPhoneNum == null){
+                    return new BaseResponse<>(EMPTY_USERPHONENUM);
+                }
+                message.setTo(userPhoneNum);
             }
-            message.setTo(userPhoneNum);
 
             SmsRes response = smsService.sendSms(message);
             return new BaseResponse<>(response);

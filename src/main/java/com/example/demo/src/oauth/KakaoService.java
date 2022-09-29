@@ -93,7 +93,7 @@ public class KakaoService {
         try {
             // 암호화
             pwd = new SHA256().encrypt(UUID.randomUUID().toString());
-            UserInfo kakaoUser = new UserInfo(kakaoSocialUserInfo.getEmail(), pwd, kakaoSocialUserInfo.getNickname());
+            UserInfo kakaoUser = new UserInfo(kakaoSocialUserInfo.getEmail(), pwd, kakaoSocialUserInfo.getNickname(), "https://bunjang-bucket.s3.ap-northeast-2.amazonaws.com/userImg/d4ffee4f-a5ec-4c7d-8007-79d8912f2d81.jpg");
 
             int userIdx = userInfoDao.createUser(kakaoUser);
             // jwt 발급

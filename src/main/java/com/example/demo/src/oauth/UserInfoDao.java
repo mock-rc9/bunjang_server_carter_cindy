@@ -19,8 +19,8 @@ public class UserInfoDao {
     }
 
     public int createUser(UserInfo kakaoUser){
-        String createUserQuery = "insert into User (userEmail, userPassword, userNickName) VALUES (?,?,?)";
-        Object[] createUserParams = new Object[]{kakaoUser.getUserEmail(), kakaoUser.getUserPassword(), kakaoUser.getUserNickName()};
+        String createUserQuery = "insert into User (userEmail, userPassword, userNickName, userImgUrl) VALUES (?,?,?,?)";
+        Object[] createUserParams = new Object[]{kakaoUser.getUserEmail(), kakaoUser.getUserPassword(), kakaoUser.getUserNickName(), kakaoUser.getUserImgUrl()};
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 
         String lastInsertIdQuery = "select last_insert_id()";
