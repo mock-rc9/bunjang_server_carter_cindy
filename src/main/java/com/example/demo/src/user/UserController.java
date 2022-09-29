@@ -171,7 +171,9 @@ public class UserController {
             }
 
             userService.modifyUserInfo(userIdx, patchUserReq);
-            userService.modifyUploadFile(userIdx, multipartFile);
+            if(multipartFile != null && !multipartFile.isEmpty()){
+                userService.modifyUploadFile(userIdx, multipartFile);
+            }
 
             String result = "상점 소개가 수정되었습니다.";
             return new BaseResponse<>(result);
