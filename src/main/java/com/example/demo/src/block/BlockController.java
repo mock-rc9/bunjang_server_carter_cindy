@@ -62,13 +62,13 @@ public class BlockController {
         }
     }
     @ResponseBody
-    @PatchMapping("")
+    @PatchMapping("/{blockIdx}/status")
     public BaseResponse<String> deleteBlock(@RequestBody PatchBlockReq patchBlockReq){
 
         try {
             int userIdxJwt = jwtService.getUserIdx();
             blockService.deleteBlock(userIdxJwt,patchBlockReq);
-            String result = "삭제를 완료하였습니다.";
+            String result = "차단 삭제를 완료하였습니다.";
             return new BaseResponse<>(result);
 
         } catch (BaseException exception) {

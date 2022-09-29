@@ -23,7 +23,11 @@ public class BlockService {
         this.blockProvider = blockProvider;
     }
 
-    public void deleteBlock(int userIdxJwt, PatchBlockReq patchBlockReq) {
+    public void deleteBlock(int userIdx, PatchBlockReq patchBlockReq) throws BaseException {
+        if(blockProvider.checkUserExits(userIdx)==0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+
     }
 
 
@@ -32,6 +36,7 @@ public class BlockService {
         if(blockProvider.checkUserExits(userIdx)==0){
             throw new BaseException(USERS_EMPTY_USER_ID);
         }
+
 
     }
 }
