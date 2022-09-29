@@ -16,5 +16,7 @@ public class GetStoreGoodsRes {
     private int userIdx;
     private String goodsName;
     private int goodsPrice;
+    private int goodsLikeNY;
+    private int goodsLikeIdx;
     private List<GetGoodsImgRes> getGoodsImgRes;
 }

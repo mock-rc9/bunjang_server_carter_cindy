@@ -37,4 +37,23 @@ public class StoreLikeProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public int checkUserExits(int userIdx) throws BaseException{
+        try {
+            return storeLikeDao.checkUserExist(userIdx);
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    /*상품 확인*/
+    public int checkGoodsExits(int goodsIdx) throws BaseException{
+        try{
+            return storeLikeDao.checkGoodsExist(goodsIdx);
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
 }

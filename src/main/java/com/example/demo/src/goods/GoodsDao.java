@@ -139,7 +139,12 @@ public class GoodsDao {
 
     }
     public List<GetStoreGoodsRes> getStoreGoods(int userIdx){
-        String getStoreQuery ="select * from Goods inner join User U on Goods.userIdx = U.userIdx where Goods.userIdx=? and Goods.goodsStatus='active'";
+        String getStoreQuery ="select *,\n" +
+                "                (select COUNT(*) from GoodsLike where GoodsLike.userIdx=Goods.userIdx and GoodsLike.goodsIdx = Goods.goodsIdx) as goodsLike\n" +
+                "                  from Goods\n" +
+                "                    left join User U on Goods.userIdx = U.userIdx\n" +
+                "                    left join GoodsLike GL on Goods.goodsIdx = GL.goodsIdx and U.userIdx = GL.userIdx\n" +
+                "                         where Goods.userIdx=? and Goods.goodsStatus='active' ";
         int getStoreparams = userIdx;
         String getGoodsImgQuery ="select * from GoodsImg left join Goods G on G.goodsIdx = GoodsImg.goodsIdx where G.goodsIdx=? and goodsStatus='active'";
 
@@ -151,6 +156,8 @@ public class GoodsDao {
                         rs.getInt("userIdx"),
                         rs.getString("goodsName"),
                         rs.getInt("goodsPrice"),
+                        rs.getInt("goodsLike"),
+                        rs.getInt("goodsLikeIdx"),
                         getGoodsImgRes=this.jdbcTemplate.query(getGoodsImgQuery,
                                 (rk,rownum)->new GetGoodsImgRes(
                                         rk.getInt("goodsIdx"),
@@ -232,7 +239,7 @@ public class GoodsDao {
     }
 
     public int checkUserExist(int userIdx) {
-        String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ?)";
+        String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ? and userStatus='active')";
         int checkUserExistParams = userIdx;
         return this.jdbcTemplate.queryForObject(checkUserExistQuery,
                 int.class,
@@ -240,7 +247,7 @@ public class GoodsDao {
     }
 
     public int checkGoodsExist(int goodsIdx) {
-        String checkGoodsExistQuery = "select exists(select goodsIdx from Goods where goodsIdx = ?)";
+        String checkGoodsExistQuery = "select exists(select goodsIdx from Goods where goodsIdx = ? and goodsStatus='active')";
         int checkGoodsExistParams = goodsIdx;
         return this.jdbcTemplate.queryForObject(checkGoodsExistQuery,
                 int.class,
@@ -249,7 +256,7 @@ public class GoodsDao {
 
 
     public int checkUserGoodsExist(int userIdx, int goodsIdx) {
-        String checkGoodsExistQuery = "select exists(select goodsIdx from Goods where goodsIdx = ? and userIdx=?) ";
+        String checkGoodsExistQuery = "select exists(select goodsIdx from Goods where goodsIdx = ? and userIdx=? and goodsStatus='active') ";
         Object[]  checkGoodsExistParams = new Object[]{goodsIdx,userIdx};
         return this.jdbcTemplate.queryForObject(checkGoodsExistQuery,
                 int.class,
@@ -264,6 +271,8 @@ public class GoodsDao {
         return this.jdbcTemplate.update(deleteGoodsQuery,deleteGoodsParams);
 
     }
+
+
 
 
     public List<GetGoodsSearchRes> getSearchGoods(String searchGoods) {

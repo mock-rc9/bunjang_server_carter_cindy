@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.demo.config.BaseResponseStatus.*;
+
 @RestController
 @RequestMapping("/payments")
 public class PaymentController {
@@ -34,6 +36,18 @@ public class PaymentController {
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostPaymentRes> createPayment(@RequestBody PostPaymentReq postPaymentReq) {
+
+
+        if(postPaymentReq.getPaymentBank()==null){
+            return new BaseResponse<>(POST_PAYMENT_EMPTY_BANK);
+        }
+
+        if(postPaymentReq.getAccountHolder()==null){
+            return new BaseResponse<>(POST_PAYMENT_EMPTY_ACCOUNTHOLDER);
+        }
+        if(postPaymentReq.getAccountNum()==null){
+            return new BaseResponse<>(POST_PAYMENT_EMPTY_ACCOUNTNUM);
+        }
 
         try {
             int userIdxJwt = jwtService.getUserIdx();
@@ -68,6 +82,15 @@ public class PaymentController {
     @PatchMapping("/{paymentIdx}")
     public BaseResponse<String> modifyPayment(@PathVariable("paymentIdx") int paymentIdx, @RequestBody PatchPaymentReq patchPaymentReq) {
 
+        if(patchPaymentReq.getPaymentBank()==null){
+            return new BaseResponse<>(POST_PAYMENT_EMPTY_BANK);
+        }
+        if(patchPaymentReq.getAccountHolder()==null){
+            return new BaseResponse<>(POST_PAYMENT_EMPTY_ACCOUNTHOLDER);
+        }
+        if(patchPaymentReq.getAccountNum()==null){
+            return new BaseResponse<>(POST_PAYMENT_EMPTY_ACCOUNTNUM);
+        }
         try {
 
             int userIdxJwt = jwtService.getUserIdx();

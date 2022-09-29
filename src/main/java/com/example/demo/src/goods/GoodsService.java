@@ -54,12 +54,7 @@ public class GoodsService {
             if(goodsProvider.checkUserExits(userIdx)==0){
                 throw new BaseException(USERS_EMPTY_USER_ID);
             }
-//            if(goodsProvider.checkGoodsExits(goodsIdx)==0){
-//                throw new BaseException(GOODS_EMPTY_GOODS_ID);
-//            }
-//            if(goodsProvider.checkUserGoodsExist(userIdx, goodsIdx)==0){
-//                throw new BaseException(GOODS_EMPTY_USER_GOODS);
-//            }
+
 
 
         try{

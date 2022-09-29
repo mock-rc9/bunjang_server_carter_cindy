@@ -12,5 +12,5 @@ public class PostPaymentReq {
     private int paymentIdx;
     private String accountHolder;
     private String paymentBank;
-    private int accountNum;
+    private String accountNum;
 }

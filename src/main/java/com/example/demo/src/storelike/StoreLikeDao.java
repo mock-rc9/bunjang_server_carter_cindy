@@ -20,7 +20,7 @@ public class StoreLikeDao {
     }
     public List<GetStoreLikeRes> getStoreLike(int userIdx) {
         String getStoreLikeQuery =
-                "select G.goodsIdx, G.goodsName,G.goodsPrice,U.userNickName,GL.goodsLikeUpdatedAt,G.IsSecurePayment,GI.goodsImgUrl,U.userImgUrl,\n" +
+                "select GL.goodsLikeIdx, G.goodsIdx, G.goodsName,G.goodsPrice,U.userNickName,GL.goodsLikeUpdatedAt,G.IsSecurePayment,GI.goodsImgUrl,U.userImgUrl,\n" +
                 "        case when TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
                 "                        then concat(TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP),'초 전')\n" +
                 "                        when TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
@@ -41,6 +41,7 @@ public class StoreLikeDao {
         int getStoreLikeparams = userIdx;
         return this.jdbcTemplate.query(getStoreLikeQuery,
                 (rs, rowNum) -> new GetStoreLikeRes(
+                        rs.getInt("goodsLikeIdx"),
                         rs.getInt("goodsIdx"),
                         rs.getString("goodsName"),
                         rs.getInt("goodsPrice"),
@@ -68,5 +69,21 @@ public class StoreLikeDao {
         Object[] deleteStoreLikeParams = new Object[]{goodsLikeIdx};
         return this.jdbcTemplate.update(deleteStoreLikeQuery,deleteStoreLikeParams);
 
+    }
+
+    public int checkGoodsExist(int goodsIdx) {
+        String checkGoodsExistQuery = "select exists(select goodsIdx from Goods where goodsIdx = ? and goodsStatus='active')";
+        int checkGoodsExistParams = goodsIdx;
+        return this.jdbcTemplate.queryForObject(checkGoodsExistQuery,
+                int.class,
+                checkGoodsExistParams);
+    }
+
+    public int checkUserExist(int userIdx) {
+        String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ? and userStatus='active')";
+        int checkUserExistParams = userIdx;
+        return this.jdbcTemplate.queryForObject(checkUserExistQuery,
+                int.class,
+                checkUserExistParams);
     }
 }

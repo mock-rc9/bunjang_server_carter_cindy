@@ -1,13 +1,13 @@
 package com.example.demo.src.storelike;
 
 import com.example.demo.config.BaseException;
-import com.example.demo.src.review.model.PostReviewRes;
 import com.example.demo.src.storelike.model.PatchStoreLikeReq;
 import com.example.demo.src.storelike.model.PostStoreLikeReq;
 import com.example.demo.src.storelike.model.PostStoreLikeRes;
 import org.springframework.stereotype.Service;
 
-import static com.example.demo.config.BaseResponseStatus.*;
+import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.DELETE_FAIL_STORELIKE;
 
 
 @Service
@@ -23,6 +23,7 @@ public class StoreLikeService {
     }
 
     public PostStoreLikeRes createStoreLike(int userIdx, PostStoreLikeReq postStoreLikeReq) throws BaseException {
+
         try {
             int goodsLikeIdx = storeLikeDao.createStoreLike(userIdx,postStoreLikeReq);
             return new PostStoreLikeRes(goodsLikeIdx);

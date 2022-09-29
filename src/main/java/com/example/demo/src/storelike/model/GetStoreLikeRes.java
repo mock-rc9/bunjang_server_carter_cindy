@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetStoreLikeRes {
+
+    private int goodsLikeIdx;
     private int GoodsIdx;
     private String GoodsName;
     private int GoodsPrice;
