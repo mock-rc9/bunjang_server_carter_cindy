@@ -224,10 +224,10 @@ public class UserDao {
     }
 
     public List<GetReviewsRes> getReviews(int userIdx) {
-        String getReviewsQuery = "select reviewIdx, score as reviewScore, reviewContent\n" +
+        String getReviewsQuery = "select reviewIdx, score as reviewScore, reviewContent, isSecurePayment\n" +
                 "     , (select userNickName\n" +
                 "        from User\n" +
-                "        where userIdx = Review.buyerIdx) as reviewer\n" +
+                "        where User.userIdx = Review.buyerIdx) as reviewer\n" +
                 "    , case\n" +
                 "        when TIMESTAMPDIFF(MINUTE , reviewCreatedAt, NOW()) <= 0\n" +
                 "            then CONCAT('방금 전')\n" +
@@ -240,9 +240,12 @@ public class UserDao {
                 "        when TIMESTAMPDIFF(MONTH, reviewCreatedAt, NOW()) < 12\n" +
                 "            then CONCAT(TIMESTAMPDIFF(MONTH, reviewCreatedAt, NOW()), '달 전')\n" +
                 "    else CONCAT(TIMESTAMPDIFF(YEAR, reviewCreatedAt, NOW()), '년 전') end as lastUploadTime\n" +
+                "    , G.goodsIdx as goodsIdx, goodsName\n" +
                 "from Review\n" +
                 "inner join User U on Review.sellerIdx = U.userIdx\n" +
-                "where userIdx = ?";
+                "inner join Orders O on Review.orderIdx = O.orderIdx\n" +
+                "inner join Goods G on O.goodsIdx = G.goodsIdx\n" +
+                "where U.userIdx = ? and reviewStatus = 'active'";
         int getReviewsParams = userIdx;
 
         return this.jdbcTemplate.query(getReviewsQuery,
@@ -250,8 +253,11 @@ public class UserDao {
                         rs.getInt("reviewIdx"),
                         rs.getString("reviewScore"),
                         rs.getString("reviewContent"),
+                        rs.getString("isSecurePayment"),
                         rs.getString("reviewer"),
-                        rs.getString("lastUploadTime")),
+                        rs.getString("lastUploadTime"),
+                        rs.getInt("goodsIdx"),
+                        rs.getString("goodsName")),
                 getReviewsParams);
     }
 
