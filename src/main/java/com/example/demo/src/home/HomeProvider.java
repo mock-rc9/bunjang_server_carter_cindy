@@ -33,9 +33,9 @@ public class HomeProvider {
     }
 
 
-    public GetHomeRes getHome() throws BaseException {
+    public GetHomeRes getHome(int userIdx) throws BaseException {
         try {
-            List<GetHomeDataRes> getHomeDataRes = homeDao.getHome();
+            List<GetHomeDataRes> getHomeDataRes = homeDao.getHome(userIdx);
             List<GetMainPageImgRes> getMainPageImgRes = homeDao.getPageImg();
             GetHomeRes getHomeRes = new GetHomeRes(getHomeDataRes,getMainPageImgRes);
 

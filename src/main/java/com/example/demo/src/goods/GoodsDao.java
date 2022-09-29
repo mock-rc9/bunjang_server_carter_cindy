@@ -281,12 +281,12 @@ public class GoodsDao {
                 "                        else concat(TIMESTAMPDIFF(YEAR,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '년 전')\n" +
                 "                        end AS goodsUpdatedAtTime,\n" +
                 "    (select COUNT(*)   from GoodsLike\n" +
-                "                        where GoodsLike.goodsIdx = G.goodsIdx) as countLike,\n" +
+                "                        where GoodsLike.goodsIdx = G.goodsIdx) as goodslike,\n" +
                 "    (select COUNT(*) from ChatRoom where ChatRoom.goodsIdx = G.goodsIdx) as chat\n" +
                 "        from Goods as G\n" +
                 "\n" +
                 "    inner join GoodsImg GI on G.goodsIdx = GI.goodsIdx\n" +
-                "          left join ChatRoom CR on G.goodsIdx = CR.goodsIdx\n" +
+                "          left join ChatRoom CR on G.goodsIdx = CR.goodsIdx inner join User U on G.userIdx = U.userIdx\n" +
                 "          where G.goodsName LIKE concat('%',?,'%') and G.goodsStatus='active'";
         String getGoodsName = searchGoods;
 
@@ -300,6 +300,7 @@ public class GoodsDao {
                         rs.getString("goodsUpdatedAtTime"),
                         rs.getInt("goodslike"),
                         rs.getString("goodsImgUrl"),
+                        rs.getString("userImgUrl"),
                         rs.getInt("chat")),getGoodsName);
     }
 }

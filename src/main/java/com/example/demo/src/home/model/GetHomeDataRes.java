@@ -19,5 +19,7 @@ public class GetHomeDataRes {
     private String IsSecurePayment;
     private String goodsUpdatedAtTime;
     private String address;
+    private int likes;
+    private int goodsLike;
     private List<GetHomeImgRes> Gimgs;
 }
