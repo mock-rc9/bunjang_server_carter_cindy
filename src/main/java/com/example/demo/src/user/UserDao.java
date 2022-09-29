@@ -328,4 +328,13 @@ public class UserDao {
                 getSellerPageParams1, getSellerPageParams2, getSellerPageParams3);
     }
 
+    public String getUserPhoneNum(int userIdx){
+        String getUserPhoneNumQuery = "select userPhoneNum\n" +
+                "from User\n" +
+                "where userIdx = ?";
+        int getUserPhoneNumParams = userIdx;
+
+        return this.jdbcTemplate.queryForObject(getUserPhoneNumQuery, String.class, getUserPhoneNumParams);
+    }
+
 }

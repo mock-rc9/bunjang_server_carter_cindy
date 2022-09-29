@@ -75,6 +75,9 @@ public enum BaseResponseStatus {
     POST_QNA_EMPTY_CATEGORY(false, 2053, "문의 유형을 입력해주세요."),
     POST_QNA_EMPTY_CONTENT(false, 2054, "문의 내용을 입력해주세요."),
 
+    //[POST] /sms/sends
+    POST_SMS_EMPTY_CONTENT(false, 2055, "전송할 sms 내용을 입력해주세요."),
+
 
 
     /**
@@ -91,6 +94,9 @@ public enum BaseResponseStatus {
 
     // [PATCH] /follows/:followings
     FAILED_TO_UNFOLLOW(false, 3017, "팔로우하지 않은 유저입니다."),
+
+    //[POST] /sms/sends
+    EMPTY_USERPHONENUM(false, 3018, "전화번호 정보가 없어서 sms 수신이 불가능합니다."),
 
 
 
