@@ -1,6 +1,7 @@
 package com.example.demo.src.block;
 
 import com.example.demo.src.block.model.GetBlockRes;
+import com.example.demo.src.block.model.PostBlockReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -24,14 +25,33 @@ public class BlockDao {
     }
 
     public List<GetBlockRes> getBlocks(int userIdx) {
-        String getUserBlockQuery ="select * from Block\n" +
+        String getUserBlockQuery ="select * from Block \n" +
                 "    inner join User U on Block.blockedUserIdx = U.userIdx\n" +
-                "         where Block.userIdx=?";
+                "         where Block.userIdx=? and Block.blockStatus='active'";
         int getUserParams=userIdx;
         return this.jdbcTemplate.query(getUserBlockQuery,
                 (rs,rowNum)->new GetBlockRes(
                         rs.getString("userNickName"),
                         rs.getString("userImgUrl"),
                         rs.getString("blockUpdatedAt")),getUserParams);
+    }
+
+    public int deleteblock(int userIdx) {
+        String deleteBlockQuery = "UPDATE Block\n" +
+                "        SET blockStatus = 'deleted'\n" +
+                "        WHERE userIdx = ? ";
+        Object[] deleteGoodsParams = new Object[]{userIdx};
+        return this.jdbcTemplate.update(deleteBlockQuery,deleteGoodsParams);
+
+    }
+
+    public int createBlock(int userIdx, PostBlockReq postBlockReq) {
+        String createBlockQuery ="insert into Block (" +
+                "userIdx" +
+                ",blockedUserIdx)VALUES (?,?)";
+        Object[] createBlockParams = new Object[]{userIdx,postBlockReq.getBlockedUserIdx()};
+        this.jdbcTemplate.update(createBlockQuery, createBlockParams);
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 }

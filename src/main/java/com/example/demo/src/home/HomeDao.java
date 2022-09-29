@@ -46,7 +46,7 @@ public class HomeDao {
                 "                        else G.goodsAddress end GoodsAddressnull\n" +
                 "                from Goods G\n" +
                 "                inner join  User U on G.userIdx = U.userIdx\n" +
-                "                left join Address A on U.userIdx = A.userIdx where goodsStatus='active' ";
+                "                left join Address A on U.userIdx = A.userIdx where goodsStatus='active' group by G.goodsIdx ";
 
         String getHomeImgQuery = "select * from GoodsImg inner join Goods G on GoodsImg.goodsIdx = G.goodsIdx where G.goodsIdx=? and G.goodsStatus='active'";
         int getUserParams=userIdx;
