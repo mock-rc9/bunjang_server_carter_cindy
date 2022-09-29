@@ -7,9 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-
-public class PostBlockReq {
-    public PostBlockReq(){};
-    private int blockedUserIdx;
-
+public class PostBlockRes {
+    private int blockIdx;
 }
