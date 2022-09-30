@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.GET_EMPTY_FAQ;
 
 @Service
 public class FaqProvider {
@@ -18,6 +19,9 @@ public class FaqProvider {
     }
 
     public GetFaqRes getfaq(int faqIdx) throws BaseException {
+        if(faqDao.checkFaqExits(faqIdx)==0){
+            throw new BaseException(GET_EMPTY_FAQ);
+        }
         try {
             GetFaqRes getFaqRes = faqDao.getNotice(faqIdx);
             return getFaqRes;
@@ -51,5 +55,14 @@ public class FaqProvider {
             System.out.println(exception);
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    public int checkFaqExits(int faqIdx) throws BaseException {
+        try{
+            return faqDao.checkFaqExits(faqIdx);
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 }

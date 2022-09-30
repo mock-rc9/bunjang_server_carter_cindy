@@ -277,26 +277,27 @@ public class GoodsDao {
 
     public List<GetGoodsSearchRes> getSearchGoods(String searchGoods) {
         String getGoodsSearchQuery = "select *,\n" +
-                "        case when TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
-                "                        then concat(TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP),'초 전')\n" +
-                "                        when TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
-                "                        then concat(TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'분 전')\n" +
-                "                        when TIMESTAMPDIFF(HOUR , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<24\n" +
-                "                        then concat(TIMESTAMPDIFF(HOUR , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'시간 전')\n" +
-                "                        when TIMESTAMPDIFF(DAY , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<30\n" +
-                "                        then concat(TIMESTAMPDIFF(DAY , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'일 전')\n" +
-                "                        when TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP) < 12\n" +
-                "                        then concat(TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '달 전')\n" +
-                "                        else concat(TIMESTAMPDIFF(YEAR,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '년 전')\n" +
-                "                        end AS goodsUpdatedAtTime,\n" +
-                "    (select COUNT(*)   from GoodsLike\n" +
-                "                        where GoodsLike.goodsIdx = G.goodsIdx) as goodslike,\n" +
-                "    (select COUNT(*) from ChatRoom where ChatRoom.goodsIdx = G.goodsIdx) as chat\n" +
-                "        from Goods as G\n" +
+                "                        case when TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
+                "                                        then concat(TIMESTAMPDIFF(SECOND, G.goodsUpdatedAt,CURRENT_TIMESTAMP),'초 전')\n" +
+                "                                        when TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<60\n" +
+                "                                        then concat(TIMESTAMPDIFF(MINUTE , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'분 전')\n" +
+                "                                        when TIMESTAMPDIFF(HOUR , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<24\n" +
+                "                                        then concat(TIMESTAMPDIFF(HOUR , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'시간 전')\n" +
+                "                                        when TIMESTAMPDIFF(DAY , G.goodsUpdatedAt,CURRENT_TIMESTAMP)<30\n" +
+                "                                        then concat(TIMESTAMPDIFF(DAY , G.goodsUpdatedAt,CURRENT_TIMESTAMP),'일 전')\n" +
+                "                                        when TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP) < 12\n" +
+                "                                        then concat(TIMESTAMPDIFF(MONTH ,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '달 전')\n" +
+                "                                        else concat(TIMESTAMPDIFF(YEAR,G.goodsUpdatedAt,CURRENT_TIMESTAMP), '년 전')\n" +
+                "                                        end AS goodsUpdatedAtTime,\n" +
+                "                    (select COUNT(*)   from GoodsLike\n" +
+                "                                        where GoodsLike.goodsIdx = G.goodsIdx) as likes,\n" +
+                "                    (select COUNT(*) from ChatRoom where ChatRoom.goodsIdx = G.goodsIdx) as chat,\n" +
+                "                    (select COUNT(*) from GoodsLike where GoodsLike.userIdx=G.userIdx and GoodsLike.goodsIdx = G.goodsIdx) as goodsLike\n" +
+                "                        from Goods as G\n" +
                 "\n" +
-                "    inner join GoodsImg GI on G.goodsIdx = GI.goodsIdx\n" +
-                "          left join ChatRoom CR on G.goodsIdx = CR.goodsIdx inner join User U on G.userIdx = U.userIdx\n" +
-                "          where G.goodsName LIKE concat('%',?,'%') and G.goodsStatus='active'";
+                "                    inner join GoodsImg GI on G.goodsIdx = GI.goodsIdx\n" +
+                "                          left join ChatRoom CR on G.goodsIdx = CR.goodsIdx inner join User U on G.userIdx = U.userIdx\n" +
+                "                          where G.goodsName LIKE concat('%',?,'%') and G.goodsStatus='active'";
         String getGoodsName = searchGoods;
 
         return jdbcTemplate.query(getGoodsSearchQuery,
@@ -307,9 +308,18 @@ public class GoodsDao {
                         rs.getString("IsSecurePayment"),
                         rs.getInt("goodsPrice"),
                         rs.getString("goodsUpdatedAtTime"),
+                        rs.getInt("likes"),
                         rs.getInt("goodslike"),
                         rs.getString("goodsImgUrl"),
                         rs.getString("userImgUrl"),
                         rs.getInt("chat")),getGoodsName);
+    }
+
+    public int checkCategoryExits(int categoryIdx) {
+        String checkCategoryExistQuery = "select exists(select categoryIdx from Category where categoryIdx = ?)";
+        int checkCategoryExistParams = categoryIdx;
+        return this.jdbcTemplate.queryForObject(checkCategoryExistQuery,
+                int.class,
+                checkCategoryExistParams);
     }
 }

@@ -6,8 +6,7 @@ import com.example.demo.src.storelike.model.PostStoreLikeReq;
 import com.example.demo.src.storelike.model.PostStoreLikeRes;
 import org.springframework.stereotype.Service;
 
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.example.demo.config.BaseResponseStatus.DELETE_FAIL_STORELIKE;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 
 @Service
@@ -23,7 +22,9 @@ public class StoreLikeService {
     }
 
     public PostStoreLikeRes createStoreLike(int userIdx, PostStoreLikeReq postStoreLikeReq) throws BaseException {
-
+        if(storeLikeDao.checkGoodsExist(postStoreLikeReq.getGoodsIdx())==0){
+            throw new BaseException(POST_GOODSLIKE_EMPY_GOODS);
+        }
         try {
             int goodsLikeIdx = storeLikeDao.createStoreLike(userIdx,postStoreLikeReq);
             return new PostStoreLikeRes(goodsLikeIdx);
@@ -34,12 +35,11 @@ public class StoreLikeService {
 
     }
 
-    public void deleteStoreLike(int userIdxJwt, PatchStoreLikeReq patchStoreLikeReq) throws BaseException {
-
+    public void deleteStoreLike(int userIdx, PatchStoreLikeReq patchStoreLikeReq) throws BaseException {
 
 
         try {
-            int result = storeLikeDao.deleteStoreLike(patchStoreLikeReq.getGoodsLikeIdx());
+            int result = storeLikeDao.deleteStoreLike(userIdx,patchStoreLikeReq.getGoodsLikeIdx());
             if(result==0){
                 throw new BaseException(DELETE_FAIL_STORELIKE);
             }

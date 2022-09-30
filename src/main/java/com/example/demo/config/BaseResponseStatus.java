@@ -71,7 +71,8 @@ public enum BaseResponseStatus {
     PATCH_USERINFO_EMPTY_USERNICKNAME(false, 2042, "상점명은 최소 2자, 최대 10자까지 입력 가능합니다."),
     PATCH_USERINFO_INVALID_USERNICKNAME(false, 2043, "상점명은 띄어쓰기 없이 한글, 영문, 숫자만 가능합니다."),
 
-
+    GET_EMPTY_FAQ(false, 2045, "존재하지 않는 FAQ 입니다."),
+    GET_EVENT_EMPTY(false, 2046, "존재하지 않는 이벤트 입니다."),
 
     REVIEW_EMPTY_REVIEW_ID(false,2047,"잘못된 리뷰 연결"),
     POST_REVIEW_EMPTY_CONTENT(false, 2048, "리뷰평을 남겨주세요"),
@@ -90,7 +91,9 @@ public enum BaseResponseStatus {
     //[POST] /sms/sends
     POST_SMS_EMPTY_CONTENT(false, 2055, "전송할 sms 내용을 입력해주세요."),
 
-
+    GET_EMPTY_NOTICE(false, 2056, "존재 하지 않는 공지사항 입니다."),
+    GET_EMPTY_CATEGORY(false, 2057, "존재 하지 않는 카테고리 입니다."),
+    POST_GOODSLIKE_EMPY_GOODS(false, 2058, "존재 하지 않는 물건입니다."),
 
     /**
      * 3000 : Response 오류

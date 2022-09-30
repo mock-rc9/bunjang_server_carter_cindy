@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.example.demo.config.BaseResponseStatus.GOODS_EMPTY_GOODS_ID;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 public class GoodsProvider {
@@ -90,6 +89,11 @@ public class GoodsProvider {
     }
 
     public List<GetCategoryOptionRes> getCategory(int categoryIdx) throws BaseException {
+
+        if(goodsDao.checkCategoryExits(categoryIdx)==0){
+            throw new BaseException(GET_EMPTY_CATEGORY);
+        }
+
         try {
             List<GetCategoryOptionRes> getCategoryOptionRes = goodsDao.getCategory(categoryIdx);
             return getCategoryOptionRes;
@@ -112,5 +116,13 @@ public class GoodsProvider {
             System.out.println(exception);
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+    public int checkCategoryExits(int categoryIdx) throws BaseException {
+        try{
+            return goodsDao.checkCategoryExits(categoryIdx);
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 }
