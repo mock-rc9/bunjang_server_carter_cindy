@@ -44,4 +44,12 @@ public class FaqDao {
                         rs.getString("faqContent")),getFaqParams);
 
     }
+
+    public int checkFaqExits(int faqIdx) {
+        String checkFAQExistQuery = "select exists(select faqIdx from Faq where faqIdx = ?)";
+        int checkFAQExistParams = faqIdx;
+        return this.jdbcTemplate.queryForObject(checkFAQExistQuery,
+                int.class,
+                checkFAQExistParams);
+    }
 }

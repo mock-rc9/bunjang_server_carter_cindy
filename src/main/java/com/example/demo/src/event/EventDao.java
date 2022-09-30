@@ -37,4 +37,11 @@ public class EventDao {
                         rs.getString("eventEnding"),
                         rs.getString("eventImgUrl")));
     }
+    public int checkEventExist(int eventIdx) {
+        String checkEventExistQuery = "select exists(select eventIdx from Event where eventIdx = ?)";
+        int checkEventExistParams = eventIdx;
+        return this.jdbcTemplate.queryForObject(checkEventExistQuery,
+                int.class,
+                checkEventExistParams);
+    }
 }

@@ -20,6 +20,6 @@ public class GetHomeDataRes {
     private String goodsUpdatedAtTime;
     private String address;
     private int likes;
-    private int goodsLikeNy;
+    private int goodsLike;
     private List<GetHomeImgRes> Gimgs;
 }

@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.block.model.GetBlockRes;
 import com.example.demo.src.block.model.PostBlockReq;
+import com.example.demo.src.block.model.PostBlockRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/block")
 public class BlockController {
+
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -47,13 +49,12 @@ public class BlockController {
     }
     @ResponseBody
     @PostMapping("")
-    public BaseResponse<String> createBlock(@RequestBody PostBlockReq postBlockReq){
+    public BaseResponse<PostBlockRes> createBlock(@RequestBody PostBlockReq postBlockReq){
 
         try {
             int userIdxJwt = jwtService.getUserIdx();
-            blockService.createBlock(userIdxJwt,postBlockReq);
-            String result = "차단 했습니다!";
-            return new BaseResponse<>(result);
+            PostBlockRes postBlockRes= blockService.createBlock(userIdxJwt,postBlockReq);
+            return new BaseResponse<>(postBlockRes);
 
         } catch (BaseException exception) {
             System.out.println(exception);

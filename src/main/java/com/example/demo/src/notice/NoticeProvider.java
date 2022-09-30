@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.GET_EMPTY_NOTICE;
 
 @Service
 public class NoticeProvider {
@@ -33,6 +34,10 @@ public class NoticeProvider {
     }
 
     public GetNoticeRes getNotice(int noticeIdx) throws BaseException {
+
+        if(noticeDao.checkNoticeExits(noticeIdx)==0){
+            throw new BaseException(GET_EMPTY_NOTICE);
+        }
         try {
         GetNoticeRes getNoticeRes = noticeDao.getNotice(noticeIdx);
         return getNoticeRes;
@@ -40,5 +45,13 @@ public class NoticeProvider {
         System.out.println(exception);
         throw new BaseException(DATABASE_ERROR);
     }
+    }
+    public int checkNoticeExits(int noticeIdx) throws BaseException {
+        try{
+            return noticeDao.checkNoticeExits(noticeIdx);
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 }

@@ -1,7 +1,5 @@
 package com.example.demo.src.notice;
 
-import com.example.demo.src.goods.model.GetGoodsImgRes;
-import com.example.demo.src.goods.model.GetStoreGoodsRes;
 import com.example.demo.src.notice.model.GetNoticeRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,5 +33,13 @@ public class NoticeDao {
                         rs.getString("noticeTitle"),
                         rs.getString("noticeContent"),
                         rs.getString("noticeUpdatedAt")));
+    }
+
+    public int checkNoticeExits(int noticeIdx) {
+        String checkNoticeExistQuery = "select exists(select noticeIdx from Notice where noticeIdx = ?)";
+        int checkNoticeExistParams = noticeIdx;
+        return this.jdbcTemplate.queryForObject(checkNoticeExistQuery,
+                int.class,
+                checkNoticeExistParams);
     }
 }

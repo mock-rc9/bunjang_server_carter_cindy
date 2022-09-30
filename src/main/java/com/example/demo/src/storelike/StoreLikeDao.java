@@ -62,7 +62,7 @@ public class StoreLikeDao {
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 
-    public int deleteStoreLike(int goodsLikeIdx) {
+    public int deleteStoreLike(int goodsLikeIdx, int likeIdx) {
         String deleteStoreLikeQuery = "UPDATE GoodsLike\n" +
                 "        SET goodsLikeStatus = 'deleted'\n" +
                 "        WHERE goodsLikeIdx = ? ";

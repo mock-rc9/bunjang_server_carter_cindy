@@ -2,7 +2,6 @@ package com.example.demo.src.review;
 
 
 import com.example.demo.config.BaseException;
-import com.example.demo.src.payment.model.GetPaymentRes;
 import com.example.demo.src.review.model.GetReviewRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,7 @@ public class ReviewProvider {
     }
 
     public List<GetReviewRes> getReviews(int userIdx) throws BaseException {
+
 
         try {
             List<GetReviewRes> getReviewRes = reviewDao.getReviews(userIdx);
